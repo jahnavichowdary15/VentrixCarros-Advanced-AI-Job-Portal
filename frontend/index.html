@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="VentrixCarros helps job seekers find jobs, improve resumes, prepare for interviews, and grow their careers with AI-powered tools."
+  />
+
+  <title>VentrixCarros | Your AI Career Workspace</title>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --light-blue: #eff6ff;
+      --border: #e4e7ec;
+      --green: #16a34a;
+      --orange: #ea580c;
+      --purple: #7c3aed;
+      --pink: #db2777;
+      --yellow: #ca8a04;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --container: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body.loading {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: var(--container);
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Loading screen */
+    .loader-screen {
+      align-items: center;
+      background:
+        radial-gradient(
+          circle at 50% 40%,
+          rgba(37, 99, 235, 0.22),
+          transparent 30%
+        ),
+        #07111f;
+      display: flex;
+      inset: 0;
+      justify-content: center;
+      opacity: 1;
+      position: fixed;
+      transition:
+        opacity 0.55s ease,
+        visibility 0.55s ease;
+      visibility: visible;
+      z-index: 1000;
+    }
+
+    .loader-screen.hide {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .loader-content {
+      text-align: center;
+      width: min(90%, 380px);
+    }
+
+    .loader-logo {
+      align-items: center;
+      color: var(--white);
+      display: inline-flex;
+      font-size: 1.35rem;
+      font-weight: 800;
+      gap: 10px;
+      letter-spacing: -0.04em;
+    }
+
+    .loader-logo-mark {
+      align-items: center;
+      background: var(--primary);
+      border-radius: 11px;
+      box-shadow: 0 0 28px rgba(37, 99, 235, 0.65);
+      color: var(--white);
+      display: flex;
+      height: 42px;
+      justify-content: center;
+      transform: rotate(-8deg);
+      width: 42px;
+    }
+
+    .loader-logo span:last-child span {
+      color: #60a5fa;
+    }
+
+    .loader-orbit {
+      height: 120px;
+      margin: 34px auto 24px;
+      position: relative;
+      width: 120px;
+    }
+
+    .loader-orbit::before,
+    .loader-orbit::after {
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      border-radius: 50%;
+      content: "";
+      inset: 10px;
+      position: absolute;
+    }
+
+    .loader-orbit::after {
+      inset: 28px;
+    }
+
+    .loader-core {
+      align-items: center;
+      background: var(--primary);
+      border-radius: 50%;
+      box-shadow:
+        0 0 25px #3b82f6,
+        0 0 60px rgba(37, 99, 235, 0.65);
+      display: flex;
+      height: 27px;
+      justify-content: center;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 27px;
+    }
+
+    .loader-core::after {
+      background: var(--white);
+      border-radius: 50%;
+      content: "";
+      height: 7px;
+      width: 7px;
+    }
+
+    .loader-dot {
+      animation: loaderOrbit 2.3s linear infinite;
+      background: #93c5fd;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #60a5fa;
+      height: 8px;
+      left: calc(50% - 4px);
+      position: absolute;
+      top: 6px;
+      transform-origin: 4px 54px;
+      width: 8px;
+    }
+
+    .dot-two {
+      animation-delay: -0.75s;
+      background: #34d399;
+      box-shadow: 0 0 15px #34d399;
+    }
+
+    .dot-three {
+      animation-delay: -1.5s;
+      background: #a78bfa;
+      box-shadow: 0 0 15px #a78bfa;
+    }
+
+    .loader-text {
+      color: #b8c7da;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+    }
+
+    .loader-progress {
+      background: rgba(148, 163, 184, 0.2);
+      border-radius: 999px;
+      height: 4px;
+      margin: 17px auto 0;
+      overflow: hidden;
+      width: 180px;
+    }
+
+    .loader-progress span {
+      animation: loaderProgress 2.1s ease forwards;
+      background: linear-gradient(90deg, #2563eb, #93c5fd);
+      border-radius: inherit;
+      display: block;
+      height: 100%;
+      width: 0;
+    }
+
+    .skip-loader {
+      background: transparent;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 7px;
+      color: #b8c7da;
+      font-size: 0.7rem;
+      margin-top: 18px;
+      padding: 6px 12px;
+    }
+
+    .skip-loader:hover {
+      border-color: #93c5fd;
+      color: var(--white);
+    }
+
+    @keyframes loaderOrbit {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes loaderProgress {
+      0% {
+        width: 0;
+      }
+
+      100% {
+        width: 100%;
+      }
+    }
+
+    /* Shared */
+    .section {
+      padding: 95px 0;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      margin-bottom: 11px;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      margin: 0 auto;
+      max-width: 650px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      color: var(--dark);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin: 12px auto 0;
+      max-width: 570px;
+    }
+
+    .section-heading-row {
+      align-items: flex-end;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 38px;
+    }
+
+    .section-heading-row h2 {
+      color: var(--dark);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: -0.05em;
+    }
+
+    .section-heading-row p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 8px;
+    }
+
+    .text-link {
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .text-link:hover {
+      color: var(--primary-dark);
+    }
+
+    .btn {
+      align-items: center;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      display: inline-flex;
+      font-size: 0.82rem;
+      font-weight: 800;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 16px;
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: var(--white);
+      border-color: var(--border);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--light-blue);
+      border-color: #bfdbfe;
+    }
+
+    .btn-light {
+      background: var(--white);
+      color: var(--primary);
+    }
+
+    .btn-light:hover {
+      background: #dbeafe;
+    }
+
+    /* Header */
+    .site-header {
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      min-height: 76px;
+    }
+
+    .logo {
+      align-items: center;
+      color: var(--dark);
+      display: inline-flex;
+      flex-shrink: 0;
+      font-size: 1.15rem;
+      font-weight: 800;
+      gap: 9px;
+      letter-spacing: -0.04em;
+    }
+
+    .logo-mark {
+      align-items: center;
+      background: var(--primary);
+      border-radius: 8px;
+      color: var(--white);
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      transform: skew(-8deg);
+      width: 32px;
+    }
+
+    .logo-highlight {
+      color: var(--primary);
+    }
+
+    /* Header image logo */
+    .header-logo-image {
+      display: block;
+      width: 190px;
+      max-width: 150%;
+      height: 70px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 760px) {
+      .header-logo-image {
+        width: 155px;
+        height: 54px;
+      }
+    }
+
+    .main-navigation {
+      align-items: center;
+      display: flex;
+      gap: 24px;
+      margin-left: auto;
+    }
+
+    .main-navigation > a {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .main-navigation > a:hover {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      align-items: center;
+      display: flex;
+      gap: 8px;
+      margin-left: 8px;
+    }
+
+    .menu-toggle {
+      background: transparent;
+      border: 0;
+      display: none;
+      padding: 8px;
+    }
+
+    .menu-toggle span {
+      background: var(--dark);
+      display: block;
+      height: 2px;
+      margin: 5px 0;
+      width: 24px;
+    }
+
+    /* Hero */
+    .hero-section {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.4),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 10% 25%,
+          rgba(219, 234, 254, 0.85),
+          transparent 30%
+        ),
+        linear-gradient(135deg, #f8fbff, #eef5ff);
+      overflow: hidden;
+      padding: 90px 0 100px;
+      position: relative;
+    }
+
+    .hero-section::before {
+      background-image:
+        linear-gradient(rgba(37, 99, 235, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 99, 235, 0.04) 1px, transparent 1px);
+      background-size: 55px 55px;
+      content: "";
+      inset: 0;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .hero-grid {
+      align-items: center;
+      display: grid;
+      gap: 60px;
+      grid-template-columns: 1fr 0.9fr;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content h1 {
+      color: var(--dark);
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      letter-spacing: -0.075em;
+      line-height: 1.02;
+      max-width: 700px;
+    }
+
+    .hero-content h1 span {
+      color: var(--primary);
+      display: block;
+    }
+
+    .hero-description {
+      color: var(--muted);
+      font-size: 1.03rem;
+      margin-top: 23px;
+      max-width: 560px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .hero-note {
+      align-items: center;
+      color: var(--muted);
+      display: flex;
+      font-size: 0.76rem;
+      gap: 9px;
+      margin-top: 19px;
+    }
+
+    .pulse-dot {
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(22, 163, 74, 0.12);
+      height: 7px;
+      width: 7px;
+    }
+
+    /* Workspace preview image */
+    .workspace-preview-image {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 25px 60px rgba(37, 99, 235, 0.15);
+      overflow: hidden;
+      transform: rotate(2deg);
+    }
+
+    .workspace-preview-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Stats */
+    .stats-section {
+      background: var(--dark);
+      color: var(--white);
+      padding: 28px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-item {
+      border-right: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .stat-item:first-child {
+      padding-left: 0;
+    }
+
+    .stat-item:last-child {
+      border-right: 0;
+      padding-right: 0;
+    }
+
+    .stat-item strong,
+    .stat-item span {
+      display: block;
+    }
+
+    .stat-item strong {
+      font-size: 1.5rem;
+    }
+
+    .stat-item span {
+      color: #aeb9ca;
+      font-size: 0.72rem;
+      margin-top: 2px;
+    }
+
+    /* Jobs */
+    .jobs-section {
+      background: var(--white);
+    }
+
+    .job-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .job-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 21px;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .job-card:hover {
+      border-color: #bfd3f8;
+      box-shadow: var(--shadow);
+      transform: translateY(-4px);
+    }
+
+    .job-card-top {
+      align-items: flex-start;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .company-logo {
+      align-items: center;
+      border-radius: 9px;
+      display: flex;
+      font-size: 0.85rem;
+      font-weight: 800;
+      height: 43px;
+      justify-content: center;
+      width: 43px;
+    }
+
+    .purple-logo {
+      background: #ede9fe;
+      color: var(--purple);
+    }
+
+    .orange-logo {
+      background: #ffedd5;
+      color: var(--orange);
+    }
+
+    .green-logo {
+      background: #dcfce7;
+      color: var(--green);
+    }
+
+    .bookmark-button {
+      background: transparent;
+      border: 0;
+      color: #98a2b3;
+      font-size: 1.4rem;
+    }
+
+    .bookmark-button:hover,
+    .bookmark-button.saved {
+      color: var(--primary);
+    }
+
+    .job-tag {
+      background: var(--light-blue);
+      border-radius: 999px;
+      color: var(--primary);
+      display: inline-block;
+      font-size: 0.64rem;
+      font-weight: 800;
+      margin-top: 17px;
+      padding: 4px 8px;
+    }
+
+    .orange-tag {
+      background: #fff7ed;
+      color: var(--orange);
+    }
+
+    .green-tag {
+      background: #f0fdf4;
+      color: var(--green);
+    }
+
+    .job-card h3 {
+      color: var(--dark);
+      font-size: 1rem;
+      margin-top: 12px;
+    }
+
+    .company-name {
+      color: var(--muted);
+      font-size: 0.73rem;
+      margin-top: 3px;
+    }
+
+    .job-meta {
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 0.68rem;
+      gap: 10px;
+      margin-top: 19px;
+      padding-bottom: 15px;
+    }
+
+    .job-bottom {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .job-bottom strong {
+      color: var(--dark);
+      font-size: 0.76rem;
+    }
+
+    .job-bottom a {
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    /* AI tools */
+    .ai-tools-section {
+      background: var(--surface);
+    }
+
+    .ai-tools-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 45px;
+    }
+
+    .ai-tool-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: inherit;
+      display: block;
+      padding: 21px;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .ai-tool-card:hover {
+      border-color: #bfd3f8;
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+
+    .ai-tool-top {
+      align-items: flex-start;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .ai-tool-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 10px;
+      color: var(--primary);
+      display: flex;
+      font-size: 1.15rem;
+      height: 43px;
+      justify-content: center;
+      width: 43px;
+    }
+
+    .purple-tool {
+      background: #ede9fe;
+      color: var(--purple);
+    }
+
+    .orange-tool {
+      background: #ffedd5;
+      color: var(--orange);
+    }
+
+    .green-tool {
+      background: #dcfce7;
+      color: var(--green);
+    }
+
+    .pink-tool {
+      background: #fce7f3;
+      color: var(--pink);
+    }
+
+    .yellow-tool {
+      background: #fef9c3;
+      color: var(--yellow);
+    }
+
+    .ai-badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 4px 8px;
+    }
+
+    .ai-tool-card h3 {
+      color: var(--dark);
+      font-size: 0.98rem;
+      margin-top: 17px;
+    }
+
+    .ai-tool-card > p {
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-top: 8px;
+      min-height: 50px;
+    }
+
+    .tool-link {
+      align-items: center;
+      color: var(--primary);
+      display: flex;
+      font-size: 0.75rem;
+      font-weight: 800;
+      justify-content: space-between;
+      margin-top: 19px;
+    }
+
+    .tool-link > span {
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .ai-tool-card:hover .tool-link > span {
+      transform: translateX(4px);
+    }
+
+    .tool-progress {
+      margin-top: 18px;
+    }
+
+    .tool-progress-header {
+      align-items: center;
+      color: var(--muted);
+      display: flex;
+      font-size: 0.68rem;
+      justify-content: space-between;
+    }
+
+    .tool-progress-header strong {
+      color: var(--primary);
+    }
+
+    .tool-progress-bar {
+      background: #e5edfa;
+      border-radius: 999px;
+      height: 6px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .tool-progress-bar span {
+      background: var(--primary);
+      border-radius: inherit;
+      display: block;
+      height: 100%;
+    }
+
+    /* Process */
+    .process-section {
+      background: var(--white);
+    }
+
+    /* CTA */
+    .cta-section {
+      background: var(--primary);
+      color: var(--white);
+      padding: 70px 0;
+    }
+
+    .cta-content {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .cta-content h2 {
+      color: var(--white);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.05em;
+    }
+
+    .cta-content p:not(.eyebrow) {
+      color: var(--light-blue);
+      font-size: 0.85rem;
+      margin-top: 9px;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--dark);
+      color: #aeb9ca;
+      padding: 60px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      gap: 35px;
+      grid-template-columns: 1.5fr repeat(3, 1fr);
+    }
+
+    .footer-brand .logo {
+      color: var(--white);
+    }
+    .footer-brand .footer-logo {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 6px 14px;
+    }
+
+     .footer-logo-image {
+      display: block;
+      height: 64px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+    }
+
+    .footer-brand p {
+      font-size: 0.75rem;
+      margin-top: 14px;
+      max-width: 270px;
+    }
+
+    .footer-column h3 {
+      color: var(--white);
+      font-size: 0.8rem;
+      margin-bottom: 13px;
+    }
+
+    .footer-column a {
+      display: block;
+      font-size: 0.72rem;
+      margin-bottom: 9px;
+    }
+
+    .footer-column a:hover {
+      color: var(--white);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      font-size: 0.68rem;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding-top: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 950px) {
+      .main-navigation {
+        gap: 14px;
+      }
+
+      .hero-grid {
+        gap: 35px;
+      }
+
+      .job-grid,
+      .ai-tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .navbar {
+        min-height: 70px;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .main-navigation {
+        align-items: stretch;
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        left: 0;
+        padding: 15px 18px 20px;
+        position: absolute;
+        right: 0;
+        top: 70px;
+      }
+
+      .main-navigation.is-open {
+        display: flex;
+      }
+
+      .main-navigation > a {
+        border-bottom: 1px solid var(--border);
+        padding: 12px 0;
+      }
+
+      .nav-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 15px 0 0;
+      }
+
+      .hero-section {
+        padding: 65px 0 75px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content h1 {
+        font-size: clamp(2.8rem, 13vw, 4.4rem);
+      }
+
+      .workspace-preview-image {
+        transform: none;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
+      }
+
+      .stat-item {
+        border-right: 0;
+        padding: 0 10px;
+      }
+
+      .stat-item:nth-child(odd) {
+        border-right: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .section-heading-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .job-grid,
+      .ai-tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-content {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .cta-content .btn {
+        width: 100%;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-brand {
+        grid-column: span 2;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-brand {
+        grid-column: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .loader-screen,
+      .loader-screen *,
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .loader-progress span {
+        width: 100%;
+      }
+    }
+
+    /* ===== Header logo (same position and size as the other pages) ===== */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side links line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1180px) / 2 + 24px));
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .header-logo-image {
+      display: block;
+      width: auto;
+      height: 76px;
+      max-width: 200px;
+      object-fit: contain;
+      transform: none;
+      margin: -2px 0 -2px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    @media (max-width: 600px) {
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .header-logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+    }
+  </style>
+</head>
+
+<body class="loading">
+
+  <!-- Loading screen -->
+  <div
+    class="loader-screen"
+    id="loaderScreen"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading VentrixCarros"
+  >
+    <div class="loader-content">
+
+      <div class="loader-logo">
+        <span class="loader-logo-mark">V</span>
+
+        <span>
+          Ventrix<span>Carros</span>
+        </span>
+      </div>
+
+      <div class="loader-orbit" aria-hidden="true">
+        <div class="loader-core"></div>
+        <span class="loader-dot dot-one"></span>
+        <span class="loader-dot dot-two"></span>
+        <span class="loader-dot dot-three"></span>
+      </div>
+
+      <p class="loader-text">
+        Preparing your career workspace
+      </p>
+
+      <div class="loader-progress" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <button
+        type="button"
+        class="skip-loader"
+        id="skipLoader"
+      >
+        Skip
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container navbar">
+
+      <a href="#home" class="logo" aria-label="VentrixCarros home">
+        <img
+          src="logo.jpeg"
+          alt="VentrixCarros logo"
+          class="header-logo-image"
+          onerror="this.style.display='none'"
+        />
+      </a>
+
+      <button
+        type="button"
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mainNavigation"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav
+        class="main-navigation"
+        id="mainNavigation"
+        aria-label="Main navigation"
+      >
+        <a href="#home">Home</a>
+        <a href="jobs.html">Find jobs</a>
+        <a href="#aiTools">AI tools</a>
+        <a href="#howItWorks">How it works</a>
+        <a href="about.html">About</a>
+
+        <div class="nav-actions">
+          <a href="login.html" class="btn btn-outline">
+            Log in
+          </a>
+
+          <a href="signup.html" class="btn btn-primary">
+            Get started
+          </a>
+        </div>
+      </nav>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero-section" id="home">
+      <div class="container hero-grid">
+
+        <div class="hero-content">
+          <p class="eyebrow">Your AI career workspace</p>
+
+          <h1>
+            Find the right job.
+            <span>Become the right candidate.</span>
+          </h1>
+
+          <p class="hero-description">
+            Search opportunities, improve your resume, practice interviews, and
+            build a clear career path—all in one job-seeker platform.
+          </p>
+
+          <div class="hero-actions">
+            <a href="jobs.html" class="btn btn-primary">
+              Find your next job
+            </a>
+
+            <a href="signup.html" class="btn btn-outline">
+              Create free profile
+            </a>
+          </div>
+
+          <div class="hero-note">
+            <span class="pulse-dot"></span>
+            <span>AI tools designed for your complete job search</span>
+          </div>
+        </div>
+
+        <!-- Workspace preview image -->
+        <div class="workspace-preview-image">
+          <img
+            src="background.jpeg"
+            alt="VentrixCarros career workspace preview"
+            loading="lazy"
+          />
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+      <div class="container stats-grid">
+
+        <div class="stat-item">
+          <strong>25K+</strong>
+          <span>Active job opportunities</span>
+        </div>
+
+        <div class="stat-item">
+          <strong>8</strong>
+          <span>AI career tools</span>
+        </div>
+
+        <div class="stat-item">
+          <strong>85K+</strong>
+          <span>Job seekers supported</span>
+        </div>
+
+        <div class="stat-item">
+          <strong>4.9/5</strong>
+          <span>Career experience rating</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Featured jobs -->
+    <section class="section jobs-section" id="jobs">
+      <div class="container">
+
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">Find your fit</p>
+
+            <h2>Jobs matched to your direction</h2>
+
+            <p>
+              Explore roles across technology, design, analytics, marketing,
+              and more.
+            </p>
+          </div>
+
+          <a href="jobs.html" class="text-link">
+            View all jobs →
+          </a>
+        </div>
+
+        <div class="job-grid">
+
+          <article class="job-card">
+            <div class="job-card-top">
+              <div class="company-logo purple-logo">T</div>
+
+              <button
+                type="button"
+                class="bookmark-button"
+                aria-label="Save Frontend Developer job"
+              >
+                ♡
+              </button>
+            </div>
+
+            <span class="job-tag">Full-time</span>
+
+            <h3>Frontend Developer</h3>
+
+            <p class="company-name">
+              TechNova Solutions
+            </p>
+
+            <div class="job-meta">
+              <span>⌖ Remote</span>
+              <span>◉ 1–2 years</span>
+              <span>92% match</span>
+            </div>
+
+            <div class="job-bottom">
+              <strong>₹6–10 LPA</strong>
+              <a href="jobs.html">View role</a>
+            </div>
+          </article>
+
+          <article class="job-card">
+            <div class="job-card-top">
+              <div class="company-logo orange-logo">C</div>
+
+              <button
+                type="button"
+                class="bookmark-button"
+                aria-label="Save Product Designer job"
+              >
+                ♡
+              </button>
+            </div>
+
+            <span class="job-tag orange-tag">Internship</span>
+
+            <h3>Product Designer</h3>
+
+            <p class="company-name">
+              Creative Labs
+            </p>
+
+            <div class="job-meta">
+              <span>⌖ Bengaluru</span>
+              <span>◉ Entry level</span>
+              <span>86% match</span>
+            </div>
+
+            <div class="job-bottom">
+              <strong>₹25K/month</strong>
+              <a href="jobs.html">View role</a>
+            </div>
+          </article>
+
+          <article class="job-card">
+            <div class="job-card-top">
+              <div class="company-logo green-logo">G</div>
+
+              <button
+                type="button"
+                class="bookmark-button"
+                aria-label="Save Data Analyst job"
+              >
+                ♡
+              </button>
+            </div>
+
+            <span class="job-tag green-tag">Hybrid</span>
+
+            <h3>Data Analyst</h3>
+
+            <p class="company-name">
+              GrowthBase
+            </p>
+
+            <div class="job-meta">
+              <span>⌖ Hyderabad</span>
+              <span>◉ 1–2 years</span>
+              <span>81% match</span>
+            </div>
+
+            <div class="job-bottom">
+              <strong>₹7–12 LPA</strong>
+              <a href="jobs.html">View role</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- AI tools -->
+    <section class="section ai-tools-section" id="aiTools">
+      <div class="container">
+
+        <div class="section-heading">
+          <p class="eyebrow">Prepare with intelligence</p>
+
+          <h2>Everything you need to get hired</h2>
+
+          <p>
+            Build stronger applications, identify your gaps, and practice for
+            the moments that matter.
+          </p>
+        </div>
+
+        <div class="ai-tools-grid">
+
+          <article class="ai-tool-card">
+            <div class="ai-tool-icon">▤</div>
+
+            <h3>AI Resume Analyzer</h3>
+
+            <p>
+              Get an ATS score, find missing keywords, and improve your resume
+              for your target role.
+            </p>
+
+            <a href="resume.html">
+              Analyze your resume →
+            </a>
+          </article>
+
+          <article class="ai-tool-card">
+            <div class="ai-tool-icon purple-tool">⌕</div>
+
+            <h3>AI Job Matcher</h3>
+
+            <p>
+              Discover jobs that match your skills, experience, preferences,
+              and career direction.
+            </p>
+
+            <a href="jobs.html">
+              Find matching jobs →
+            </a>
+          </article>
+
+          <article class="ai-tool-card">
+            <div class="ai-tool-icon orange-tool">◉</div>
+
+            <h3>AI Mock Interview</h3>
+
+            <p>
+              Practice technical and behavioral questions and receive
+              structured feedback.
+            </p>
+
+            <a href="interview.html">
+              Practice interviews →
+            </a>
+          </article>
+
+          <article class="ai-tool-card">
+            <div class="ai-tool-icon green-tool">✦</div>
+
+            <h3>Cover Letter Generator</h3>
+
+            <p>
+              Create a personalized cover letter based on your resume and the
+              job description.
+            </p>
+
+            <a href="cover-letter.html">
+              Create a cover letter →
+            </a>
+          </article>
+
+          <article class="ai-tool-card">
+            <div class="ai-tool-icon pink-tool">↗</div>
+
+            <h3>Career Roadmap</h3>
+
+            <p>
+              Turn your current skills and target role into a practical,
+              step-by-step plan.
+            </p>
+
+            <a href="roadmap.html">
+              Build your roadmap →
+            </a>
+          </article>
+
+          <article class="ai-tool-card">
+            <div class="ai-tool-icon yellow-tool">₹</div>
+
+            <h3>Salary Insights</h3>
+
+            <p>
+              Explore estimated salary ranges, in-demand skills, and
+              negotiation guidance.
+            </p>
+
+            <a href="salary.html">
+              Explore salary data →
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="section process-section" id="howItWorks">
+      <div class="container">
+
+        <div class="section-heading">
+          <p class="eyebrow">A complete job-search journey</p>
+
+          <h2>From searching to succeeding</h2>
+
+          <p>
+            Keep your job search organized and make every step more useful.
+          </p>
+        </div>
+
+        <div class="job-grid">
+
+          <article class="job-card">
+            <div class="company-logo purple-logo">1</div>
+
+            <h3>Discover opportunities</h3>
+
+            <p class="company-name">
+              Search and save roles that fit your skills, goals, location, and
+              preferred work style.
+            </p>
+
+            <div class="job-bottom">
+              <strong>Start searching</strong>
+              <a href="jobs.html">Find jobs →</a>
+            </div>
+          </article>
+
+          <article class="job-card">
+            <div class="company-logo orange-logo">2</div>
+
+            <h3>Strengthen your application</h3>
+
+            <p class="company-name">
+              Improve your resume, generate a tailored cover letter, and close
+              important skill gaps.
+            </p>
+
+            <div class="job-bottom">
+              <strong>Prepare better</strong>
+              <a href="resume.html">Improve resume →</a>
+            </div>
+          </article>
+
+          <article class="job-card">
+            <div class="company-logo green-logo">3</div>
+
+            <h3>Prepare and progress</h3>
+
+            <p class="company-name">
+              Practice interviews, track applications, and use your roadmap to
+              keep moving forward.
+            </p>
+
+            <div class="job-bottom">
+              <strong>Keep growing</strong>
+              <a href="dashboard.html">Open dashboard →</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Workspace links -->
+    <section class="section jobs-section">
+      <div class="container">
+
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">Your workspace</p>
+
+            <h2>Keep your search organized</h2>
+
+            <p>
+              Everything important is available from your job-seeker dashboard.
+            </p>
+          </div>
+
+          <a href="dashboard.html" class="text-link">
+            Open dashboard →
+          </a>
+        </div>
+
+        <div class="job-grid">
+
+          <article class="job-card">
+            <div class="company-logo purple-logo">♡</div>
+
+            <h3>Saved jobs</h3>
+
+            <p class="company-name">
+              Keep interesting opportunities in one place.
+            </p>
+
+            <div class="job-bottom">
+              <strong>Review anytime</strong>
+              <a href="saved-jobs.html">Open saved jobs</a>
+            </div>
+          </article>
+
+          <article class="job-card">
+            <div class="company-logo orange-logo">▤</div>
+
+            <h3>Application tracker</h3>
+
+            <p class="company-name">
+              Track statuses, notes, interviews, and next steps.
+            </p>
+
+            <div class="job-bottom">
+              <strong>Stay organized</strong>
+              <a href="applications.html">Track applications</a>
+            </div>
+          </article>
+
+          <article class="job-card">
+            <div class="company-logo green-logo">♙</div>
+
+            <h3>Professional profile</h3>
+
+            <p class="company-name">
+              Keep your skills, links, goals, and preferences current.
+            </p>
+
+            <div class="job-bottom">
+              <strong>Build visibility</strong>
+              <a href="profile.html">Update profile</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="container cta-content">
+
+        <div>
+          <p class="eyebrow" style="color: #dbeafe;">
+            Your next opportunity is waiting
+          </p>
+
+          <h2>Ready to move your career forward?</h2>
+
+          <p>
+            Create your free job-seeker profile and start using your AI career
+            workspace today.
+          </p>
+        </div>
+
+        <a href="signup.html" class="btn btn-light">
+          Create free account
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+
+      <div class="footer-brand">
+               <a href="#home" class="logo footer-logo" aria-label="VentrixCarros home">
+          <img
+            src="logo.jpeg"
+            alt="VentrixCarros logo"
+            class="footer-logo-image"
+          />
+        </a>
+
+        <p>
+          Helping job seekers discover opportunities, prepare with confidence,
+          and build better careers.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h3>Find opportunities</h3>
+        <a href="jobs.html">Find jobs</a>
+        <a href="saved-jobs.html">Saved jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="profile.html">My profile</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>AI career tools</h3>
+        <a href="resume.html">Resume analyzer</a>
+        <a href="interview.html">Mock interview</a>
+        <a href="cover-letter.html">Cover letter</a>
+        <a href="roadmap.html">Career roadmap</a>
+        <a href="salary.html">Salary insights</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Support</h3>
+        <a href="about.html">About us</a>
+        <a href="help.html">Help center</a>
+        <a href="contact.html">Contact us</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="terms.html">Terms of service</a>
+      </div>
+
+    </div>
+
+    <div class="container footer-bottom">
+      <p>
+        &copy; 2026 VentrixCarros. All rights reserved.
+      </p>
+
+      <p>
+        Built for your next career move.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const loaderScreen =
+      document.getElementById("loaderScreen");
+
+    const skipLoader =
+      document.getElementById("skipLoader");
+
+    const menuToggle =
+      document.getElementById("menuToggle");
+
+    const mainNavigation =
+      document.getElementById("mainNavigation");
+
+    let loaderHidden = false;
+
+    function hideLoader() {
+      if (loaderHidden) {
+        return;
+      }
+
+      loaderHidden = true;
+      loaderScreen.classList.add("hide");
+      document.body.classList.remove("loading");
+    }
+
+    window.addEventListener("load", () => {
+      setTimeout(hideLoader, 1800);
+    });
+
+    skipLoader.addEventListener("click", hideLoader);
+
+    setTimeout(hideLoader, 4000);
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen =
+        mainNavigation.classList.toggle("is-open");
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        isOpen
+      );
+
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen
+          ? "Close navigation menu"
+          : "Open navigation menu"
+      );
+    });
+
+    document
+      .querySelectorAll(".main-navigation a")
+      .forEach((link) => {
+        link.addEventListener("click", () => {
+          mainNavigation.classList.remove("is-open");
+
+          menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+          menuToggle.setAttribute(
+            "aria-label",
+            "Open navigation menu"
+          );
+        });
+      });
+
+    document
+      .querySelectorAll(".bookmark-button")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          const isSaved =
+            button.classList.toggle("saved");
+
+          button.textContent =
+            isSaved ? "♥" : "♡";
+
+          button.setAttribute(
+            "aria-label",
+            isSaved
+              ? "Remove saved job"
+              : "Save job"
+          );
+        });
+      });
+  </script>
+
+</body>
+</html>

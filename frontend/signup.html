@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+  <meta
+    name="description"
+    content="Create your VentrixCarros career account."
+  />
+
+
+  <title>Sign Up | VentrixCarros</title>
+
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --border: #e4e7ec;
+      --light-blue: #eff6ff;
+      --radius: 14px;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.1);
+    }
+
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    body {
+      background:
+        radial-gradient(
+          circle at 85% 15%,
+          rgba(219, 234, 254, 0.8),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #f8fbff, #eef5ff);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+
+    button {
+      cursor: pointer;
+    }
+
+
+    .page-wrapper {
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+
+    .background-circle {
+      background: rgba(147, 197, 253, 0.23);
+      border-radius: 50%;
+      bottom: -150px;
+      filter: blur(3px);
+      height: 400px;
+      left: -180px;
+      position: absolute;
+      width: 400px;
+      animation: floatCircle 10s ease-in-out infinite alternate;
+    }
+
+
+    @keyframes floatCircle {
+      from {
+        transform: translateY(0) scale(1);
+      }
+
+
+      to {
+        transform: translateY(-30px) scale(1.08);
+      }
+    }
+
+
+    .container {
+      margin: 0 auto;
+      max-width: 1180px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+
+    /* Header */
+    .site-header {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(228, 231, 236, 0.85);
+      position: relative;
+      z-index: 2;
+      animation: fadeDown 0.6s ease both;
+    }
+
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-14px);
+      }
+
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 78px;
+    }
+
+
+    .logo {
+      align-items: center;
+      color: var(--dark);
+      display: inline-flex;
+      font-size: 1.15rem;
+      font-weight: 800;
+      gap: 9px;
+      letter-spacing: -0.04em;
+    }
+
+
+    .logo-mark {
+      align-items: center;
+      background: var(--primary);
+      border-radius: 8px;
+      color: var(--white);
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      transform: skew(-8deg);
+      width: 32px;
+    }
+
+
+    .logo-highlight {
+      color: var(--primary);
+    }
+
+
+    /* Header image logo */
+    .header-logo-image {
+      display: block;
+      width: 190px;
+      max-width: 150px;
+      height: 60px;
+      object-fit: contain;
+      transform:scale(1.25);
+      transform-origin: left center;
+      pointer-events: none;
+    }
+
+
+    @media (max-width: 760px) {
+      .header-logo-image {
+        width: 80px;
+        height: 100px;
+      }
+    }
+
+
+    .back-link {
+      color: var(--muted);
+      font-size: 0.85rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+
+    .back-link:hover {
+      color: var(--primary);
+      transform: translateX(-4px);
+    }
+
+
+    /* Main */
+    .signup-main {
+      align-items: center;
+      display: grid;
+      gap: 80px;
+      grid-template-columns: 1fr 460px;
+      margin: auto;
+      max-width: 1180px;
+      min-height: calc(100vh - 79px);
+      padding: 65px 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+
+    .intro-content {
+      max-width: 600px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    .section-label {
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+
+    h1,
+    h2,
+    h3 {
+      color: var(--dark);
+      line-height: 1.2;
+    }
+
+
+    h1 {
+      font-size: clamp(2.7rem, 5vw, 5rem);
+      letter-spacing: -0.07em;
+    }
+
+
+    h1 span {
+      color: var(--primary);
+      display: block;
+    }
+
+
+    .intro-description {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-top: 23px;
+      max-width: 510px;
+    }
+
+
+    .benefit-list {
+      display: grid;
+      gap: 17px;
+      list-style: none;
+      margin-top: 34px;
+    }
+
+
+    .benefit-list li {
+      align-items: center;
+      color: var(--muted);
+      display: flex;
+      font-size: 0.88rem;
+      gap: 12px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+
+    .benefit-list li:nth-child(1) {
+      animation-delay: 0.15s;
+    }
+
+
+    .benefit-list li:nth-child(2) {
+      animation-delay: 0.28s;
+    }
+
+
+    .benefit-list li:nth-child(3) {
+      animation-delay: 0.41s;
+    }
+
+
+    .benefit-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 9px;
+      color: var(--primary);
+      display: flex;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+      height: 32px;
+      justify-content: center;
+      width: 32px;
+    }
+
+
+    /* Signup card */
+    .signup-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+      animation: cardPop 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+
+    @keyframes cardPop {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.96);
+      }
+
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+
+    .signup-card-header {
+      margin-bottom: 25px;
+    }
+
+
+    .signup-card-header h2 {
+      font-size: 1.7rem;
+      letter-spacing: -0.04em;
+    }
+
+
+    .signup-card-header p {
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-top: 8px;
+    }
+
+
+    .signup-form {
+      display: grid;
+      gap: 14px;
+    }
+
+
+    .form-row {
+      display: grid;
+      gap: 13px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+
+    .form-group {
+      display: grid;
+      gap: 7px;
+    }
+
+
+    .form-label {
+      color: var(--dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+
+    .form-input,
+    .form-select {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--dark);
+      outline: none;
+      padding: 12px 13px;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+      width: 100%;
+    }
+
+
+    .form-input::placeholder {
+      color: #98a2b3;
+    }
+
+
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+
+    .password-wrapper {
+      position: relative;
+    }
+
+
+    .password-input {
+      padding-right: 70px;
+    }
+
+
+    .toggle-password {
+      background: transparent;
+      border: 0;
+      color: var(--primary);
+      font-size: 0.74rem;
+      font-weight: 700;
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+
+    .terms-option {
+      align-items: flex-start;
+      color: var(--muted);
+      display: flex;
+      font-size: 0.74rem;
+      gap: 8px;
+      line-height: 1.5;
+      margin-top: 3px;
+    }
+
+
+    .terms-option input {
+      accent-color: var(--primary);
+      flex-shrink: 0;
+      height: 15px;
+      margin-top: 2px;
+      width: 15px;
+    }
+
+
+    .terms-option a {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+
+    .submit-button {
+      background: var(--primary);
+      border: 0;
+      border-radius: 9px;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+      color: var(--white);
+      font-weight: 800;
+      margin-top: 5px;
+      min-height: 48px;
+      transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+      width: 100%;
+    }
+
+
+    .submit-button:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.3);
+      transform: translateY(-2px);
+    }
+
+
+    .submit-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+      transform: none;
+    }
+
+
+    .divider {
+      align-items: center;
+      color: #98a2b3;
+      display: flex;
+      font-size: 0.72rem;
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+
+    .divider::before,
+    .divider::after {
+      background: var(--border);
+      content: "";
+      flex: 1;
+      height: 1px;
+    }
+
+
+    .social-signup {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+
+    .social-button {
+      align-items: center;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      display: flex;
+      font-size: 0.78rem;
+      font-weight: 700;
+      gap: 8px;
+      justify-content: center;
+      min-height: 43px;
+      transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+
+    .social-button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+
+    .google-icon {
+      color: #ef4444;
+      font-weight: 900;
+    }
+
+
+    .linkedin-icon {
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+
+    .login-prompt {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 23px;
+      text-align: center;
+    }
+
+
+    .login-prompt a {
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+
+    .message {
+      border-radius: 8px;
+      display: none;
+      font-size: 0.75rem;
+      margin-bottom: 15px;
+      padding: 10px 12px;
+    }
+
+
+    .message.show {
+      display: block;
+      animation: popIn 0.35s ease;
+    }
+
+
+    .message.error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+      animation: shake 0.4s ease;
+    }
+
+
+    .message.success {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+    }
+
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+
+
+      25% {
+        transform: translateX(-6px);
+      }
+
+
+      75% {
+        transform: translateX(6px);
+      }
+    }
+
+
+    /* OTP verification */
+    .otp-section {
+      animation: cardPop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+
+    .otp-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+
+    .otp-input {
+      aspect-ratio: 1 / 1.1;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--dark);
+      font-size: 1.25rem;
+      font-weight: 800;
+      outline: none;
+      text-align: center;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+      width: 100%;
+      animation: otpPop 0.5s ease both;
+    }
+
+
+    .otp-input:nth-child(1) { animation-delay: 0.05s; }
+    .otp-input:nth-child(2) { animation-delay: 0.1s; }
+    .otp-input:nth-child(3) { animation-delay: 0.15s; }
+    .otp-input:nth-child(4) { animation-delay: 0.2s; }
+    .otp-input:nth-child(5) { animation-delay: 0.25s; }
+    .otp-input:nth-child(6) { animation-delay: 0.3s; }
+
+
+    @keyframes otpPop {
+      from {
+        opacity: 0;
+        transform: translateY(22px) scale(0.85);
+      }
+
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+
+    .otp-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      transform: translateY(-3px);
+    }
+
+
+    .demo-code-box {
+      background: var(--light-blue);
+      border: 1px dashed #93c5fd;
+      border-radius: 10px;
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 800;
+      margin-top: 18px;
+      padding: 12px;
+      text-align: center;
+    }
+
+
+    .resend-line {
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-top: 18px;
+      text-align: center;
+    }
+
+
+    .resend-line button {
+      background: transparent;
+      border: 0;
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+
+    .resend-line button:disabled {
+      color: #98a2b3;
+      cursor: not-allowed;
+    }
+
+
+    .back-to-signup {
+      color: var(--muted);
+      display: inline-block;
+      font-size: 0.78rem;
+      margin-top: 18px;
+    }
+
+
+    .back-to-signup:hover {
+      color: var(--primary);
+    }
+
+
+    .hidden {
+      display: none !important;
+    }
+
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .signup-main {
+        gap: 45px;
+        grid-template-columns: 1fr 410px;
+      }
+
+
+      h1 {
+        font-size: clamp(2.6rem, 6vw, 4rem);
+      }
+    }
+
+
+    @media (max-width: 760px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+
+      .navbar {
+        min-height: 70px;
+      }
+
+
+      .signup-main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-bottom: 70px;
+        padding-top: 65px;
+      }
+
+
+      h1 {
+        font-size: clamp(2.7rem, 13vw, 4rem);
+      }
+
+
+      .signup-card {
+        max-width: 540px;
+        width: 100%;
+      }
+    }
+
+
+    @media (max-width: 500px) {
+      .signup-card {
+        padding: 26px 20px;
+      }
+
+
+      .form-row,
+      .social-signup {
+        grid-template-columns: 1fr;
+      }
+
+
+      .otp-grid {
+        gap: 6px;
+      }
+
+
+      .otp-input {
+        font-size: 1.05rem;
+      }
+    }
+
+
+    @media (prefers-reduced-motion: reduce) {
+      .background-circle,
+      .site-header,
+      .intro-content,
+      .benefit-list li,
+      .signup-card,
+      .message.show,
+      .otp-section,
+      .otp-input {
+        animation: none;
+      }
+    }
+
+    /* ===== Header logo (same position and size as the other pages) ===== */
+    .site-header {
+      /* Solid white so the logo's white background blends in */
+      background: #ffffff;
+    }
+
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side links line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1180px) / 2 + 24px));
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .header-logo-image {
+      display: block;
+      width: auto;
+      height: 76px;
+      max-width: 200px;
+      object-fit: contain;
+      transform: none;
+      margin: -2px 0 -2px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    @media (max-width: 600px) {
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .header-logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+
+  <div class="page-wrapper">
+    <div class="background-circle"></div>
+
+
+    <header class="site-header">
+      <div class="container navbar">
+
+
+        <a href="index.html" class="logo" aria-label="VentrixCarros home">
+          <img
+            src="logo.jpeg"
+            alt="VentrixCarros logo"
+            class="header-logo-image"
+            onerror="this.style.display='none'"
+          />
+        </a>
+
+
+        <a href="index.html" class="back-link">
+          ← Back to home
+        </a>
+
+
+      </div>
+    </header>
+
+
+    <main class="signup-main">
+
+
+      <section class="intro-content">
+        <p class="section-label">Start your journey</p>
+
+
+        <h1>
+          Build your path to a
+          <span>better opportunity.</span>
+        </h1>
+
+
+        <p class="intro-description">
+          Create your free VentrixCarros account and discover jobs,
+          internships, career tools, and opportunities made for you.
+        </p>
+
+
+        <ul class="benefit-list">
+          <li>
+            <span class="benefit-icon">✓</span>
+            <span>Discover jobs matched to your skills.</span>
+          </li>
+
+
+          <li>
+            <span class="benefit-icon">♡</span>
+            <span>Save jobs and manage your applications.</span>
+          </li>
+
+
+          <li>
+            <span class="benefit-icon">↗</span>
+            <span>Improve your resume and interview confidence.</span>
+          </li>
+        </ul>
+      </section>
+
+
+      <section class="signup-card" aria-labelledby="signupTitle">
+
+
+        <!-- STEP 1: SIGNUP FORM -->
+        <div id="signupStep">
+          <div class="signup-card-header">
+            <h2 id="signupTitle">Create your account</h2>
+            <p>Join VentrixCarros and start exploring opportunities.</p>
+          </div>
+
+
+          <div
+            class="message"
+            id="formMessage"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+
+          <form class="signup-form" id="signupForm">
+
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="firstName">
+                  First name
+                </label>
+
+
+                <input
+                  class="form-input"
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First name"
+                  autocomplete="given-name"
+                  required
+                />
+              </div>
+
+
+              <div class="form-group">
+                <label class="form-label" for="lastName">
+                  Last name
+                </label>
+
+
+                <input
+                  class="form-input"
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Last name"
+                  autocomplete="family-name"
+                  required
+                />
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="form-label" for="email">
+                Email address
+              </label>
+
+
+              <input
+                class="form-input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+
+            <div class="form-group">
+              <label class="form-label" for="role">
+                I am joining as
+              </label>
+
+
+              <select
+                class="form-select"
+                id="role"
+                name="role"
+                required
+              >
+                <option value="">Select an option</option>
+                <option value="job-seeker">Job seeker</option>
+                <option value="student">Student or fresher</option>
+                <option value="employer">Employer</option>
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              <label class="form-label" for="password">
+                Create password
+              </label>
+
+
+              <div class="password-wrapper">
+                <input
+                  class="form-input password-input"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="At least 6 characters"
+                  autocomplete="new-password"
+                  minlength="6"
+                  required
+                />
+
+
+                <button
+                  type="button"
+                  class="toggle-password"
+                  id="togglePassword"
+                >
+                  Show
+                </button>
+              </div>
+            </div>
+
+
+            <label class="terms-option">
+              <input type="checkbox" id="terms" required />
+
+
+              <span>
+                I agree to the
+                <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>
+                and
+                <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.
+              </span>
+            </label>
+
+
+            <button
+              type="submit"
+              class="submit-button"
+              id="submitButton"
+            >
+              Create account
+            </button>
+
+
+          </form>
+
+
+          <div class="divider">
+            <span>or sign up with</span>
+          </div>
+
+
+          <div class="social-signup">
+            <button type="button" class="social-button" id="googleSignup">
+              <span class="google-icon">G</span>
+              Google
+            </button>
+
+
+            <button type="button" class="social-button" id="linkedinSignup">
+              <span class="linkedin-icon">in</span>
+              LinkedIn
+            </button>
+          </div>
+
+
+          <p class="login-prompt">
+            Already have an account?
+            <a href="login.html">Log in</a>
+          </p>
+        </div>
+
+
+        <!-- STEP 2: EMAIL VERIFICATION -->
+        <div id="otpStep" class="otp-section hidden">
+          <div class="signup-card-header">
+            <h2>Verify your email</h2>
+            <p id="otpSubtitle">
+              Enter the 6-digit verification code sent to your email.
+            </p>
+          </div>
+
+
+          <div
+            class="message"
+            id="otpMessage"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+
+          <form class="signup-form" id="otpForm">
+            <div class="otp-grid" id="otpGrid">
+              <input
+                class="otp-input"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                aria-label="Verification digit 1"
+              />
+              <input
+                class="otp-input"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+                aria-label="Verification digit 2"
+              />
+              <input
+                class="otp-input"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+                aria-label="Verification digit 3"
+              />
+              <input
+                class="otp-input"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+                aria-label="Verification digit 4"
+              />
+              <input
+                class="otp-input"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+                aria-label="Verification digit 5"
+              />
+              <input
+                class="otp-input"
+                type="text"
+                maxlength="1"
+                inputmode="numeric"
+                aria-label="Verification digit 6"
+              />
+            </div>
+
+
+            <div class="demo-code-box" id="demoCodeBox">
+              Demo verification code: <span id="demoCode">------</span>
+            </div>
+
+
+            <button
+              type="submit"
+              class="submit-button"
+              id="verifyButton"
+            >
+              Verify and create account
+            </button>
+          </form>
+
+
+          <p class="resend-line">
+            Didn’t receive the code?
+            <button type="button" id="resendButton" disabled>
+              Resend in <span id="resendTimer">30</span>s
+            </button>
+          </p>
+
+
+          <a href="signup.html" class="back-to-signup">
+            ← Change signup details
+          </a>
+        </div>
+
+
+      </section>
+
+
+    </main>
+  </div>
+
+
+  <script>
+    const signupStep = document.getElementById("signupStep");
+    const otpStep = document.getElementById("otpStep");
+
+
+    const signupForm = document.getElementById("signupForm");
+    const otpForm = document.getElementById("otpForm");
+
+
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    const submitButton = document.getElementById("submitButton");
+    const formMessage = document.getElementById("formMessage");
+    const googleSignup = document.getElementById("googleSignup");
+    const linkedinSignup = document.getElementById("linkedinSignup");
+
+
+    const otpMessage = document.getElementById("otpMessage");
+    const otpSubtitle = document.getElementById("otpSubtitle");
+    const demoCodeBox = document.getElementById("demoCodeBox");
+    const demoCode = document.getElementById("demoCode");
+    const verifyButton = document.getElementById("verifyButton");
+    const resendButton = document.getElementById("resendButton");
+    const resendTimer = document.getElementById("resendTimer");
+
+
+    const otpInputs = Array.from(
+      document.querySelectorAll(".otp-input")
+    );
+
+
+    let signupData = {};
+    let generatedOtp = "";
+    let countdownInterval;
+
+
+    function showMessage(message, type) {
+      formMessage.textContent = message;
+      formMessage.className = "message show " + type;
+    }
+
+
+    function clearMessage() {
+      formMessage.textContent = "";
+      formMessage.className = "message";
+    }
+
+
+    function showOtpMessage(message, type) {
+      otpMessage.textContent = message;
+      otpMessage.className = "message show " + type;
+    }
+
+
+    function clearOtpMessage() {
+      otpMessage.textContent = "";
+      otpMessage.className = "message";
+    }
+
+
+    function createOtp() {
+      return Math.floor(
+        100000 + Math.random() * 900000
+      ).toString();
+    }
+
+
+    function startResendTimer() {
+      let seconds = 30;
+
+
+      resendButton.disabled = true;
+      resendTimer.textContent = seconds;
+
+
+      clearInterval(countdownInterval);
+
+
+      countdownInterval = setInterval(() => {
+        seconds -= 1;
+        resendTimer.textContent = seconds;
+
+
+        if (seconds <= 0) {
+          clearInterval(countdownInterval);
+          resendButton.disabled = false;
+          resendButton.textContent = "Resend code";
+        }
+      }, 1000);
+    }
+
+
+    function showOtpStep() {
+      signupStep.classList.add("hidden");
+      otpStep.classList.remove("hidden");
+
+
+      otpSubtitle.textContent =
+        "Enter the 6-digit verification code sent to " +
+        signupData.email + ".";
+
+
+      otpInputs.forEach((input) => {
+        input.value = "";
+      });
+
+
+      otpInputs[0].focus();
+      startResendTimer();
+    }
+
+
+    function getOtp() {
+      return otpInputs
+        .map((input) => input.value.trim())
+        .join("");
+    }
+
+
+    togglePassword.addEventListener("click", () => {
+      const isPassword = passwordInput.type === "password";
+
+
+      passwordInput.type = isPassword ? "text" : "password";
+      togglePassword.textContent = isPassword ? "Hide" : "Show";
+    });
+
+
+    signupForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearMessage();
+
+
+      const firstName = document
+        .getElementById("firstName")
+        .value
+        .trim();
+
+
+      const lastName = document
+        .getElementById("lastName")
+        .value
+        .trim();
+
+
+      const email = document
+        .getElementById("email")
+        .value
+        .trim();
+
+
+      const role = document
+        .getElementById("role")
+        .value;
+
+
+      const password = passwordInput.value.trim();
+      const termsAccepted = document
+        .getElementById("terms")
+        .checked;
+
+
+      if (!firstName || !lastName || !email || !role || !password) {
+        showMessage("Please complete all fields.", "error");
+        return;
+      }
+
+
+      if (password.length < 6) {
+        showMessage(
+          "Password must contain at least 6 characters.",
+          "error"
+        );
+        return;
+      }
+
+
+      if (!termsAccepted) {
+        showMessage(
+          "Please accept the Terms of Service and Privacy Policy.",
+          "error"
+        );
+        return;
+      }
+
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending verification code...";
+
+
+      setTimeout(() => {
+        signupData = {
+          fullName: firstName + " " + lastName,
+          email: email,
+          role: role,
+          password: password
+        };
+
+
+        // Demo verification code.
+        // Later, generate and email this code from your backend.
+        generatedOtp = createOtp();
+        demoCode.textContent = generatedOtp;
+
+
+        showMessage(
+          "Verification code sent to your email.",
+          "success"
+        );
+
+
+        setTimeout(showOtpStep, 800);
+
+
+        submitButton.disabled = false;
+        submitButton.textContent = "Create account";
+      }, 900);
+    });
+
+
+    otpInputs.forEach((input, index) => {
+      input.addEventListener("input", () => {
+        input.value = input.value
+          .replace(/\D/g, "")
+          .slice(0, 1);
+
+
+        if (input.value && index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+      });
+
+
+      input.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Backspace" &&
+          !input.value &&
+          index > 0
+        ) {
+          otpInputs[index - 1].focus();
+        }
+      });
+
+
+      input.addEventListener("paste", (event) => {
+        event.preventDefault();
+
+
+        const pastedCode = event.clipboardData
+          .getData("text")
+          .replace(/\D/g, "")
+          .slice(0, 6);
+
+
+        pastedCode.split("").forEach((digit, position) => {
+          if (otpInputs[position]) {
+            otpInputs[position].value = digit;
+          }
+        });
+
+
+        otpInputs[
+          Math.min(pastedCode.length, otpInputs.length - 1)
+        ].focus();
+      });
+    });
+
+
+    otpForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearOtpMessage();
+
+
+      const enteredOtp = getOtp();
+
+
+      if (enteredOtp.length !== 6) {
+        showOtpMessage(
+          "Please enter all 6 digits of the verification code.",
+          "error"
+        );
+        return;
+      }
+
+
+      verifyButton.disabled = true;
+      verifyButton.textContent = "Verifying...";
+
+
+      setTimeout(() => {
+        if (enteredOtp !== generatedOtp) {
+          showOtpMessage(
+            "Invalid verification code. Please try again.",
+            "error"
+          );
+
+
+          verifyButton.disabled = false;
+          verifyButton.textContent = "Verify and create account";
+          return;
+        }
+
+
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userName", signupData.fullName);
+        localStorage.setItem("userEmail", signupData.email);
+        localStorage.setItem("userRole", signupData.role);
+
+
+        showOtpMessage(
+          "Email verified successfully. Creating your account...",
+          "success"
+        );
+
+
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 1000);
+      }, 800);
+    });
+
+
+    resendButton.addEventListener("click", () => {
+      generatedOtp = createOtp();
+      demoCode.textContent = generatedOtp;
+
+
+      showOtpMessage(
+        "A new verification code has been generated.",
+        "success"
+      );
+
+
+      startResendTimer();
+    });
+
+
+    googleSignup.addEventListener("click", () => {
+      showMessage(
+        "Google signup will be connected after backend authentication is added.",
+        "success"
+      );
+    });
+
+
+    linkedinSignup.addEventListener("click", () => {
+      showMessage(
+        "LinkedIn signup will be connected after backend authentication is added.",
+        "success"
+      );
+    });
+  </script>
+
+
+</body>
+</html>

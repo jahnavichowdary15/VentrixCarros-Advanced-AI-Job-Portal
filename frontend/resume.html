@@ -1,0 +1,1431 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Analyze and improve your resume with VentrixCarros AI." />
+  <title>AI Resume Analyzer | VentrixCarros</title>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --border: #e4e7ec;
+      --light-blue: #eff6ff;
+      --green: #16a34a;
+      --orange: #ea580c;
+      --red: #dc2626;
+      --purple: #7c3aed;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.35);
+      outline-offset: 3px;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1240px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 20px;
+    }
+
+    .logo {
+      align-items: center;
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .logo-image {
+      height: 70px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Header spans full width (same as dashboard) */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side buttons line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1240px) / 2 + 24px));
+    }
+
+    .site-header .logo {
+      margin-left: 0;
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .logo-image {
+      height: 80px;
+      max-width: 200px;
+      margin: -4px 0 -4px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    .header-actions {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    .dashboard-button {
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 9px 13px;
+      transition: background 0.2s;
+    }
+
+    .dashboard-button:hover {
+      background: #dbeafe;
+    }
+
+    /* Profile icon (same as jobs page) */
+    .profile-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border: 1px solid #dbeafe;
+      border-radius: 50%;
+      color: var(--primary);
+      display: inline-flex;
+      flex-shrink: 0;
+      height: 40px;
+      justify-content: center;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+      width: 40px;
+    }
+
+    .profile-icon:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .profile-icon svg {
+      display: block;
+      height: 22px;
+      width: 22px;
+    }
+
+    /* Hero */
+    .page-hero {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #eff6ff, #ffffff);
+      padding: 55px 0 42px;
+    }
+
+    .page-hero h1 {
+      color: var(--dark);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .page-hero h1 span {
+      color: var(--primary);
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      margin-top: 13px;
+      max-width: 650px;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    /* Main layout */
+    .resume-main {
+      padding: 34px 0 70px;
+    }
+
+    .resume-layout {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-width: 0;
+    }
+
+    .panel-heading {
+      align-items: flex-start;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .panel-heading h2 {
+      color: var(--dark);
+      font-size: 1.2rem;
+    }
+
+    .panel-heading p {
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-top: 6px;
+    }
+
+    /* Upload */
+    .upload-box {
+      align-items: center;
+      background: var(--light-blue);
+      border: 2px dashed #93c5fd;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 230px;
+      padding: 28px;
+      text-align: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .upload-box:hover,
+    .upload-box.dragover {
+      background: #dbeafe;
+      border-color: var(--primary);
+    }
+
+    .upload-icon {
+      align-items: center;
+      background: var(--white);
+      border-radius: 12px;
+      color: var(--primary);
+      display: flex;
+      font-size: 1.7rem;
+      height: 55px;
+      justify-content: center;
+      margin-bottom: 15px;
+      width: 55px;
+    }
+
+    .upload-box h3 {
+      color: var(--dark);
+      font-size: 1rem;
+    }
+
+    .upload-box p {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 5px;
+    }
+
+    .upload-button {
+      background: var(--primary);
+      border: 0;
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 18px;
+      padding: 10px 15px;
+    }
+
+    .upload-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .selected-file {
+      align-items: center;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 9px;
+      color: var(--green);
+      display: none;
+      font-size: 0.75rem;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 10px 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .selected-file.show {
+      display: flex;
+    }
+
+    .remove-file {
+      background: transparent;
+      border: 0;
+      color: var(--red);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .or-divider {
+      align-items: center;
+      color: #98a2b3;
+      display: flex;
+      font-size: 0.7rem;
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    .or-divider::before,
+    .or-divider::after {
+      background: var(--border);
+      content: "";
+      flex: 1;
+      height: 1px;
+    }
+
+    .resume-textarea {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--dark);
+      font: inherit;
+      min-height: 160px;
+      outline: 0;
+      padding: 13px;
+      resize: vertical;
+      width: 100%;
+    }
+
+    .resume-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .resume-textarea::placeholder {
+      color: #98a2b3;
+    }
+
+    .target-role {
+      margin-top: 18px;
+    }
+
+    .target-role label {
+      color: var(--dark);
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .target-role select {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      outline: 0;
+      padding: 11px;
+      width: 100%;
+    }
+
+    .target-role select:focus {
+      border-color: var(--primary);
+    }
+
+    .analyze-button {
+      background: var(--primary);
+      border: 0;
+      border-radius: 8px;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-top: 20px;
+      min-height: 46px;
+      padding: 10px 16px;
+      width: 100%;
+    }
+
+    .analyze-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .analyze-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .helper-text {
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-top: 10px;
+    }
+
+    /* Results */
+    .results-panel {
+      min-height: 500px;
+    }
+
+    .empty-results {
+      align-items: center;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 390px;
+      text-align: center;
+    }
+
+    .empty-results-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 50%;
+      color: var(--primary);
+      display: flex;
+      font-size: 1.8rem;
+      height: 70px;
+      justify-content: center;
+      margin-bottom: 18px;
+      width: 70px;
+    }
+
+    .empty-results h3 {
+      color: var(--dark);
+      font-size: 1rem;
+    }
+
+    .empty-results p {
+      font-size: 0.76rem;
+      margin-top: 7px;
+      max-width: 320px;
+    }
+
+    .analysis-results {
+      display: none;
+    }
+
+    .analysis-results.show {
+      display: block;
+    }
+
+    .score-overview {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 12px;
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .score-circle {
+      align-items: center;
+      background: var(--white);
+      border: 8px solid #93c5fd;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      height: 105px;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 105px;
+    }
+
+    .score-circle strong {
+      color: var(--primary);
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    .score-circle span {
+      color: var(--muted);
+      font-size: 0.65rem;
+      margin-top: 4px;
+    }
+
+    .score-info {
+      flex: 1;
+    }
+
+    .score-info h3 {
+      color: var(--dark);
+      font-size: 1rem;
+    }
+
+    .score-info p {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 6px;
+    }
+
+    .result-block {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .result-block:last-child {
+      border-bottom: 0;
+    }
+
+    .result-block h3 {
+      align-items: center;
+      color: var(--dark);
+      display: flex;
+      font-size: 0.9rem;
+      gap: 8px;
+    }
+
+    .result-block h3 span {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 6px;
+      color: var(--primary);
+      display: flex;
+      font-size: 0.8rem;
+      height: 25px;
+      justify-content: center;
+      width: 25px;
+    }
+
+    .result-block p {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 8px;
+    }
+
+    .keyword-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .keyword {
+      background: #fef2f2;
+      border-radius: 999px;
+      color: var(--red);
+      font-size: 0.68rem;
+      padding: 5px 9px;
+    }
+
+    .strength-list,
+    .improvement-list {
+      display: grid;
+      gap: 8px;
+      list-style: none;
+      margin-top: 11px;
+    }
+
+    .strength-list li,
+    .improvement-list li {
+      color: var(--muted);
+      font-size: 0.75rem;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .strength-list li::before,
+    .improvement-list li::before {
+      content: "✓";
+      font-weight: 800;
+      left: 0;
+      position: absolute;
+    }
+
+    .strength-list li::before {
+      color: var(--green);
+    }
+
+    .improvement-list li::before {
+      color: var(--orange);
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .result-button {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 9px 12px;
+    }
+
+    .result-button.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--white);
+    }
+
+    .result-button:hover {
+      background: var(--light-blue);
+    }
+
+    .result-button.primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .analysis-loading {
+      align-items: center;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 390px;
+      text-align: center;
+    }
+
+    .analysis-loading.show {
+      display: flex;
+    }
+
+    .loading-spinner {
+      animation: spin 0.8s linear infinite;
+      border: 4px solid #dbeafe;
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      height: 42px;
+      width: 42px;
+    }
+
+    .analysis-loading h3 {
+      color: var(--dark);
+      font-size: 1rem;
+      margin-top: 16px;
+    }
+
+    .analysis-loading p {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 5px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Tips */
+    .tips-section {
+      margin-top: 25px;
+    }
+
+    .tips-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tip-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .tip-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 9px;
+      color: var(--primary);
+      display: flex;
+      font-size: 1.1rem;
+      height: 40px;
+      justify-content: center;
+      width: 40px;
+    }
+
+    .tip-card h3 {
+      color: var(--dark);
+      font-size: 0.9rem;
+      margin-top: 15px;
+    }
+
+    .tip-card p {
+      color: var(--muted);
+      font-size: 0.73rem;
+      margin-top: 7px;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.75rem;
+      padding: 22px 0;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .resume-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .logo-image {
+        height: 40px;
+        max-width: 145px;
+      }
+
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+
+      .back-link {
+        display: none;
+      }
+
+      .profile-icon {
+        height: 36px;
+        width: 36px;
+      }
+
+      .profile-icon svg {
+        height: 20px;
+        width: 20px;
+      }
+
+      .resume-layout {
+        gap: 18px;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+      .score-overview {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .tips-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-hero {
+        padding: 40px 0 32px;
+      }
+
+      .header-actions {
+        gap: 8px;
+      }
+
+      .dashboard-button {
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="logo" aria-label="VentrixCarros home">
+        <img src="logo.jpeg" alt="VentrixCarros Logo" class="logo-image" />
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html" class="back-link">← Home</a>
+        <a href="dashboard.html" class="dashboard-button">Dashboard</a>
+
+        <!-- Profile icon -->
+        <a
+          href="profile.html"
+          class="profile-icon"
+          aria-label="Open profile"
+          title="Profile"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">AI career tool</p>
+      <h1>Make your resume <span>work harder.</span></h1>
+      <p>
+        Upload your resume or paste its content to receive an ATS-style score,
+        keyword suggestions, and personalized improvement recommendations.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="resume-main">
+    <div class="container">
+      <div class="resume-layout">
+        <!-- Upload panel -->
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Upload your resume</h2>
+              <p>PDF, DOC, or DOCX files up to 5 MB.</p>
+            </div>
+          </div>
+
+          <div class="upload-box" id="uploadBox">
+            <div class="upload-icon" aria-hidden="true">▤</div>
+            <h3>Drop your resume here</h3>
+            <p>or choose a file from your device</p>
+
+            <button type="button" class="upload-button" id="uploadButton">
+              Choose file
+            </button>
+
+            <input
+              type="file"
+              id="fileInput"
+              class="file-input"
+              accept=".pdf,.doc,.docx"
+            />
+          </div>
+
+          <div class="selected-file" id="selectedFile">
+            <span aria-hidden="true">✓</span>
+            <span id="selectedFileName">resume.pdf</span>
+            <button type="button" class="remove-file" id="removeFile">
+              Remove
+            </button>
+          </div>
+
+          <p class="helper-text">
+            Selecting a file displays its name. To analyze its content in this
+            demo, paste the resume text below.
+          </p>
+
+          <div class="or-divider">
+            <span>or paste resume text</span>
+          </div>
+
+          <textarea
+            class="resume-textarea"
+            id="resumeText"
+            placeholder="Paste your resume content here..."
+            aria-label="Resume text"
+          ></textarea>
+
+          <div class="target-role">
+            <label for="targetRole">Target role</label>
+            <select id="targetRole">
+              <option value="Frontend Developer">Frontend Developer</option>
+              <option value="React Developer">React Developer</option>
+              <option value="UI Developer">UI Developer</option>
+              <option value="Product Designer">Product Designer</option>
+              <option value="Data Analyst">Data Analyst</option>
+              <option value="Backend Developer">Backend Developer</option>
+              <option value="Full Stack Developer">Full Stack Developer</option>
+              <option value="Software Engineer">Software Engineer</option>
+            </select>
+          </div>
+
+          <button type="button" class="analyze-button" id="analyzeButton">
+            Analyze my resume
+          </button>
+        </section>
+
+        <!-- Results panel -->
+        <section class="panel results-panel" aria-live="polite">
+          <div class="panel-heading">
+            <div>
+              <h2>Resume analysis</h2>
+              <p>Your resume review and improvement report.</p>
+            </div>
+          </div>
+
+          <div class="empty-results" id="emptyResults">
+            <div class="empty-results-icon" aria-hidden="true">✦</div>
+            <h3>Your analysis will appear here</h3>
+            <p>
+              Paste your resume content, select a target role, and choose
+              Analyze to receive demo feedback.
+            </p>
+          </div>
+
+          <div class="analysis-loading" id="analysisLoading">
+            <span class="loading-spinner" aria-hidden="true"></span>
+            <h3>Analyzing your resume...</h3>
+            <p>Checking keywords, content, and role relevance.</p>
+          </div>
+
+          <div class="analysis-results" id="analysisResults">
+            <div class="score-overview">
+              <div class="score-circle">
+                <strong id="scoreValue">0</strong>
+                <span>ATS-style score</span>
+              </div>
+
+              <div class="score-info">
+                <h3 id="scoreHeading">Resume review</h3>
+                <p id="scoreDescription">
+                  Your report will appear here after analysis.
+                </p>
+              </div>
+            </div>
+
+            <div class="result-block">
+              <h3><span aria-hidden="true">⌕</span> Suggested keywords</h3>
+              <p>
+                Consider including relevant terms below if they accurately
+                reflect your skills and experience.
+              </p>
+              <div class="keyword-list" id="keywordList"></div>
+            </div>
+
+            <div class="result-block">
+              <h3><span aria-hidden="true">✓</span> Resume strengths</h3>
+              <ul class="strength-list" id="strengthList"></ul>
+            </div>
+
+            <div class="result-block">
+              <h3><span aria-hidden="true">↗</span> Improvement suggestions</h3>
+              <ul class="improvement-list" id="improvementList"></ul>
+            </div>
+
+            <div class="result-actions">
+              <button
+                type="button"
+                class="result-button primary"
+                id="improveResumeButton"
+              >
+                Improve resume with AI
+              </button>
+
+              <button
+                type="button"
+                class="result-button"
+                id="downloadReportButton"
+              >
+                Download report
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Tips -->
+      <section class="tips-section">
+        <div class="panel-heading">
+          <div>
+            <h2>Resume improvement tips</h2>
+            <p>Small changes can make your resume easier to understand.</p>
+          </div>
+        </div>
+
+        <div class="tips-grid">
+          <article class="tip-card">
+            <div class="tip-icon" aria-hidden="true">▤</div>
+            <h3>Use measurable results</h3>
+            <p>
+              Replace general statements with results such as faster load
+              times, higher conversions, or reduced errors.
+            </p>
+          </article>
+
+          <article class="tip-card">
+            <div class="tip-icon" aria-hidden="true">⌕</div>
+            <h3>Match the job description</h3>
+            <p>
+              Use relevant terms from the job description when they accurately
+              reflect your experience.
+            </p>
+          </article>
+
+          <article class="tip-card">
+            <div class="tip-icon" aria-hidden="true">✦</div>
+            <h3>Showcase your projects</h3>
+            <p>
+              Include portfolio links and describe the problem, technology,
+              and result for each important project.
+            </p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      © <span id="currentYear"></span> VentrixCarros. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    const uploadBox = document.getElementById("uploadBox");
+    const uploadButton = document.getElementById("uploadButton");
+    const fileInput = document.getElementById("fileInput");
+    const selectedFile = document.getElementById("selectedFile");
+    const selectedFileName = document.getElementById("selectedFileName");
+    const removeFile = document.getElementById("removeFile");
+    const resumeText = document.getElementById("resumeText");
+    const targetRole = document.getElementById("targetRole");
+    const analyzeButton = document.getElementById("analyzeButton");
+    const emptyResults = document.getElementById("emptyResults");
+    const analysisLoading = document.getElementById("analysisLoading");
+    const analysisResults = document.getElementById("analysisResults");
+    const scoreValue = document.getElementById("scoreValue");
+    const scoreHeading = document.getElementById("scoreHeading");
+    const scoreDescription = document.getElementById("scoreDescription");
+    const keywordList = document.getElementById("keywordList");
+    const strengthList = document.getElementById("strengthList");
+    const improvementList = document.getElementById("improvementList");
+    const improveResumeButton = document.getElementById("improveResumeButton");
+    const downloadReportButton = document.getElementById("downloadReportButton");
+
+    let selectedResumeFile = null;
+    let latestReport = null;
+
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+    uploadButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      fileInput.click();
+    });
+
+    uploadBox.addEventListener("click", () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (file) handleFile(file);
+    });
+
+    function handleFile(file) {
+      const extension = file.name.split(".").pop().toLowerCase();
+      const allowedExtensions = ["pdf", "doc", "docx"];
+
+      if (!allowedExtensions.includes(extension)) {
+        alert("Please select a PDF, DOC, or DOCX file.");
+        fileInput.value = "";
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size must be 5 MB or smaller.");
+        fileInput.value = "";
+        return;
+      }
+
+      selectedResumeFile = file;
+      selectedFileName.textContent = file.name;
+      selectedFile.classList.add("show");
+    }
+
+    removeFile.addEventListener("click", () => {
+      selectedResumeFile = null;
+      fileInput.value = "";
+      selectedFile.classList.remove("show");
+    });
+
+    uploadBox.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      uploadBox.classList.add("dragover");
+    });
+
+    uploadBox.addEventListener("dragleave", () => {
+      uploadBox.classList.remove("dragover");
+    });
+
+    uploadBox.addEventListener("drop", (event) => {
+      event.preventDefault();
+      uploadBox.classList.remove("dragover");
+
+      const file = event.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
+
+    function addListItems(element, items) {
+      element.replaceChildren();
+
+      items.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        element.appendChild(li);
+      });
+    }
+
+    function addKeywords(items) {
+      keywordList.replaceChildren();
+
+      if (items.length === 0) {
+        const tag = document.createElement("span");
+        tag.className = "keyword";
+        tag.textContent = "Review job description";
+        keywordList.appendChild(tag);
+        return;
+      }
+
+      items.forEach((item) => {
+        const tag = document.createElement("span");
+        tag.className = "keyword";
+        tag.textContent = item;
+        keywordList.appendChild(tag);
+      });
+    }
+
+    function analyzeResume(text, role) {
+      const lowerText = text.toLowerCase();
+
+      const roleKeywords = {
+        "Frontend Developer": [
+          "html", "css", "javascript", "responsive", "accessibility",
+          "testing", "api", "git", "typescript", "performance"
+        ],
+        "React Developer": [
+          "react", "javascript", "jsx", "hooks", "state",
+          "api", "typescript", "testing", "git", "performance"
+        ],
+        "UI Developer": [
+          "html", "css", "javascript", "responsive", "accessibility",
+          "figma", "design system", "usability", "testing", "ui"
+        ],
+        "Product Designer": [
+          "figma", "prototyping", "wireframes", "user research",
+          "usability", "design system", "accessibility", "testing"
+        ],
+        "Data Analyst": [
+          "sql", "excel", "python", "tableau", "power bi",
+          "visualization", "statistics", "reporting", "analytics"
+        ],
+        "Backend Developer": [
+          "api", "database", "sql", "security", "testing",
+          "server", "python", "java", "node.js", "git"
+        ],
+        "Full Stack Developer": [
+          "html", "css", "javascript", "react", "api",
+          "database", "sql", "git", "testing", "deployment"
+        ],
+        "Software Engineer": [
+          "programming", "testing", "git", "algorithms",
+          "database", "api", "debugging", "design patterns"
+        ]
+      };
+
+      const keywords = roleKeywords[role] || roleKeywords["Frontend Developer"];
+      const foundKeywords = keywords.filter((keyword) =>
+        lowerText.includes(keyword.toLowerCase())
+      );
+      const missingKeywords = keywords.filter((keyword) =>
+        !lowerText.includes(keyword.toLowerCase())
+      );
+
+      const hasExperience =
+        /experience|employment|worked|professional|internship/i.test(text);
+      const hasProjects = /projects|project|portfolio|github/i.test(text);
+      const hasEducation = /education|degree|university|college|bachelor/i.test(text);
+      const hasSkills = /skills|technologies|technical/i.test(text);
+      const hasNumbers = /\d+%|\d+\+|\$\d+|\d+\s*(years|months|users|clients)/i.test(text);
+      const hasContact = /@|linkedin|github|phone|contact/i.test(text);
+
+      let score = 35;
+      score += Math.min(foundKeywords.length * 4, 30);
+      score += hasExperience ? 8 : 0;
+      score += hasProjects ? 7 : 0;
+      score += hasEducation ? 5 : 0;
+      score += hasSkills ? 5 : 0;
+      score += hasNumbers ? 5 : 0;
+      score += hasContact ? 5 : 0;
+      score = Math.min(100, score);
+
+      const strengths = [];
+
+      if (hasSkills) strengths.push("A skills or technologies section was detected.");
+      if (hasExperience) strengths.push("Experience-related content was detected.");
+      if (hasProjects) strengths.push("Projects or portfolio-related content was detected.");
+      if (hasEducation) strengths.push("Education-related content was detected.");
+      if (hasNumbers) strengths.push("Some measurable figures or quantities were detected.");
+      if (strengths.length === 0) {
+        strengths.push("Your resume text has been provided for review.");
+      }
+
+      const improvements = [];
+
+      if (!hasContact) improvements.push("Make sure your email and professional contact details are easy to find.");
+      if (!hasSkills) improvements.push("Add a clearly labeled skills section tailored to the target role.");
+      if (!hasExperience) improvements.push("Describe relevant work experience, internships, or practical experience.");
+      if (!hasProjects) improvements.push("Include relevant projects and links to your portfolio or GitHub.");
+      if (!hasEducation) improvements.push("Add your relevant education, qualifications, or certifications.");
+      if (!hasNumbers) improvements.push("Add measurable outcomes to demonstrate the impact of your work.");
+      improvements.push("Use keywords from the job description when they accurately reflect your experience.");
+      improvements.push("Use concise bullet points that begin with clear action verbs.");
+
+      return {
+        score,
+        role,
+        foundKeywords,
+        missingKeywords: missingKeywords.slice(0, 8),
+        strengths,
+        improvements,
+        resumeLength: text.trim().length
+      };
+    }
+
+    analyzeButton.addEventListener("click", () => {
+      const text = resumeText.value.trim();
+
+      if (!text && !selectedResumeFile) {
+        alert("Upload a resume or paste resume text first.");
+        return;
+      }
+
+      if (!text && selectedResumeFile) {
+        alert(
+          "Your file is selected, but this demo cannot read PDF or Word file contents directly. Please copy the resume text into the text box to analyze it."
+        );
+        resumeText.focus();
+        return;
+      }
+
+      if (text.length < 40) {
+        alert("Please paste more of your resume so the review is more useful.");
+        resumeText.focus();
+        return;
+      }
+
+      emptyResults.style.display = "none";
+      analysisResults.classList.remove("show");
+      analysisLoading.classList.add("show");
+      analyzeButton.disabled = true;
+      analyzeButton.textContent = "Analyzing...";
+
+      window.setTimeout(() => {
+        latestReport = analyzeResume(text, targetRole.value);
+
+        scoreValue.textContent = latestReport.score;
+
+        if (latestReport.score >= 80) {
+          scoreHeading.textContent = "Strong foundation";
+          scoreDescription.textContent =
+            "Your resume includes several useful elements for the selected role. Review the suggestions to improve it further.";
+        } else if (latestReport.score >= 60) {
+          scoreHeading.textContent = "Good starting point";
+          scoreDescription.textContent =
+            "Your resume has some relevant content. Adding role-specific details may make it more focused.";
+        } else {
+          scoreHeading.textContent = "Room to improve";
+          scoreDescription.textContent =
+            "Consider adding relevant skills, experience, projects, and measurable outcomes.";
+        }
+
+        addKeywords(latestReport.missingKeywords);
+        addListItems(strengthList, latestReport.strengths);
+        addListItems(improvementList, latestReport.improvements);
+
+        analysisLoading.classList.remove("show");
+        analysisResults.classList.add("show");
+        analyzeButton.disabled = false;
+        analyzeButton.textContent = "Analyze again";
+      }, 900);
+    });
+
+    improveResumeButton.addEventListener("click", () => {
+      if (!latestReport) {
+        alert("Analyze your resume first.");
+        return;
+      }
+
+      const suggestions = [
+        "Resume improvement checklist",
+        "",
+        "Target role: " + latestReport.role,
+        "",
+        "Suggested keywords to consider:",
+        ...(latestReport.missingKeywords.length
+          ? latestReport.missingKeywords.map((item) => "- " + item)
+          : ["- Review the job description for role-specific keywords"]),
+        "",
+        "Suggested next steps:",
+        ...latestReport.improvements.map((item) => "- " + item),
+        "",
+        "Note: These are suggestions, not AI-generated rewrites. Connect an AI backend to generate rewritten resume sections."
+      ].join("\n");
+
+      const blob = new Blob([suggestions], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "ventrixcarros-resume-improvement-checklist.txt";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    downloadReportButton.addEventListener("click", () => {
+      if (!latestReport) {
+        alert("Analyze your resume before downloading a report.");
+        return;
+      }
+
+      const report = [
+        "VENTRIXCARROS RESUME REVIEW",
+        "===========================",
+        "",
+        "Target role: " + latestReport.role,
+        "ATS-style demo score: " + latestReport.score + "/100",
+        "Resume text length: " + latestReport.resumeLength + " characters",
+        "",
+        "KEYWORDS DETECTED",
+        ...(
+          latestReport.foundKeywords.length
+            ? latestReport.foundKeywords.map((item) => "- " + item)
+            : ["- No target keywords detected"]
+        ),
+        "",
+        "SUGGESTED KEYWORDS TO REVIEW",
+        ...(
+          latestReport.missingKeywords.length
+            ? latestReport.missingKeywords.map((item) => "- " + item)
+            : ["- No additional keywords suggested by this demo"]
+        ),
+        "",
+        "RESUME STRENGTHS",
+        ...latestReport.strengths.map((item) => "- " + item),
+        "",
+        "IMPROVEMENT SUGGESTIONS",
+        ...latestReport.improvements.map((item) => "- " + item),
+        "",
+        "Important: This report is generated by a basic browser-based demo. It is not a validated ATS score or professional hiring assessment."
+      ].join("\n");
+
+      const blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "ventrixcarros-resume-report.txt";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

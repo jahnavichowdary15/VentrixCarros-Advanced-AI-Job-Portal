@@ -1,0 +1,1600 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Manage your VentrixCarros professional profile."
+  />
+
+  <title>My Profile | VentrixCarros</title>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --border: #e4e7ec;
+      --light-blue: #eff6ff;
+      --green: #16a34a;
+      --red: #dc2626;
+      --purple: #7c3aed;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1240px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 76px;
+    }
+
+    .logo {
+      align-items: center;
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .logo-image {
+      display: block;
+      height: 70px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+    }
+
+    /* Header spans full width (same as dashboard) */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side buttons line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1240px) / 2 + 24px));
+    }
+
+    .site-header .logo {
+      margin-left: 0;
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .logo-image {
+      height: 80px;
+      max-width: 200px;
+      margin: -4px 0 -4px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    .header-actions {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    .dashboard-button {
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 9px 13px;
+    }
+
+    .dashboard-button:hover {
+      background: #dbeafe;
+    }
+
+    /* Profile icon (same as jobs page) */
+    .profile-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border: 1px solid #dbeafe;
+      border-radius: 50%;
+      color: var(--primary);
+      display: inline-flex;
+      flex-shrink: 0;
+      height: 40px;
+      justify-content: center;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+      width: 40px;
+    }
+
+    .profile-icon:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .profile-icon svg {
+      display: block;
+      height: 22px;
+      width: 22px;
+    }
+
+    /* Page hero */
+    .page-hero {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #eff6ff, #ffffff);
+      padding: 55px 0 42px;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .page-hero h1 {
+      color: var(--dark);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .page-hero h1 span {
+      color: var(--primary);
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      margin-top: 13px;
+      max-width: 650px;
+    }
+
+    /* Main */
+    .profile-main {
+      padding: 34px 0 70px;
+    }
+
+    .profile-layout {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 270px 1fr;
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    /* Profile card */
+    .profile-summary {
+      align-self: start;
+      position: sticky;
+      top: 100px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: fit-content;
+    }
+
+    .profile-avatar {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 50%;
+      color: var(--primary);
+      display: flex;
+      font-size: 2.1rem;
+      font-weight: 800;
+      height: 100px;
+      justify-content: center;
+      width: 100px;
+    }
+
+    .avatar-edit {
+      align-items: center;
+      background: var(--primary);
+      border: 3px solid var(--white);
+      border-radius: 50%;
+      color: var(--white);
+      display: flex;
+      font-size: 0.75rem;
+      height: 30px;
+      justify-content: center;
+      position: absolute;
+      right: 0;
+      bottom: 2px;
+      width: 30px;
+    }
+
+    .profile-summary h2 {
+      color: var(--dark);
+      font-size: 1.15rem;
+      margin-top: 17px;
+    }
+
+    .profile-role {
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .profile-location {
+      color: var(--muted);
+      display: block;
+      font-size: 0.7rem;
+      margin-top: 5px;
+    }
+
+    .profile-score {
+      background: var(--light-blue);
+      border-radius: 10px;
+      margin-top: 24px;
+      padding: 14px;
+    }
+
+    .score-heading {
+      align-items: center;
+      color: var(--muted);
+      display: flex;
+      font-size: 0.7rem;
+      justify-content: space-between;
+    }
+
+    .score-heading strong {
+      color: var(--primary);
+    }
+
+    .score-bar {
+      background: #dbeafe;
+      border-radius: 999px;
+      height: 6px;
+      margin-top: 9px;
+      overflow: hidden;
+    }
+
+    .score-bar span {
+      background: var(--primary);
+      border-radius: inherit;
+      display: block;
+      height: 100%;
+      width: 70%;
+    }
+
+    .profile-summary-list {
+      border-top: 1px solid var(--border);
+      display: grid;
+      gap: 13px;
+      list-style: none;
+      margin-top: 23px;
+      padding-top: 19px;
+    }
+
+    .profile-summary-list li {
+      align-items: center;
+      color: var(--muted);
+      display: flex;
+      font-size: 0.74rem;
+      gap: 9px;
+    }
+
+    .profile-summary-list span {
+      color: var(--primary);
+    }
+
+    .profile-link {
+      color: var(--primary);
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-top: 22px;
+    }
+
+    /* Form */
+    .form-section {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 27px;
+    }
+
+    .form-section + .form-section {
+      padding-top: 27px;
+    }
+
+    .form-section:last-child {
+      border-bottom: 0;
+    }
+
+    .section-heading {
+      align-items: flex-start;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 19px;
+    }
+
+    .section-heading h2 {
+      color: var(--dark);
+      font-size: 1.1rem;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 0.74rem;
+      margin-top: 5px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 15px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      color: var(--dark);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      outline: 0;
+      padding: 11px;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .form-group textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .skills-input {
+      display: flex;
+      gap: 8px;
+    }
+
+    .skills-input input {
+      flex: 1;
+    }
+
+    .add-skill-button {
+      background: var(--light-blue);
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0 13px;
+    }
+
+    .add-skill-button:hover {
+      background: #dbeafe;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 11px;
+    }
+
+    .skill-tag {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 999px;
+      color: var(--primary);
+      display: inline-flex;
+      font-size: 0.7rem;
+      gap: 7px;
+      padding: 6px 10px;
+    }
+
+    .remove-skill {
+      background: transparent;
+      border: 0;
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding-top: 25px;
+    }
+
+    .cancel-button,
+    .save-button {
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 10px 16px;
+    }
+
+    .cancel-button {
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .save-button {
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      color: var(--white);
+    }
+
+    .save-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .save-message {
+      color: var(--green);
+      display: none;
+      font-size: 0.75rem;
+      margin-top: 12px;
+      text-align: right;
+    }
+
+    .save-message.show {
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .profile-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-summary {
+        position: static;
+      }
+
+      .profile-summary-top {
+        align-items: center;
+        display: flex;
+        gap: 18px;
+      }
+
+      .profile-summary h2 {
+        margin-top: 0;
+      }
+
+      .profile-score {
+        margin-top: 20px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .logo-image {
+        height: 42px;
+        max-width: 150px;
+      }
+
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+
+      .profile-icon {
+        height: 36px;
+        width: 36px;
+      }
+
+      .profile-icon svg {
+        height: 20px;
+        width: 20px;
+      }
+
+      .back-link {
+        display: none;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full-width {
+        grid-column: auto;
+      }
+
+      .skills-input {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .add-skill-button {
+        min-height: 42px;
+      }
+
+      .form-actions {
+        flex-direction: column-reverse;
+      }
+
+      .cancel-button,
+      .save-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container navbar">
+
+      <a href="index.html" class="logo" aria-label="VentrixCarros Home">
+        <img
+          src="logo.jpeg"
+          alt="VentrixCarros Logo"
+          class="logo-image"
+        />
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html" class="back-link">
+          ← Home
+        </a>
+
+        <a href="dashboard.html" class="dashboard-button">
+          Dashboard
+        </a>
+
+        <!-- Profile icon -->
+        <a
+          href="profile.html"
+          class="profile-icon"
+          aria-label="Open profile"
+          title="Profile"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Professional profile</p>
+
+      <h1>
+        Present your
+        <span>best work.</span>
+      </h1>
+
+      <p>
+        Keep your profile updated so employers and VentrixCarros AI can better
+        understand your skills, goals, and experience.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="profile-main">
+    <div class="container">
+
+      <div class="profile-layout">
+
+        <!-- Profile summary -->
+        <aside class="panel profile-summary">
+
+          <div class="profile-summary-top">
+            <div class="avatar-wrapper">
+              <div class="profile-avatar" id="profileAvatar">
+                U
+              </div>
+
+              <button
+                type="button"
+                class="avatar-edit"
+                id="avatarEdit"
+                aria-label="Edit profile photo"
+              >
+                ✎
+              </button>
+            </div>
+
+            <div>
+              <h2 id="summaryName">Your Name</h2>
+
+              <p class="profile-role" id="summaryRole">
+                Frontend Developer
+              </p>
+
+              <span class="profile-location" id="summaryLocation">
+                ⌖ Bengaluru, India
+              </span>
+            </div>
+          </div>
+
+          <div class="profile-score">
+            <div class="score-heading">
+              <span>Profile completion</span>
+              <strong id="completionValue">70%</strong>
+            </div>
+
+            <div class="score-bar">
+              <span id="completionBar"></span>
+            </div>
+          </div>
+
+          <ul class="profile-summary-list">
+            <li>
+              <span>✉</span>
+              <span id="summaryEmail">you@example.com</span>
+            </li>
+
+            <li>
+              <span>☎</span>
+              <span id="summaryPhone">Phone not added</span>
+            </li>
+
+            <li>
+              <span>◉</span>
+              <span id="summaryExperience">Entry level</span>
+            </li>
+          </ul>
+
+          <a
+            href="resume.html"
+            class="profile-link"
+          >
+            Analyze my resume →
+          </a>
+
+        </aside>
+
+        <!-- Profile form -->
+        <section class="panel">
+          <form id="profileForm">
+
+            <!-- Basic information -->
+            <div class="form-section">
+              <div class="section-heading">
+                <div>
+                  <h2>Basic information</h2>
+
+                  <p>
+                    Add the information employers should see first.
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-grid">
+
+                <div class="form-group">
+                  <label for="fullName">
+                    Full name
+                  </label>
+
+                  <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Your full name"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="email">
+                    Email address
+                  </label>
+
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">
+                    Phone number
+                  </label>
+
+                  <input
+                    type="tel"
+                    id="phone"
+                    placeholder="+91 98765 43210"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="location">
+                    Location
+                  </label>
+
+                  <input
+                    type="text"
+                    id="location"
+                    placeholder="Bengaluru, India"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="currentRole">
+                    Current role
+                  </label>
+
+                  <input
+                    type="text"
+                    id="currentRole"
+                    placeholder="Frontend Developer"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="experience">
+                    Experience
+                  </label>
+
+                  <select id="experience">
+                    <option value="Entry level">
+                      Entry level
+                    </option>
+
+                    <option value="1–2 years">
+                      1–2 years
+                    </option>
+
+                    <option value="3–5 years">
+                      3–5 years
+                    </option>
+
+                    <option value="5+ years">
+                      5+ years
+                    </option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- About -->
+            <div class="form-section">
+              <div class="section-heading">
+                <div>
+                  <h2>About you</h2>
+
+                  <p>
+                    Write a short summary that explains your strengths.
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="about">
+                  Professional summary
+                </label>
+
+                <textarea
+                  id="about"
+                  placeholder="Example: Frontend developer focused on building responsive and accessible web experiences..."
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="form-section">
+              <div class="section-heading">
+                <div>
+                  <h2>Skills</h2>
+
+                  <p>
+                    Skills are used for AI job recommendations.
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="skillInput">
+                  Add skills
+                </label>
+
+                <div class="skills-input">
+                  <input
+                    type="text"
+                    id="skillInput"
+                    placeholder="Example: React"
+                  />
+
+                  <button
+                    type="button"
+                    class="add-skill-button"
+                    id="addSkillButton"
+                  >
+                    Add skill
+                  </button>
+                </div>
+
+                <div class="skills-list" id="skillsList">
+                  <span class="skill-tag">
+                    HTML
+                    <button
+                      type="button"
+                      class="remove-skill"
+                    >
+                      ×
+                    </button>
+                  </span>
+
+                  <span class="skill-tag">
+                    CSS
+                    <button
+                      type="button"
+                      class="remove-skill"
+                    >
+                      ×
+                    </button>
+                  </span>
+
+                  <span class="skill-tag">
+                    JavaScript
+                    <button
+                      type="button"
+                      class="remove-skill"
+                    >
+                      ×
+                    </button>
+                  </span>
+
+                  <span class="skill-tag">
+                    React
+                    <button
+                      type="button"
+                      class="remove-skill"
+                    >
+                      ×
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Career preferences -->
+            <div class="form-section">
+              <div class="section-heading">
+                <div>
+                  <h2>Career preferences</h2>
+
+                  <p>
+                    Help us recommend more relevant opportunities.
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-grid">
+
+                <div class="form-group">
+                  <label for="preferredRole">
+                    Preferred role
+                  </label>
+
+                  <input
+                    type="text"
+                    id="preferredRole"
+                    placeholder="Senior Frontend Developer"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="workStyle">
+                    Preferred work style
+                  </label>
+
+                  <select id="workStyle">
+                    <option value="Remote or hybrid">
+                      Remote or hybrid
+                    </option>
+
+                    <option value="Remote">
+                      Remote
+                    </option>
+
+                    <option value="Hybrid">
+                      Hybrid
+                    </option>
+
+                    <option value="Onsite">
+                      Onsite
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="expectedSalary">
+                    Expected salary
+                  </label>
+
+                  <input
+                    type="text"
+                    id="expectedSalary"
+                    placeholder="₹8–12 LPA"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="availability">
+                    Availability
+                  </label>
+
+                  <select id="availability">
+                    <option value="Immediately available">
+                      Immediately available
+                    </option>
+
+                    <option value="Available in 15 days">
+                      Available in 15 days
+                    </option>
+
+                    <option value="Available in 30 days">
+                      Available in 30 days
+                    </option>
+
+                    <option value="Not actively looking">
+                      Not actively looking
+                    </option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Links -->
+            <div class="form-section">
+              <div class="section-heading">
+                <div>
+                  <h2>Professional links</h2>
+
+                  <p>
+                    Add links to help employers explore your work.
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-grid">
+
+                <div class="form-group">
+                  <label for="portfolio">
+                    Portfolio URL
+                  </label>
+
+                  <input
+                    type="url"
+                    id="portfolio"
+                    placeholder="https://yourportfolio.com"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="linkedin">
+                    LinkedIn URL
+                  </label>
+
+                  <input
+                    type="url"
+                    id="linkedin"
+                    placeholder="https://linkedin.com/in/yourname"
+                  />
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="github">
+                    GitHub URL
+                  </label>
+
+                  <input
+                    type="url"
+                    id="github"
+                    placeholder="https://github.com/yourusername"
+                  />
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="cancel-button"
+                id="cancelButton"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="save-button"
+              >
+                Save profile
+              </button>
+            </div>
+
+            <p
+              class="save-message"
+              id="saveMessage"
+              role="status"
+              aria-live="polite"
+            >
+              Profile saved successfully.
+            </p>
+
+          </form>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const profileForm =
+      document.getElementById("profileForm");
+
+    const fullName =
+      document.getElementById("fullName");
+
+    const email =
+      document.getElementById("email");
+
+    const phone =
+      document.getElementById("phone");
+
+    const locationInput =
+      document.getElementById("location");
+
+    const currentRole =
+      document.getElementById("currentRole");
+
+    const experience =
+      document.getElementById("experience");
+
+    const about =
+      document.getElementById("about");
+
+    const preferredRole =
+      document.getElementById("preferredRole");
+
+    const workStyle =
+      document.getElementById("workStyle");
+
+    const expectedSalary =
+      document.getElementById("expectedSalary");
+
+    const availability =
+      document.getElementById("availability");
+
+    const portfolio =
+      document.getElementById("portfolio");
+
+    const linkedin =
+      document.getElementById("linkedin");
+
+    const github =
+      document.getElementById("github");
+
+    const skillInput =
+      document.getElementById("skillInput");
+
+    const addSkillButton =
+      document.getElementById("addSkillButton");
+
+    const skillsList =
+      document.getElementById("skillsList");
+
+    const saveMessage =
+      document.getElementById("saveMessage");
+
+    const cancelButton =
+      document.getElementById("cancelButton");
+
+    const profileAvatar =
+      document.getElementById("profileAvatar");
+
+    const summaryName =
+      document.getElementById("summaryName");
+
+    const summaryRole =
+      document.getElementById("summaryRole");
+
+    const summaryLocation =
+      document.getElementById("summaryLocation");
+
+    const summaryEmail =
+      document.getElementById("summaryEmail");
+
+    const summaryPhone =
+      document.getElementById("summaryPhone");
+
+    const summaryExperience =
+      document.getElementById("summaryExperience");
+
+    const completionValue =
+      document.getElementById("completionValue");
+
+    const completionBar =
+      document.getElementById("completionBar");
+
+    function getSkills() {
+      return Array.from(
+        skillsList.querySelectorAll(".skill-tag")
+      ).map((tag) => {
+        return tag.textContent
+          .replace("×", "")
+          .trim();
+      });
+    }
+
+    function renderSkill(skill) {
+      const tag =
+        document.createElement("span");
+
+      tag.className = "skill-tag";
+
+      const skillName =
+        document.createTextNode(skill + " ");
+
+      const removeButton =
+        document.createElement("button");
+
+      removeButton.type = "button";
+      removeButton.className = "remove-skill";
+      removeButton.textContent = "×";
+      removeButton.setAttribute(
+        "aria-label",
+        "Remove " + skill
+      );
+
+      tag.appendChild(skillName);
+      tag.appendChild(removeButton);
+      skillsList.appendChild(tag);
+
+      attachRemoveEvents();
+    }
+
+    function attachRemoveEvents() {
+      skillsList
+        .querySelectorAll(".remove-skill")
+        .forEach((button) => {
+          button.onclick = () => {
+            button.parentElement.remove();
+            calculateCompletion();
+          };
+        });
+    }
+
+    function updateSummary() {
+      const name =
+        fullName.value.trim() ||
+        "Your Name";
+
+      const role =
+        currentRole.value.trim() ||
+        "Frontend Developer";
+
+      const location =
+        locationInput.value.trim() ||
+        "Bengaluru, India";
+
+      const emailValue =
+        email.value.trim() ||
+        "you@example.com";
+
+      const phoneValue =
+        phone.value.trim() ||
+        "Phone not added";
+
+      const experienceValue =
+        experience.value ||
+        "Entry level";
+
+      profileAvatar.textContent =
+        name.charAt(0).toUpperCase();
+
+      summaryName.textContent = name;
+      summaryRole.textContent = role;
+      summaryLocation.textContent = "⌖ " + location;
+      summaryEmail.textContent = emailValue;
+      summaryPhone.textContent = phoneValue;
+      summaryExperience.textContent = experienceValue;
+    }
+
+    function calculateCompletion() {
+      const fields = [
+        fullName.value.trim(),
+        email.value.trim(),
+        phone.value.trim(),
+        locationInput.value.trim(),
+        currentRole.value.trim(),
+        about.value.trim(),
+        preferredRole.value.trim(),
+        expectedSalary.value.trim(),
+        portfolio.value.trim(),
+        linkedin.value.trim(),
+        github.value.trim()
+      ];
+
+      const completedFields =
+        fields.filter(Boolean).length;
+
+      const skillsCount =
+        getSkills().length;
+
+      const totalItems = fields.length + 4;
+
+      const completedItems =
+        completedFields + Math.min(skillsCount, 4);
+
+      const percentage = Math.round(
+        (completedItems / totalItems) * 100
+      );
+
+      completionValue.textContent =
+        percentage + "%";
+
+      completionBar.style.width =
+        percentage + "%";
+    }
+
+    function loadProfile() {
+      fullName.value =
+        localStorage.getItem("profileFullName") ||
+        localStorage.getItem("userName") ||
+        "";
+
+      email.value =
+        localStorage.getItem("profileEmail") ||
+        localStorage.getItem("userEmail") ||
+        "";
+
+      phone.value =
+        localStorage.getItem("profilePhone") ||
+        localStorage.getItem("userPhone") ||
+        "";
+
+      locationInput.value =
+        localStorage.getItem("profileLocation") ||
+        "Bengaluru, India";
+
+      currentRole.value =
+        localStorage.getItem("profileCurrentRole") ||
+        "Frontend Developer";
+
+      experience.value =
+        localStorage.getItem("profileExperience") ||
+        "Entry level";
+
+      about.value =
+        localStorage.getItem("profileAbout") ||
+        "";
+
+      preferredRole.value =
+        localStorage.getItem("preferredRole") ||
+        "Frontend Developer";
+
+      workStyle.value =
+        localStorage.getItem("workStyle") ||
+        "Remote or hybrid";
+
+      expectedSalary.value =
+        localStorage.getItem("expectedSalary") ||
+        "₹8–12 LPA";
+
+      availability.value =
+        localStorage.getItem("availability") ||
+        "Immediately available";
+
+      portfolio.value =
+        localStorage.getItem("portfolio") ||
+        "";
+
+      linkedin.value =
+        localStorage.getItem("linkedin") ||
+        "";
+
+      github.value =
+        localStorage.getItem("github") ||
+        "";
+
+      const savedSkills =
+        localStorage.getItem("profileSkills");
+
+      if (savedSkills) {
+        try {
+          const parsedSkills = JSON.parse(savedSkills);
+
+          if (Array.isArray(parsedSkills)) {
+            skillsList.innerHTML = "";
+
+            parsedSkills.forEach((skill) => {
+              renderSkill(String(skill));
+            });
+          }
+        } catch (error) {
+          console.error("Could not load saved skills.", error);
+        }
+      }
+
+      attachRemoveEvents();
+      updateSummary();
+      calculateCompletion();
+    }
+
+    addSkillButton.addEventListener("click", () => {
+      const skill =
+        skillInput.value.trim();
+
+      if (!skill) {
+        skillInput.focus();
+        return;
+      }
+
+      const existingSkills =
+        getSkills().map((item) => item.toLowerCase());
+
+      if (existingSkills.includes(skill.toLowerCase())) {
+        skillInput.value = "";
+        return;
+      }
+
+      renderSkill(skill);
+      skillInput.value = "";
+      calculateCompletion();
+    });
+
+    skillInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addSkillButton.click();
+      }
+    });
+
+    profileForm.addEventListener("input", () => {
+      updateSummary();
+      calculateCompletion();
+      saveMessage.classList.remove("show");
+    });
+
+    profileForm.addEventListener("change", () => {
+      updateSummary();
+      calculateCompletion();
+    });
+
+    profileForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      localStorage.setItem(
+        "profileFullName",
+        fullName.value.trim()
+      );
+
+      localStorage.setItem(
+        "profileEmail",
+        email.value.trim()
+      );
+
+      localStorage.setItem(
+        "profilePhone",
+        phone.value.trim()
+      );
+
+      localStorage.setItem(
+        "profileLocation",
+        locationInput.value.trim()
+      );
+
+      localStorage.setItem(
+        "profileCurrentRole",
+        currentRole.value.trim()
+      );
+
+      localStorage.setItem(
+        "profileExperience",
+        experience.value
+      );
+
+      localStorage.setItem(
+        "profileAbout",
+        about.value.trim()
+      );
+
+      localStorage.setItem(
+        "preferredRole",
+        preferredRole.value.trim()
+      );
+
+      localStorage.setItem(
+        "workStyle",
+        workStyle.value
+      );
+
+      localStorage.setItem(
+        "expectedSalary",
+        expectedSalary.value.trim()
+      );
+
+      localStorage.setItem(
+        "availability",
+        availability.value
+      );
+
+      localStorage.setItem(
+        "portfolio",
+        portfolio.value.trim()
+      );
+
+      localStorage.setItem(
+        "linkedin",
+        linkedin.value.trim()
+      );
+
+      localStorage.setItem(
+        "github",
+        github.value.trim()
+      );
+
+      localStorage.setItem(
+        "profileSkills",
+        JSON.stringify(getSkills())
+      );
+
+      localStorage.setItem(
+        "userName",
+        fullName.value.trim()
+      );
+
+      localStorage.setItem(
+        "userEmail",
+        email.value.trim()
+      );
+
+      updateSummary();
+      calculateCompletion();
+
+      saveMessage.classList.add("show");
+
+      setTimeout(() => {
+        saveMessage.classList.remove("show");
+      }, 2500);
+    });
+
+    cancelButton.addEventListener("click", () => {
+      loadProfile();
+      saveMessage.classList.remove("show");
+    });
+
+    document
+      .getElementById("avatarEdit")
+      .addEventListener("click", () => {
+        alert(
+          "Profile photo upload can be connected after adding image storage."
+        );
+      });
+
+    attachRemoveEvents();
+    loadProfile();
+  </script>
+
+</body>
+</html>

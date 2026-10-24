@@ -1,0 +1,1277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Practice AI-powered mock interviews with VentrixCarros."
+  />
+
+  <title>AI Mock Interview | VentrixCarros</title>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --border: #e4e7ec;
+      --light-blue: #eff6ff;
+      --green: #16a34a;
+      --orange: #ea580c;
+      --purple: #7c3aed;
+      --red: #dc2626;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1240px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 76px;
+    }
+
+    .logo {
+      align-items: center;
+      color: var(--dark);
+      display: inline-flex;
+      font-size: 1.15rem;
+      font-weight: 800;
+      gap: 9px;
+      letter-spacing: -0.04em;
+    }
+
+    /* Logo image */
+    .logo-image {
+      display: block;
+      height: 70px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+    }
+
+    /* Header spans full width (same as dashboard) */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side buttons line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1240px) / 2 + 24px));
+    }
+
+    .site-header .logo {
+      margin-left: 0;
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .logo-image {
+      height: 80px;
+      max-width: 200px;
+      margin: -4px 0 -4px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    .logo-mark {
+      align-items: center;
+      background: var(--primary);
+      border-radius: 8px;
+      color: var(--white);
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      transform: skew(-8deg);
+      width: 32px;
+    }
+
+    .logo-highlight {
+      color: var(--primary);
+    }
+
+    .header-actions {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    .dashboard-button {
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 9px 13px;
+    }
+
+    .dashboard-button:hover {
+      background: #dbeafe;
+    }
+
+    /* Profile icon (same as jobs page) */
+    .profile-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border: 1px solid #dbeafe;
+      border-radius: 50%;
+      color: var(--primary);
+      display: inline-flex;
+      flex-shrink: 0;
+      height: 40px;
+      justify-content: center;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+      width: 40px;
+    }
+
+    .profile-icon:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .profile-icon svg {
+      display: block;
+      height: 22px;
+      width: 22px;
+    }
+
+    /* Hero */
+    .page-hero {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #eff6ff, #ffffff);
+      padding: 55px 0 42px;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .page-hero h1 {
+      color: var(--dark);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .page-hero h1 span {
+      color: var(--primary);
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      margin-top: 13px;
+      max-width: 650px;
+    }
+
+    /* Main */
+    .interview-main {
+      padding: 34px 0 70px;
+    }
+
+    .interview-layout {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .panel-heading {
+      margin-bottom: 21px;
+    }
+
+    .panel-heading h2 {
+      color: var(--dark);
+      font-size: 1.2rem;
+    }
+
+    .panel-heading p {
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-top: 6px;
+    }
+
+    /* Setup */
+    .form-group {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 17px;
+    }
+
+    .form-group label {
+      color: var(--dark);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .form-group select,
+    .form-group textarea {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      outline: 0;
+      padding: 11px;
+      width: 100%;
+    }
+
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .form-group textarea {
+      min-height: 115px;
+      resize: vertical;
+    }
+
+    .interview-options {
+      display: grid;
+      gap: 9px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .option-button {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 0.74rem;
+      padding: 10px;
+    }
+
+    .option-button:hover,
+    .option-button.selected {
+      background: var(--light-blue);
+      border-color: #93c5fd;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .start-button {
+      background: var(--primary);
+      border: 0;
+      border-radius: 8px;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-top: 7px;
+      min-height: 46px;
+      padding: 10px 16px;
+      width: 100%;
+    }
+
+    .start-button:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Interview panel */
+    .interview-panel {
+      min-height: 530px;
+    }
+
+    .interview-empty {
+      align-items: center;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 405px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 50%;
+      color: var(--primary);
+      display: flex;
+      font-size: 1.8rem;
+      height: 70px;
+      justify-content: center;
+      margin-bottom: 18px;
+      width: 70px;
+    }
+
+    .interview-empty h3 {
+      color: var(--dark);
+      font-size: 1rem;
+    }
+
+    .interview-empty p {
+      font-size: 0.76rem;
+      margin-top: 7px;
+      max-width: 330px;
+    }
+
+    .interview-session {
+      display: none;
+    }
+
+    .interview-session.show {
+      display: block;
+    }
+
+    .session-header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .session-label {
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .timer {
+      align-items: center;
+      background: #fff7ed;
+      border-radius: 999px;
+      color: var(--orange);
+      display: flex;
+      font-size: 0.72rem;
+      font-weight: 800;
+      gap: 6px;
+      padding: 6px 10px;
+    }
+
+    .progress-track {
+      background: #e5edfa;
+      border-radius: 999px;
+      height: 7px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .progress-track span {
+      background: var(--primary);
+      border-radius: inherit;
+      display: block;
+      height: 100%;
+      transition: width 0.3s ease;
+      width: 10%;
+    }
+
+    .question-card {
+      background: var(--light-blue);
+      border-radius: 12px;
+      margin-top: 25px;
+      padding: 22px;
+    }
+
+    .question-card small {
+      color: var(--primary);
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .question-card h2 {
+      color: var(--dark);
+      font-size: 1.3rem;
+      margin-top: 10px;
+    }
+
+    .answer-label {
+      color: var(--dark);
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-top: 22px;
+    }
+
+    .answer-box {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--dark);
+      font: inherit;
+      margin-top: 8px;
+      min-height: 150px;
+      outline: 0;
+      padding: 13px;
+      resize: vertical;
+      width: 100%;
+    }
+
+    .answer-box:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .answer-actions {
+      display: flex;
+      gap: 9px;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+
+    .secondary-button,
+    .next-button {
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 10px 14px;
+    }
+
+    .secondary-button {
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .next-button {
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      color: var(--white);
+    }
+
+    .next-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .feedback-card {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+      color: var(--text);
+      display: none;
+      font-size: 0.75rem;
+      margin-top: 15px;
+      padding: 13px;
+    }
+
+    .feedback-card.show {
+      display: block;
+    }
+
+    .feedback-card strong {
+      color: var(--green);
+    }
+
+    /* Final score */
+    .final-result {
+      display: none;
+      text-align: center;
+    }
+
+    .final-result.show {
+      display: block;
+    }
+
+    .final-score {
+      align-items: center;
+      background: var(--light-blue);
+      border: 8px solid #93c5fd;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      height: 130px;
+      justify-content: center;
+      margin: 25px auto;
+      width: 130px;
+    }
+
+    .final-score strong {
+      color: var(--primary);
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .final-score span {
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-top: 6px;
+    }
+
+    .final-result h2 {
+      color: var(--dark);
+      font-size: 1.35rem;
+    }
+
+    .final-result p {
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin: 8px auto 0;
+      max-width: 380px;
+    }
+
+    .restart-button {
+      background: var(--primary);
+      border: 0;
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 22px;
+      padding: 11px 16px;
+    }
+
+    /* Tips */
+    .tips-section {
+      margin-top: 25px;
+    }
+
+    .tips-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tip-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .tip-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 9px;
+      color: var(--primary);
+      display: flex;
+      font-size: 1.1rem;
+      height: 40px;
+      justify-content: center;
+      width: 40px;
+    }
+
+    .tip-card h3 {
+      color: var(--dark);
+      font-size: 0.9rem;
+      margin-top: 15px;
+    }
+
+    .tip-card p {
+      color: var(--muted);
+      font-size: 0.73rem;
+      margin-top: 7px;
+    }
+
+    @media (max-width: 850px) {
+      .interview-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .back-link {
+        display: none;
+      }
+
+      .interview-options,
+      .tips-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .session-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .answer-actions {
+        flex-direction: column;
+      }
+
+      .secondary-button,
+      .next-button {
+        width: 100%;
+      }
+
+      .logo-image {
+        height: 42px;
+        max-width: 150px;
+      }
+
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+
+      .profile-icon {
+        height: 36px;
+        width: 36px;
+      }
+
+      .profile-icon svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container navbar">
+
+      <a href="index.html" class="logo" aria-label="VentrixCarros Home">
+        <img
+          src="logo.jpeg"
+          alt="VentrixCarros Logo"
+          class="logo-image"
+        />
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html" class="back-link">
+          ← Home
+        </a>
+
+        <a href="dashboard.html" class="dashboard-button">
+          Dashboard
+        </a>
+
+        <!-- Profile icon -->
+        <a
+          href="profile.html"
+          class="profile-icon"
+          aria-label="Open profile"
+          title="Profile"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">AI career tool</p>
+
+      <h1>
+        Practice with confidence.
+        <span>Perform at your best.</span>
+      </h1>
+
+      <p>
+        Practice realistic role-specific questions and receive structured
+        feedback to improve your interview performance.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="interview-main">
+    <div class="container">
+
+      <div class="interview-layout">
+
+        <!-- Setup panel -->
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Set up your interview</h2>
+
+            <p>
+              Choose a role and interview type to begin.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="roleSelect">
+              Target role
+            </label>
+
+            <select id="roleSelect">
+              <option value="Frontend Developer">
+                Frontend Developer
+              </option>
+
+              <option value="React Developer">
+                React Developer
+              </option>
+
+              <option value="UI Developer">
+                UI Developer
+              </option>
+
+              <option value="Product Designer">
+                Product Designer
+              </option>
+
+              <option value="Data Analyst">
+                Data Analyst
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>
+              Interview type
+            </label>
+
+            <div class="interview-options">
+              <button
+                type="button"
+                class="option-button selected"
+                data-interview-type="Technical"
+              >
+                Technical
+              </button>
+
+              <button
+                type="button"
+                class="option-button"
+                data-interview-type="Behavioral"
+              >
+                Behavioral
+              </button>
+
+              <button
+                type="button"
+                class="option-button"
+                data-interview-type="Mixed"
+              >
+                Mixed
+              </button>
+
+              <button
+                type="button"
+                class="option-button"
+                data-interview-type="Company"
+              >
+                Company-specific
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="jobDescription">
+              Optional job description
+            </label>
+
+            <textarea
+              id="jobDescription"
+              placeholder="Paste the job description to receive more relevant questions..."
+            ></textarea>
+          </div>
+
+          <button
+            type="button"
+            class="start-button"
+            id="startInterview"
+          >
+            Start mock interview
+          </button>
+        </section>
+
+        <!-- Interview session -->
+        <section class="panel interview-panel">
+
+          <div class="interview-empty" id="interviewEmpty">
+            <div class="empty-icon">◉</div>
+
+            <h3>Your interview session will appear here</h3>
+
+            <p>
+              Choose your target role and interview type, then start your
+              personalized practice session.
+            </p>
+          </div>
+
+          <div class="interview-session" id="interviewSession">
+
+            <div class="session-header">
+              <div>
+                <p class="session-label" id="sessionLabel">
+                  Frontend Developer · Technical
+                </p>
+
+                <div class="progress-track">
+                  <span id="questionProgress"></span>
+                </div>
+              </div>
+
+              <div class="timer">
+                ◷
+                <span id="timer">05:00</span>
+              </div>
+            </div>
+
+            <div class="question-card">
+              <small id="questionNumber">
+                Question 1 of 5
+              </small>
+
+              <h2 id="questionText">
+                Tell me about yourself and your frontend development experience.
+              </h2>
+
+              <label class="answer-label" for="answerBox">
+                Your answer
+              </label>
+
+              <textarea
+                class="answer-box"
+                id="answerBox"
+                placeholder="Type your answer here..."
+              ></textarea>
+
+              <div class="answer-actions">
+                <button
+                  type="button"
+                  class="secondary-button"
+                  id="skipQuestion"
+                >
+                  Skip question
+                </button>
+
+                <button
+                  type="button"
+                  class="next-button"
+                  id="submitAnswer"
+                >
+                  Submit answer
+                </button>
+              </div>
+
+              <div class="feedback-card" id="feedbackCard">
+                <strong>AI feedback:</strong>
+                <span id="feedbackText">
+                  Your answer should include a specific project example and
+                  measurable results.
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="final-result" id="finalResult">
+            <div class="final-score">
+              <strong id="finalScore">82</strong>
+              <span>out of 100</span>
+            </div>
+
+            <h2>Good interview performance</h2>
+
+            <p>
+              You communicated your ideas clearly. Add more measurable examples
+              and explain your technical decisions in greater detail.
+            </p>
+
+            <button
+              type="button"
+              class="restart-button"
+              id="restartInterview"
+            >
+              Practice again
+            </button>
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- Tips -->
+      <section class="tips-section">
+        <div class="panel-heading">
+          <div>
+            <h2>Interview preparation tips</h2>
+            <p>
+              Use these techniques to make your answers stronger.
+            </p>
+          </div>
+        </div>
+
+        <div class="tips-grid">
+
+          <article class="tip-card">
+            <div class="tip-icon">✓</div>
+            <h3>Use the STAR method</h3>
+            <p>
+              Structure behavioral answers around the situation, task, action,
+              and result.
+            </p>
+          </article>
+
+          <article class="tip-card">
+            <div class="tip-icon">▤</div>
+            <h3>Give specific examples</h3>
+            <p>
+              Describe a real project and explain your contribution, decisions,
+              and outcome.
+            </p>
+          </article>
+
+          <article class="tip-card">
+            <div class="tip-icon">↗</div>
+            <h3>Explain your impact</h3>
+            <p>
+              Whenever possible, include numbers such as performance gains,
+              time saved, or users supported.
+            </p>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    const roleSelect =
+      document.getElementById("roleSelect");
+
+    const jobDescription =
+      document.getElementById("jobDescription");
+
+    const startInterview =
+      document.getElementById("startInterview");
+
+    const interviewEmpty =
+      document.getElementById("interviewEmpty");
+
+    const interviewSession =
+      document.getElementById("interviewSession");
+
+    const finalResult =
+      document.getElementById("finalResult");
+
+    const sessionLabel =
+      document.getElementById("sessionLabel");
+
+    const questionNumber =
+      document.getElementById("questionNumber");
+
+    const questionText =
+      document.getElementById("questionText");
+
+    const answerBox =
+      document.getElementById("answerBox");
+
+    const submitAnswer =
+      document.getElementById("submitAnswer");
+
+    const skipQuestion =
+      document.getElementById("skipQuestion");
+
+    const questionProgress =
+      document.getElementById("questionProgress");
+
+    const feedbackCard =
+      document.getElementById("feedbackCard");
+
+    const feedbackText =
+      document.getElementById("feedbackText");
+
+    const timerElement =
+      document.getElementById("timer");
+
+    const restartInterview =
+      document.getElementById("restartInterview");
+
+    const interviewTypeButtons =
+      document.querySelectorAll(
+        "[data-interview-type]"
+      );
+
+    let selectedInterviewType = "Technical";
+    let currentQuestion = 0;
+    let timerInterval;
+    let secondsRemaining = 300;
+
+    const questions = {
+      Technical: [
+        "Explain how you would improve the performance of a React application.",
+        "What is the difference between state and props in React?",
+        "How do you make a website responsive?",
+        "Explain how you would handle API loading and error states.",
+        "Describe a frontend project you are proud of."
+      ],
+
+      Behavioral: [
+        "Tell me about yourself and your experience.",
+        "Describe a difficult project and how you handled it.",
+        "Tell me about a time you received critical feedback.",
+        "How do you prioritize tasks when deadlines are close?",
+        "Why are you interested in this role?"
+      ],
+
+      Mixed: [
+        "Tell me about yourself and your experience.",
+        "Explain how you would improve a slow web page.",
+        "Describe a time you solved a difficult problem.",
+        "How do you collaborate with designers and developers?",
+        "What would you like to learn in your next role?"
+      ],
+
+      Company: [
+        "Why do you want to work with our company?",
+        "What product or service interests you most?",
+        "How would your skills help our team?",
+        "Describe a project that shows your problem-solving ability.",
+        "Why should we choose you for this role?"
+      ]
+    };
+
+    interviewTypeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        interviewTypeButtons.forEach((item) => {
+          item.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+        selectedInterviewType =
+          button.dataset.interviewType;
+      });
+    });
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      secondsRemaining = 300;
+
+      timerInterval = setInterval(() => {
+        secondsRemaining--;
+
+        const minutes = Math.floor(
+          secondsRemaining / 60
+        );
+
+        const seconds = secondsRemaining % 60;
+
+        timerElement.textContent =
+          String(minutes).padStart(2, "0") +
+          ":" +
+          String(seconds).padStart(2, "0");
+
+        if (secondsRemaining <= 0) {
+          clearInterval(timerInterval);
+          finishInterview();
+        }
+      }, 1000);
+    }
+
+    function updateQuestion() {
+      const questionSet =
+        questions[selectedInterviewType];
+
+      questionNumber.textContent =
+        "Question " +
+        (currentQuestion + 1) +
+        " of " +
+        questionSet.length;
+
+      questionText.textContent =
+        questionSet[currentQuestion];
+
+      questionProgress.style.width =
+        ((currentQuestion + 1) /
+          questionSet.length) *
+          100 +
+        "%";
+
+      answerBox.value = "";
+      feedbackCard.classList.remove("show");
+      feedbackText.textContent =
+        "Your answer should include a specific example and measurable results.";
+
+      submitAnswer.textContent =
+        currentQuestion === questionSet.length - 1
+          ? "Finish interview"
+          : "Submit answer";
+    }
+
+    startInterview.addEventListener("click", () => {
+      currentQuestion = 0;
+
+      interviewEmpty.style.display = "none";
+      finalResult.classList.remove("show");
+      interviewSession.classList.add("show");
+
+      sessionLabel.textContent =
+        roleSelect.value +
+        " · " +
+        selectedInterviewType;
+
+      updateQuestion();
+      startTimer();
+    });
+
+    submitAnswer.addEventListener("click", () => {
+      const answer = answerBox.value.trim();
+
+      if (!answer) {
+        alert("Please enter an answer before continuing.");
+        answerBox.focus();
+        return;
+      }
+
+      feedbackCard.classList.add("show");
+
+      if (answer.length < 80) {
+        feedbackText.textContent =
+          "Good start. Add more detail, explain your actions, and include the result.";
+      } else {
+        feedbackText.textContent =
+          "Strong answer structure. Add one measurable result to make it more convincing.";
+      }
+
+      const questionSet =
+        questions[selectedInterviewType];
+
+      if (currentQuestion === questionSet.length - 1) {
+        setTimeout(finishInterview, 700);
+        return;
+      }
+
+      setTimeout(() => {
+        currentQuestion++;
+        updateQuestion();
+      }, 700);
+    });
+
+    skipQuestion.addEventListener("click", () => {
+      const questionSet =
+        questions[selectedInterviewType];
+
+      if (currentQuestion === questionSet.length - 1) {
+        finishInterview();
+        return;
+      }
+
+      currentQuestion++;
+      updateQuestion();
+    });
+
+    function finishInterview() {
+      clearInterval(timerInterval);
+      interviewSession.classList.remove("show");
+      finalResult.classList.add("show");
+      document.getElementById("finalScore").textContent =
+        Math.floor(76 + Math.random() * 18);
+    }
+
+    restartInterview.addEventListener("click", () => {
+      finalResult.classList.remove("show");
+      interviewEmpty.style.display = "flex";
+      answerBox.value = "";
+      timerElement.textContent = "05:00";
+    });
+  </script>
+
+</body>
+</html>

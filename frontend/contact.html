@@ -1,0 +1,1157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Contact VentrixCarros for support, feedback, partnerships, and general questions."
+  />
+
+  <title>Contact Us | VentrixCarros</title>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --border: #e4e7ec;
+      --light-blue: #eff6ff;
+      --green: #16a34a;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1240px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Header: single image logo */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 76px;
+    }
+
+    .logo {
+      align-items: center;
+      display: inline-flex;
+      flex-shrink: 0;
+      line-height: 0;
+    }
+
+    .logo-image {
+      display: block;
+      max-width: 180px;
+      height: 70px;
+      object-fit: contain;
+      object-position: left center;
+    }
+
+    /* Header spans full width (same as dashboard) */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side buttons line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1240px) / 2 + 24px));
+    }
+
+    .site-header .logo {
+      margin-left: 0;
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .logo-image {
+      height: 80px;
+      max-width: 200px;
+      margin: -4px 0 -4px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    .header-actions {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    .dashboard-button {
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 9px 13px;
+    }
+
+    .dashboard-button:hover {
+      background: #dbeafe;
+    }
+
+    /* Profile icon (same as jobs page) */
+    .profile-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border: 1px solid #dbeafe;
+      border-radius: 50%;
+      color: var(--primary);
+      display: inline-flex;
+      flex-shrink: 0;
+      height: 40px;
+      justify-content: center;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+      width: 40px;
+    }
+
+    .profile-icon:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .profile-icon svg {
+      display: block;
+      height: 22px;
+      width: 22px;
+    }
+
+    /* Hero */
+    .page-hero {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #eff6ff, #ffffff);
+      padding: 70px 0 60px;
+    }
+
+    .hero-grid {
+      align-items: center;
+      display: grid;
+      gap: 60px;
+      grid-template-columns: 1fr 0.85fr;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .page-hero h1 {
+      color: var(--dark);
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      letter-spacing: -0.07em;
+      line-height: 1.05;
+    }
+
+    .page-hero h1 span {
+      color: var(--primary);
+      display: block;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-top: 20px;
+      max-width: 570px;
+    }
+
+    /* Contact illustration */
+    .contact-illustration {
+      align-items: center;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      height: 300px;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .illustration-glow {
+      background: rgba(147, 197, 253, 0.35);
+      border-radius: 50%;
+      filter: blur(3px);
+      height: 220px;
+      position: absolute;
+      width: 220px;
+    }
+
+    .message-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      position: relative;
+      width: 230px;
+      z-index: 2;
+    }
+
+    .message-card-header {
+      align-items: center;
+      display: flex;
+      gap: 9px;
+    }
+
+    .message-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary);
+      display: flex;
+      height: 34px;
+      justify-content: center;
+      width: 34px;
+    }
+
+    .message-card strong {
+      color: var(--dark);
+      display: block;
+      font-size: 0.78rem;
+    }
+
+    .message-card small {
+      color: var(--muted);
+      display: block;
+      font-size: 0.64rem;
+    }
+
+    .message-lines {
+      display: grid;
+      gap: 7px;
+      margin-top: 18px;
+    }
+
+    .message-line {
+      background: #dbeafe;
+      border-radius: 999px;
+      height: 6px;
+    }
+
+    .message-line.long {
+      width: 90%;
+    }
+
+    .message-line.medium {
+      width: 68%;
+    }
+
+    .message-line.short {
+      width: 43%;
+    }
+
+    .floating-contact {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      box-shadow: var(--shadow);
+      color: var(--primary);
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 9px 12px;
+      position: absolute;
+    }
+
+    .floating-one {
+      left: 9%;
+      top: 22%;
+    }
+
+    .floating-two {
+      bottom: 21%;
+      right: 8%;
+    }
+
+    /* Main */
+    .contact-main {
+      padding: 70px 0;
+    }
+
+    .contact-layout {
+      display: grid;
+      gap: 22px;
+      grid-template-columns: 0.75fr 1.25fr;
+    }
+
+    .contact-card,
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      min-width: 0;
+    }
+
+    .contact-card h2,
+    .form-card h2 {
+      color: var(--dark);
+      font-size: 1.2rem;
+    }
+
+    .contact-card > p,
+    .form-card > p {
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-top: 7px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 17px;
+      list-style: none;
+      margin-top: 27px;
+    }
+
+    .contact-list li {
+      align-items: flex-start;
+      display: flex;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .contact-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary);
+      display: flex;
+      flex-shrink: 0;
+      height: 33px;
+      justify-content: center;
+      width: 33px;
+    }
+
+    .contact-list strong,
+    .contact-list span {
+      display: block;
+    }
+
+    .contact-list strong {
+      color: var(--dark);
+      font-size: 0.76rem;
+    }
+
+    .contact-list span {
+      color: var(--muted);
+      font-size: 0.69rem;
+      margin-top: 2px;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-list a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .social-links {
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 9px;
+      margin-top: 27px;
+      padding-top: 20px;
+    }
+
+    .social-link {
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--primary);
+      display: flex;
+      font-size: 0.72rem;
+      font-weight: 800;
+      height: 31px;
+      justify-content: center;
+      width: 31px;
+    }
+
+    .social-link:hover {
+      background: var(--light-blue);
+      border-color: #bfdbfe;
+    }
+
+    /* Form */
+    .contact-form {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 13px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      color: var(--dark);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      outline: 0;
+      padding: 11px;
+      width: 100%;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #98a2b3;
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .submit-button {
+      background: var(--primary);
+      border: 0;
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 11px 15px;
+      transition: background 0.2s ease;
+    }
+
+    .submit-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .form-message {
+      color: var(--green);
+      display: none;
+      font-size: 0.74rem;
+      margin-top: 10px;
+    }
+
+    .form-message.show {
+      display: block;
+    }
+
+    /* Reasons */
+    .reasons-section {
+      margin-top: 55px;
+    }
+
+    .section-heading {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      color: var(--dark);
+      font-size: clamp(1.6rem, 4vw, 1.8rem);
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin: 8px auto 0;
+      max-width: 570px;
+    }
+
+    .reasons-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .reason-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .reason-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+
+    .reason-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border-radius: 9px;
+      color: var(--primary);
+      display: flex;
+      font-size: 1.1rem;
+      height: 40px;
+      justify-content: center;
+      width: 40px;
+    }
+
+    .reason-card h3 {
+      color: var(--dark);
+      font-size: 0.9rem;
+      margin-top: 15px;
+    }
+
+    .reason-card p {
+      color: var(--muted);
+      font-size: 0.72rem;
+      margin-top: 7px;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--dark);
+      color: #aeb9ca;
+      padding: 35px 0;
+    }
+
+    .footer-content {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-content p {
+      font-size: 0.72rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 0.72rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    /* Tablet */
+    @media (max-width: 850px) {
+      .hero-grid,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid {
+        gap: 35px;
+      }
+
+      .contact-illustration {
+        max-width: 600px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .reasons-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .navbar {
+        min-height: 68px;
+      }
+
+      .logo-image {
+        width: 140px;
+        height: 40px;
+      }
+
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+
+      .profile-icon {
+        height: 36px;
+        width: 36px;
+      }
+
+      .profile-icon svg {
+        height: 20px;
+        width: 20px;
+      }
+
+      .back-link {
+        display: none;
+      }
+
+      .dashboard-button {
+        font-size: 0.72rem;
+        padding: 8px 10px;
+      }
+
+      .page-hero {
+        padding: 52px 0 45px;
+      }
+
+      .hero-grid {
+        gap: 32px;
+      }
+
+      .page-hero h1 {
+        font-size: clamp(2.3rem, 11vw, 3.5rem);
+      }
+
+      .contact-main {
+        padding: 45px 0;
+      }
+
+      .contact-form-row,
+      .form-row,
+      .reasons-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full-width {
+        grid-column: auto;
+      }
+
+      .contact-card,
+      .form-card {
+        padding: 21px;
+      }
+
+      .contact-illustration {
+        height: 270px;
+      }
+
+      .floating-one {
+        left: 4%;
+      }
+
+      .floating-two {
+        right: 4%;
+      }
+
+      .reasons-section {
+        margin-top: 42px;
+      }
+
+      .footer-content {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 13px;
+      }
+
+      .footer-links {
+        gap: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header: one logo image only -->
+  <header class="site-header">
+    <div class="container navbar">
+
+      <a
+        href="index.html"
+        class="logo"
+        aria-label="VentrixCarros home"
+      >
+        <img
+          src="logo.jpeg"
+          alt="VentrixCarros"
+          class="logo-image"
+        />
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html" class="back-link">
+          &larr; Home
+        </a>
+
+        <a href="dashboard.html" class="dashboard-button">
+          Dashboard
+        </a>
+
+        <!-- Profile icon -->
+        <a
+          href="profile.html"
+          class="profile-icon"
+          aria-label="Open profile"
+          title="Profile"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container hero-grid">
+
+      <div>
+        <p class="eyebrow">Contact VentrixCarros</p>
+
+        <h1>
+          Let’s start a
+          <span>conversation.</span>
+        </h1>
+
+        <p>
+          Have a question, idea, partnership proposal, or issue to report?
+          Send us a message and our team will get back to you.
+        </p>
+      </div>
+
+      <div
+        class="contact-illustration"
+        aria-label="Illustration of a support message"
+      >
+        <div class="illustration-glow"></div>
+
+        <div class="floating-contact floating-one">
+          Support
+        </div>
+
+        <div class="floating-contact floating-two">
+          Feedback
+        </div>
+
+        <div class="message-card">
+          <div class="message-card-header">
+            <span class="message-icon" aria-hidden="true">&#9993;</span>
+
+            <div>
+              <strong>New message</strong>
+              <small>We are here to help</small>
+            </div>
+          </div>
+
+          <div class="message-lines" aria-hidden="true">
+            <span class="message-line long"></span>
+            <span class="message-line medium"></span>
+            <span class="message-line short"></span>
+            <span class="message-line long"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="contact-main">
+    <div class="container">
+
+      <div class="contact-layout">
+
+        <!-- Contact details -->
+        <section class="contact-card">
+          <h2>Contact information</h2>
+
+          <p>
+            Choose the most convenient way to reach the VentrixCarros team.
+          </p>
+
+          <ul class="contact-list">
+
+            <li>
+              <span class="contact-icon" aria-hidden="true">&#9993;</span>
+
+              <div>
+                <strong>Email support</strong>
+                <span>
+                  <a href="mailto:support@ventrixcarros.com">
+                    support@ventrixcarros.com
+                  </a>
+                </span>
+              </div>
+            </li>
+
+            <li>
+              <span class="contact-icon" aria-hidden="true">&#8982;</span>
+
+              <div>
+                <strong>Office location</strong>
+                <span>Bengaluru, India</span>
+              </div>
+            </li>
+
+            <li>
+              <span class="contact-icon" aria-hidden="true">&#9719;</span>
+
+              <div>
+                <strong>Support hours</strong>
+                <span>Monday–Friday, 9 AM–6 PM IST</span>
+              </div>
+            </li>
+
+          </ul>
+
+          <div class="social-links" aria-label="Social media links">
+            <!-- Replace # with your actual profile URLs -->
+            <a
+              href="#"
+              class="social-link"
+              aria-label="LinkedIn"
+              title="LinkedIn"
+            >
+              in
+            </a>
+
+            <a
+              href="#"
+              class="social-link"
+              aria-label="X"
+              title="X"
+            >
+              &#120143;
+            </a>
+
+            <a
+              href="#"
+              class="social-link"
+              aria-label="Instagram"
+              title="Instagram"
+            >
+              ig
+            </a>
+          </div>
+        </section>
+
+        <!-- Contact form -->
+        <section class="form-card">
+          <h2>Send us a message</h2>
+
+          <p>
+            Complete the form and tell us how we can help.
+          </p>
+
+          <form class="contact-form" id="contactForm">
+
+            <div class="form-row">
+
+              <div class="form-group">
+                <label for="name">Full name</label>
+
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Your name"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email address</label>
+
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+
+            </div>
+
+            <div class="form-row">
+
+              <div class="form-group">
+                <label for="category">
+                  Reason for contacting
+                </label>
+
+                <select id="category" name="category" required>
+                  <option value="">Select a reason</option>
+                  <option value="Account support">Account support</option>
+                  <option value="Job listing">Job listing</option>
+                  <option value="AI tools">AI tools</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="Feedback">Feedback</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="subject">Subject</label>
+
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  placeholder="How can we help?"
+                  required
+                />
+              </div>
+
+            </div>
+
+            <div class="form-group full-width">
+              <label for="message">Message</label>
+
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Write your message here..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">
+              Send message
+            </button>
+
+          </form>
+
+          <p
+            class="form-message"
+            id="formMessage"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </section>
+
+      </div>
+
+      <!-- Reasons -->
+      <section class="reasons-section">
+        <div class="section-heading">
+          <p class="eyebrow">We are listening</p>
+
+          <h2>What can we help with?</h2>
+
+          <p>
+            Whether you are searching for a job or exploring the platform,
+            we are ready to help.
+          </p>
+        </div>
+
+        <div class="reasons-grid">
+
+          <article class="reason-card">
+            <div class="reason-icon" aria-hidden="true">&#8982;</div>
+
+            <h3>Job-search support</h3>
+
+            <p>
+              Get help with job searches, filters, saved jobs, and
+              applications.
+            </p>
+          </article>
+
+          <article class="reason-card">
+            <div class="reason-icon" aria-hidden="true">&#10022;</div>
+
+            <h3>AI tool questions</h3>
+
+            <p>
+              Ask about resume analysis, mock interviews, career roadmaps,
+              and job matching.
+            </p>
+          </article>
+
+          <article class="reason-card">
+            <div class="reason-icon" aria-hidden="true">&#9827;</div>
+
+            <h3>Feedback and ideas</h3>
+
+            <p>
+              Share your feedback and help us improve the VentrixCarros
+              experience.
+            </p>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>
+        &copy; <span id="currentYear">2026</span>
+        VentrixCarros. All rights reserved.
+      </p>
+
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="about.html">About</a>
+        <a href="help.html">Help Center</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const contactForm = document.getElementById("contactForm");
+    const formMessage = document.getElementById("formMessage");
+    const currentYear = document.getElementById("currentYear");
+
+    currentYear.textContent = new Date().getFullYear();
+
+    /*
+      Demo form behavior:
+      This displays a confirmation in the browser only.
+      It does not send the message to an email address or save it to a server.
+      Connect a backend or form service to receive real submissions.
+    */
+    contactForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!contactForm.checkValidity()) {
+        contactForm.reportValidity();
+        return;
+      }
+
+      formMessage.textContent =
+        "Thank you! Your message has been submitted in this demo.";
+
+      formMessage.classList.add("show");
+      contactForm.reset();
+
+      window.setTimeout(() => {
+        formMessage.classList.remove("show");
+        formMessage.textContent = "";
+      }, 4000);
+    });
+  </script>
+
+</body>
+</html>

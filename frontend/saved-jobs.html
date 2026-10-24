@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Jobs | VentrixCarros</title>
+
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #475467;
+      --muted: #667085;
+      --background: #f8fafc;
+      --border: #e4e7ec;
+      --white: #ffffff;
+      --light-blue: #eff6ff;
+      --green: #15803d;
+      --red: #dc2626;
+    }
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--background);
+      line-height: 1.6;
+    }
+
+
+    a {
+      text-decoration: none;
+    }
+
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+
+    .container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 20px;
+    }
+
+    .logo {
+      align-items: center;
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .logo-image {
+      height: 70px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Header spans full width (same as dashboard) */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side buttons line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1240px) / 2 + 24px));
+    }
+
+    .site-header .logo {
+      margin-left: 0;
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .logo-image {
+      height: 80px;
+      max-width: 200px;
+      margin: -4px 0 -4px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    .header-actions {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    .dashboard-button {
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 9px 13px;
+      transition: background 0.2s;
+    }
+
+    .dashboard-button:hover {
+      background: #dbeafe;
+    }
+
+    /* Profile icon (same as jobs page) */
+    .profile-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border: 1px solid #dbeafe;
+      border-radius: 50%;
+      color: var(--primary);
+      display: inline-flex;
+      flex-shrink: 0;
+      height: 40px;
+      justify-content: center;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+      width: 40px;
+    }
+
+    .profile-icon:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .profile-icon svg {
+      display: block;
+      height: 22px;
+      width: 22px;
+    }
+
+
+    /* HERO */
+    .hero {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #eff6ff, #ffffff);
+      padding: 55px 0 42px;
+    }
+
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+
+    .hero h1 {
+      color: var(--dark);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+
+    .hero p {
+      color: var(--muted);
+      margin-top: 13px;
+      max-width: 650px;
+    }
+
+
+    /* SAVED JOBS TOOLBAR */
+    .main-content {
+      padding: 35px 0 70px;
+    }
+
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+
+    .toolbar h2 {
+      color: var(--dark);
+      font-size: 23px;
+    }
+
+
+    .job-count {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+
+    .toolbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+
+    .search-input,
+    .sort-select {
+      height: 42px;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      color: var(--dark);
+      font-size: 13px;
+      outline: none;
+    }
+
+
+    .search-input {
+      width: 240px;
+    }
+
+
+    .search-input:focus,
+    .sort-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+
+    /* JOB CARDS */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+
+    .job-card {
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+
+    .job-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+    }
+
+
+    .job-card[hidden] {
+      display: none !important;
+    }
+
+
+    .job-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+    }
+
+
+    .company-logo {
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+
+    .logo-purple {
+      background: #ede9fe;
+      color: #7c3aed;
+    }
+
+
+    .logo-orange {
+      background: #ffedd5;
+      color: #ea580c;
+    }
+
+
+    .logo-green {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+
+    .job-heading {
+      flex: 1;
+      min-width: 0;
+    }
+
+
+    .job-heading h3 {
+      color: var(--dark);
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+
+    .company-name {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+
+    .remove-btn {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: none;
+      border-radius: 7px;
+      background: transparent;
+      color: #98a2b3;
+      font-size: 23px;
+      cursor: pointer;
+    }
+
+
+    .remove-btn:hover {
+      background: #fef2f2;
+      color: var(--red);
+    }
+
+
+    .match-badge {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #f0fdf4;
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+
+    .job-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 15px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    .job-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 15px;
+    }
+
+
+    .job-tag {
+      padding: 5px 9px;
+      border-radius: 5px;
+      background: #f1f5f9;
+      color: #344054;
+      font-size: 11px;
+    }
+
+
+    .job-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+
+    .salary {
+      display: block;
+      color: var(--dark);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+
+    .saved-date {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+
+    .view-job-btn {
+      display: inline-block;
+      padding: 9px 15px;
+      border-radius: 7px;
+      background: var(--primary);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+
+    .view-job-btn:hover {
+      background: var(--primary-dark);
+    }
+
+
+    /* EMPTY STATE */
+    .empty-state {
+      display: none;
+      padding: 55px 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: white;
+      text-align: center;
+    }
+
+
+    .empty-state.show {
+      display: block;
+    }
+
+
+    .empty-icon {
+      width: 62px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: var(--primary);
+      font-size: 30px;
+    }
+
+
+    .empty-state h3 {
+      color: var(--dark);
+      font-size: 19px;
+    }
+
+
+    .empty-state p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+
+    .find-jobs-link {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+
+    /* FOOTER */
+    .site-footer {
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      background: white;
+    }
+
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+
+    .footer-content p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    .footer-brand {
+      color: var(--dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+
+    .footer-brand span {
+      color: var(--primary);
+    }
+
+
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
+      .jobs-grid {
+        grid-template-columns: 1fr;
+      }
+
+
+      .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+
+      .toolbar-controls {
+        width: 100%;
+      }
+
+
+      .search-input {
+        flex: 1;
+        width: auto;
+      }
+    }
+
+
+    @media (max-width: 520px) {
+      .container {
+        padding-left: 17px;
+        padding-right: 17px;
+      }
+
+
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+
+      .site-header .logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+
+
+      .back-link {
+        display: none;
+      }
+
+
+      .header-actions {
+        gap: 8px;
+      }
+
+
+      .dashboard-button {
+        padding: 8px 10px;
+      }
+
+
+      .profile-icon {
+        height: 36px;
+        width: 36px;
+      }
+
+
+      .profile-icon svg {
+        height: 20px;
+        width: 20px;
+      }
+
+
+      .hero {
+        padding: 42px 0 35px;
+      }
+
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+
+      .toolbar-controls {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+
+      .search-input,
+      .sort-select {
+        width: 100%;
+      }
+
+
+      .job-card {
+        padding: 17px;
+      }
+
+
+      .job-footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+
+      .view-job-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- HEADER WITH THE SAME VENTRIXCARROS LOGO STYLE -->
+  <header class="site-header">
+    <div class="container navbar">
+
+      <a href="index.html" class="logo" aria-label="VentrixCarros Home">
+        <img
+          src="logo.jpeg"
+          alt="VentrixCarros Logo"
+          class="logo-image"
+        />
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html" class="back-link">
+          ← Home
+        </a>
+
+        <a href="dashboard.html" class="dashboard-button">
+          Dashboard
+        </a>
+
+        <!-- Profile icon -->
+        <a
+          href="profile.html"
+          class="profile-icon"
+          aria-label="Open profile"
+          title="Profile"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow">Your career workspace</div>
+
+
+      <h1>
+        Your saved jobs,<br>
+        <span>all in one place.</span>
+      </h1>
+
+
+      <p>
+        Keep track of interesting opportunities, compare roles, and
+        revisit your favourite jobs whenever you are ready to apply.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- SAVED JOBS -->
+  <main class="main-content">
+    <div class="container">
+
+
+      <div class="toolbar">
+        <div>
+          <h2>Saved jobs</h2>
+          <p class="job-count" id="savedCount" aria-live="polite">
+            6 saved opportunities
+          </p>
+        </div>
+
+
+        <div class="toolbar-controls">
+          <input
+            type="search"
+            id="searchSavedJobs"
+            class="search-input"
+            placeholder="Search jobs or companies..."
+            aria-label="Search saved jobs"
+          >
+
+
+          <select
+            id="sortSavedJobs"
+            class="sort-select"
+            aria-label="Sort saved jobs"
+          >
+            <option value="recent">Recently saved</option>
+            <option value="salary">Highest salary</option>
+            <option value="title">Job title A–Z</option>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="jobs-grid" id="jobsGrid">
+
+
+        <article class="job-card"
+          data-title="Frontend Developer"
+          data-company="TechNova Solutions"
+          data-salary="10"
+          data-date="1">
+
+
+          <div class="job-header">
+            <div class="company-logo logo-purple">T</div>
+
+
+            <div class="job-heading">
+              <h3>Frontend Developer</h3>
+              <p class="company-name">TechNova Solutions · Remote</p>
+            </div>
+
+
+            <button class="remove-btn" type="button"
+              aria-label="Remove Frontend Developer">×</button>
+          </div>
+
+
+          <span class="match-badge">92% AI match</span>
+
+
+          <div class="job-details">
+            <span>⌖ Remote</span>
+            <span>◷ Full-time</span>
+            <span>1–2 years experience</span>
+          </div>
+
+
+          <div class="job-tags">
+            <span class="job-tag">React</span>
+            <span class="job-tag">JavaScript</span>
+            <span class="job-tag">TypeScript</span>
+          </div>
+
+
+          <div class="job-footer">
+            <div>
+              <span class="salary">₹6–10 LPA</span>
+              <span class="saved-date">Saved today</span>
+            </div>
+            <a href="jobs.html" class="view-job-btn">View job</a>
+          </div>
+        </article>
+
+
+        <article class="job-card"
+          data-title="Product Designer"
+          data-company="Creative Labs"
+          data-salary="5"
+          data-date="2">
+
+
+          <div class="job-header">
+            <div class="company-logo logo-orange">C</div>
+
+
+            <div class="job-heading">
+              <h3>Product Designer</h3>
+              <p class="company-name">Creative Labs · Bengaluru</p>
+            </div>
+
+
+            <button class="remove-btn" type="button"
+              aria-label="Remove Product Designer">×</button>
+          </div>
+
+
+          <span class="match-badge">86% AI match</span>
+
+
+          <div class="job-details">
+            <span>⌖ Bengaluru</span>
+            <span>◷ Internship</span>
+            <span>Entry level</span>
+          </div>
+
+
+          <div class="job-tags">
+            <span class="job-tag">Figma</span>
+            <span class="job-tag">UX Research</span>
+            <span class="job-tag">Prototyping</span>
+          </div>
+
+
+          <div class="job-footer">
+            <div>
+              <span class="salary">₹25K/month</span>
+              <span class="saved-date">Saved yesterday</span>
+            </div>
+            <a href="jobs.html" class="view-job-btn">View job</a>
+          </div>
+        </article>
+
+
+        <article class="job-card"
+          data-title="Data Analyst"
+          data-company="GrowthBase"
+          data-salary="12"
+          data-date="3">
+
+
+          <div class="job-header">
+            <div class="company-logo logo-green">G</div>
+
+
+            <div class="job-heading">
+              <h3>Data Analyst</h3>
+              <p class="company-name">GrowthBase · Hyderabad</p>
+            </div>
+
+
+            <button class="remove-btn" type="button"
+              aria-label="Remove Data Analyst">×</button>
+          </div>
+
+
+          <span class="match-badge">81% AI match</span>
+
+
+          <div class="job-details">
+            <span>⌖ Hyderabad</span>
+            <span>◷ Full-time</span>
+            <span>1–2 years experience</span>
+          </div>
+
+
+          <div class="job-tags">
+            <span class="job-tag">SQL</span>
+            <span class="job-tag">Python</span>
+            <span class="job-tag">Power BI</span>
+          </div>
+
+
+          <div class="job-footer">
+            <div>
+              <span class="salary">₹7–12 LPA</span>
+              <span class="saved-date">Saved 3 days ago</span>
+            </div>
+            <a href="jobs.html" class="view-job-btn">View job</a>
+          </div>
+        </article>
+
+
+        <article class="job-card"
+          data-title="React Developer"
+          data-company="CloudWorks"
+          data-salary="15"
+          data-date="4">
+
+
+          <div class="job-header">
+            <div class="company-logo logo-purple">C</div>
+
+
+            <div class="job-heading">
+              <h3>React Developer</h3>
+              <p class="company-name">CloudWorks · Remote</p>
+            </div>
+
+
+            <button class="remove-btn" type="button"
+              aria-label="Remove React Developer">×</button>
+          </div>
+
+
+          <span class="match-badge">89% AI match</span>
+
+
+          <div class="job-details">
+            <span>⌖ Remote</span>
+            <span>◷ Contract</span>
+            <span>3–5 years experience</span>
+          </div>
+
+
+          <div class="job-tags">
+            <span class="job-tag">React</span>
+            <span class="job-tag">Redux</span>
+            <span class="job-tag">REST APIs</span>
+          </div>
+
+
+          <div class="job-footer">
+            <div>
+              <span class="salary">₹10–15 LPA</span>
+              <span class="saved-date">Saved 4 days ago</span>
+            </div>
+            <a href="jobs.html" class="view-job-btn">View job</a>
+          </div>
+        </article>
+
+
+        <article class="job-card"
+          data-title="UI Developer"
+          data-company="NextWave Technologies"
+          data-salary="8"
+          data-date="5">
+
+
+          <div class="job-header">
+            <div class="company-logo logo-orange">N</div>
+
+
+            <div class="job-heading">
+              <h3>UI Developer</h3>
+              <p class="company-name">NextWave Technologies · Pune</p>
+            </div>
+
+
+            <button class="remove-btn" type="button"
+              aria-label="Remove UI Developer">×</button>
+          </div>
+
+
+          <span class="match-badge">78% AI match</span>
+
+
+          <div class="job-details">
+            <span>⌖ Pune</span>
+            <span>◷ Full-time</span>
+            <span>1–2 years experience</span>
+          </div>
+
+
+          <div class="job-tags">
+            <span class="job-tag">HTML</span>
+            <span class="job-tag">CSS</span>
+            <span class="job-tag">JavaScript</span>
+          </div>
+
+
+          <div class="job-footer">
+            <div>
+              <span class="salary">₹5–8 LPA</span>
+              <span class="saved-date">Saved 5 days ago</span>
+            </div>
+            <a href="jobs.html" class="view-job-btn">View job</a>
+          </div>
+        </article>
+
+
+        <article class="job-card"
+          data-title="UX Researcher"
+          data-company="Mindful Digital"
+          data-salary="11"
+          data-date="6">
+
+
+          <div class="job-header">
+            <div class="company-logo logo-green">M</div>
+
+
+            <div class="job-heading">
+              <h3>UX Researcher</h3>
+              <p class="company-name">Mindful Digital · Bengaluru</p>
+            </div>
+
+
+            <button class="remove-btn" type="button"
+              aria-label="Remove UX Researcher">×</button>
+          </div>
+
+
+          <span class="match-badge">75% AI match</span>
+
+
+          <div class="job-details">
+            <span>⌖ Bengaluru</span>
+            <span>◷ Full-time</span>
+            <span>3–5 years experience</span>
+          </div>
+
+
+          <div class="job-tags">
+            <span class="job-tag">UX Research</span>
+            <span class="job-tag">Usability</span>
+            <span class="job-tag">Figma</span>
+          </div>
+
+
+          <div class="job-footer">
+            <div>
+              <span class="salary">₹8–11 LPA</span>
+              <span class="saved-date">Saved 6 days ago</span>
+            </div>
+            <a href="jobs.html" class="view-job-btn">View job</a>
+          </div>
+        </article>
+
+
+      </div>
+
+
+      <section class="empty-state" id="emptyState" aria-live="polite">
+        <div class="empty-icon">♡</div>
+        <h3 id="emptyTitle">No saved jobs found</h3>
+        <p id="emptyMessage">
+          Try another search or explore more opportunities.
+        </p>
+        <a href="jobs.html" class="find-jobs-link">Find jobs</a>
+      </section>
+
+
+    </div>
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <a href="index.html" class="footer-brand">
+        Ventrix<span>Carros</span>
+      </a>
+      <p>© 2026 VentrixCarros. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+  <script>
+    const jobsGrid = document.getElementById("jobsGrid");
+    const searchInput = document.getElementById("searchSavedJobs");
+    const sortSelect = document.getElementById("sortSavedJobs");
+    const savedCount = document.getElementById("savedCount");
+    const emptyState = document.getElementById("emptyState");
+    const emptyTitle = document.getElementById("emptyTitle");
+    const emptyMessage = document.getElementById("emptyMessage");
+
+
+    function getJobCards() {
+      return Array.from(jobsGrid.querySelectorAll(".job-card"));
+    }
+
+
+    function updateJobs() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      const cards = getJobCards();
+      let visibleCount = 0;
+
+
+      cards.forEach(function(card) {
+        const title = (card.dataset.title || "").toLowerCase();
+        const company = (card.dataset.company || "").toLowerCase();
+
+
+        const matches =
+          title.includes(searchTerm) ||
+          company.includes(searchTerm);
+
+
+        card.hidden = !matches;
+
+
+        if (matches) {
+          visibleCount++;
+        }
+      });
+
+
+      savedCount.textContent =
+        visibleCount +
+        (visibleCount === 1
+          ? " saved opportunity"
+          : " saved opportunities");
+
+
+      const noJobs = cards.length === 0;
+      const noMatches = cards.length > 0 && visibleCount === 0;
+
+
+      emptyState.classList.toggle("show", noJobs || noMatches);
+
+
+      if (noJobs) {
+        emptyTitle.textContent = "No saved jobs yet";
+        emptyMessage.textContent =
+          "Find jobs and save the opportunities that interest you.";
+      } else {
+        emptyTitle.textContent = "No matching jobs found";
+        emptyMessage.textContent =
+          "Try searching for a different job title or company.";
+      }
+    }
+
+
+    function sortJobs() {
+      const sortType = sortSelect.value;
+      const cards = getJobCards();
+
+
+      cards.sort(function(a, b) {
+        if (sortType === "salary") {
+          return Number(b.dataset.salary) - Number(a.dataset.salary);
+        }
+
+
+        if (sortType === "title") {
+          return a.dataset.title.localeCompare(b.dataset.title);
+        }
+
+
+        return Number(a.dataset.date) - Number(b.dataset.date);
+      });
+
+
+      cards.forEach(function(card) {
+        jobsGrid.appendChild(card);
+      });
+
+
+      updateJobs();
+    }
+
+
+    jobsGrid.addEventListener("click", function(event) {
+      const removeButton = event.target.closest(".remove-btn");
+
+
+      if (!removeButton) return;
+
+
+      const card = removeButton.closest(".job-card");
+
+
+      if (card) {
+        card.remove();
+        updateJobs();
+      }
+    });
+
+
+    searchInput.addEventListener("input", updateJobs);
+    sortSelect.addEventListener("change", sortJobs);
+
+
+    updateJobs();
+  </script>
+
+
+</body>
+</html>

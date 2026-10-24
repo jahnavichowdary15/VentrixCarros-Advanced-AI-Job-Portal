@@ -1,0 +1,1364 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Manage your VentrixCarros account settings."
+  />
+
+  <title>Settings | VentrixCarros</title>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --border: #e4e7ec;
+      --light-blue: #eff6ff;
+      --green: #16a34a;
+      --red: #dc2626;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1240px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 76px;
+    }
+
+    .logo {
+      align-items: center;
+      color: var(--dark);
+      display: inline-flex;
+      gap: 9px;
+    }
+
+    .logo-image {
+      display: block;
+      height: 70px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+    }
+
+    /* Header spans full width (same as dashboard) */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side buttons line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1240px) / 2 + 24px));
+    }
+
+    .site-header .logo {
+      margin-left: 0;
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .logo-image {
+      height: 80px;
+      max-width: 200px;
+      margin: -4px 0 -4px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    .header-actions {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+
+    .dashboard-button {
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 9px 13px;
+    }
+
+    .dashboard-button:hover {
+      background: #dbeafe;
+    }
+
+    /* Profile icon (same as jobs page) */
+    .profile-icon {
+      align-items: center;
+      background: var(--light-blue);
+      border: 1px solid #dbeafe;
+      border-radius: 50%;
+      color: var(--primary);
+      display: inline-flex;
+      flex-shrink: 0;
+      height: 40px;
+      justify-content: center;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+      width: 40px;
+    }
+
+    .profile-icon:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    .profile-icon svg {
+      display: block;
+      height: 22px;
+      width: 22px;
+    }
+
+    /* Hero */
+    .page-hero {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #eff6ff, #ffffff);
+      padding: 55px 0 42px;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .page-hero h1 {
+      color: var(--dark);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .page-hero h1 span {
+      color: var(--primary);
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      margin-top: 13px;
+      max-width: 650px;
+    }
+
+    /* Main */
+    .settings-main {
+      padding: 34px 0 70px;
+    }
+
+    .settings-layout {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 220px 1fr;
+    }
+
+    .settings-nav {
+      align-self: start;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .settings-nav-link {
+      border-radius: 8px;
+      color: var(--muted);
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 11px 12px;
+    }
+
+    .settings-nav-link:hover,
+    .settings-nav-link.active {
+      background: var(--light-blue);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .settings-content {
+      display: grid;
+      gap: 18px;
+    }
+
+    .settings-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .card-heading {
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 21px;
+      padding-bottom: 16px;
+    }
+
+    .card-heading h2 {
+      color: var(--dark);
+      font-size: 1.1rem;
+    }
+
+    .card-heading p {
+      color: var(--muted);
+      font-size: 0.74rem;
+      margin-top: 5px;
+    }
+
+    /* Form */
+    .form-grid {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 15px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      color: var(--dark);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .form-group input,
+    .form-group select {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      outline: 0;
+      padding: 11px;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      padding-right: 65px;
+    }
+
+    .show-password {
+      background: transparent;
+      border: 0;
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 700;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+
+    .save-button {
+      background: var(--primary);
+      border: 0;
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 10px 16px;
+    }
+
+    .save-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .save-message {
+      color: var(--green);
+      display: none;
+      font-size: 0.74rem;
+      margin-top: 12px;
+      text-align: right;
+    }
+
+    .save-message.show {
+      display: block;
+    }
+
+    /* Toggle settings */
+    .setting-row {
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+    }
+
+    .setting-row:first-child {
+      padding-top: 0;
+    }
+
+    .setting-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .setting-info strong,
+    .setting-info span {
+      display: block;
+    }
+
+    .setting-info strong {
+      color: var(--dark);
+      font-size: 0.8rem;
+    }
+
+    .setting-info span {
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-top: 3px;
+    }
+
+    .toggle {
+      background: #cbd5e1;
+      border: 0;
+      border-radius: 999px;
+      height: 24px;
+      padding: 3px;
+      position: relative;
+      transition: background 0.2s ease;
+      width: 44px;
+      flex-shrink: 0;
+    }
+
+    .toggle::after {
+      background: var(--white);
+      border-radius: 50%;
+      content: "";
+      height: 18px;
+      left: 3px;
+      position: absolute;
+      top: 3px;
+      transition: transform 0.2s ease;
+      width: 18px;
+    }
+
+    .toggle.active {
+      background: var(--primary);
+    }
+
+    .toggle.active::after {
+      transform: translateX(20px);
+    }
+
+    /* Danger zone */
+    .danger-card {
+      border-color: #fecaca;
+    }
+
+    .danger-card .card-heading h2 {
+      color: var(--red);
+    }
+
+    .delete-button {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      color: var(--red);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 10px 13px;
+    }
+
+    .delete-button:hover {
+      background: #fee2e2;
+    }
+
+    /* Modal */
+    .confirm-modal {
+      display: none;
+      inset: 0;
+      position: fixed;
+      z-index: 100;
+    }
+
+    .confirm-modal.show {
+      display: block;
+    }
+
+    .modal-overlay {
+      background: rgba(15, 23, 42, 0.45);
+      inset: 0;
+      position: absolute;
+    }
+
+    .modal-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 25px 70px rgba(15, 23, 42, 0.25);
+      left: 50%;
+      max-width: 430px;
+      padding: 28px;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(100% - 36px);
+    }
+
+    .modal-card h2 {
+      color: var(--dark);
+      font-size: 1.25rem;
+    }
+
+    .modal-card p {
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-top: 8px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 9px;
+      justify-content: flex-end;
+      margin-top: 22px;
+    }
+
+    .cancel-button,
+    .confirm-delete {
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 10px 14px;
+    }
+
+    .cancel-button {
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .confirm-delete {
+      background: var(--red);
+      border: 1px solid var(--red);
+      color: var(--white);
+    }
+
+    .confirm-delete:hover {
+      background: #b91c1c;
+    }
+
+    @media (max-width: 800px) {
+      .settings-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .settings-nav {
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+        position: static;
+      }
+
+      .settings-nav-link {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .logo-image {
+        height: 42px;
+        max-width: 150px;
+      }
+
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+
+      .profile-icon {
+        height: 36px;
+        width: 36px;
+      }
+
+      .profile-icon svg {
+        height: 20px;
+        width: 20px;
+      }
+
+      .back-link {
+        display: none;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full-width {
+        grid-column: auto;
+      }
+
+      .form-actions {
+        justify-content: stretch;
+      }
+
+      .save-button {
+        width: 100%;
+      }
+
+      .setting-row {
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .modal-actions {
+        flex-direction: column-reverse;
+      }
+
+      .cancel-button,
+      .confirm-delete {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container navbar">
+
+      <a
+        href="index.html"
+        class="logo"
+        aria-label="VentrixCarros Home"
+      >
+        <img
+          src="logo.jpeg"
+          alt="VentrixCarros Logo"
+          class="logo-image"
+        />
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html" class="back-link">
+          ← Home
+        </a>
+
+        <a href="dashboard.html" class="dashboard-button">
+          Dashboard
+        </a>
+
+        <!-- Profile icon -->
+        <a
+          href="profile.html"
+          class="profile-icon"
+          aria-label="Open profile"
+          title="Profile"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Account management</p>
+
+      <h1>
+        Control your
+        <span>VentrixCarros experience.</span>
+      </h1>
+
+      <p>
+        Update your account information, notifications, privacy preferences,
+        and security settings.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="settings-main">
+    <div class="container">
+
+      <div class="settings-layout">
+
+        <!-- Settings navigation -->
+        <nav class="settings-nav" aria-label="Settings navigation">
+          <a
+            href="#account"
+            class="settings-nav-link active"
+          >
+            Account
+          </a>
+
+          <a
+            href="#notifications"
+            class="settings-nav-link"
+          >
+            Notifications
+          </a>
+
+          <a
+            href="#privacy"
+            class="settings-nav-link"
+          >
+            Privacy
+          </a>
+
+          <a
+            href="#security"
+            class="settings-nav-link"
+          >
+            Security
+          </a>
+        </nav>
+
+        <!-- Settings content -->
+        <div class="settings-content">
+
+          <!-- Account -->
+          <section class="settings-card" id="account">
+            <div class="card-heading">
+              <h2>Account information</h2>
+
+              <p>
+                Update the information connected to your account.
+              </p>
+            </div>
+
+            <form id="accountForm">
+
+              <div class="form-grid">
+
+                <div class="form-group">
+                  <label for="settingsName">
+                    Full name
+                  </label>
+
+                  <input
+                    type="text"
+                    id="settingsName"
+                    placeholder="Your full name"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="settingsEmail">
+                    Email address
+                  </label>
+
+                  <input
+                    type="email"
+                    id="settingsEmail"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="settingsPhone">
+                    Phone number
+                  </label>
+
+                  <input
+                    type="tel"
+                    id="settingsPhone"
+                    placeholder="+91 98765 43210"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="settingsLanguage">
+                    Language
+                  </label>
+
+                  <select id="settingsLanguage">
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="save-button">
+                  Save account
+                </button>
+              </div>
+
+              <p
+                class="save-message"
+                id="accountMessage"
+                role="status"
+              >
+                Account settings saved.
+              </p>
+
+            </form>
+          </section>
+
+          <!-- Notifications -->
+          <section
+            class="settings-card"
+            id="notifications"
+          >
+            <div class="card-heading">
+              <h2>Notifications</h2>
+
+              <p>
+                Choose which updates you want to receive.
+              </p>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Job recommendations</strong>
+                <span>
+                  Receive roles matched to your profile.
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="toggle active"
+                data-setting="jobRecommendations"
+                aria-label="Toggle job recommendations"
+                aria-pressed="true"
+              ></button>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Application updates</strong>
+                <span>
+                  Get notified about changes to your applications.
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="toggle active"
+                data-setting="applicationUpdates"
+                aria-label="Toggle application updates"
+                aria-pressed="true"
+              ></button>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Career insights</strong>
+                <span>
+                  Receive resume, interview, and career guidance.
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="toggle active"
+                data-setting="careerInsights"
+                aria-label="Toggle career insights"
+                aria-pressed="true"
+              ></button>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Marketing emails</strong>
+                <span>
+                  Receive product news and platform announcements.
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="toggle"
+                data-setting="marketingEmails"
+                aria-label="Toggle marketing emails"
+                aria-pressed="false"
+              ></button>
+            </div>
+          </section>
+
+          <!-- Privacy -->
+          <section class="settings-card" id="privacy">
+            <div class="card-heading">
+              <h2>Privacy</h2>
+
+              <p>
+                Control how your profile appears to employers.
+              </p>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Show profile to employers</strong>
+                <span>
+                  Allow employers to discover your professional profile.
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="toggle active"
+                data-setting="publicProfile"
+                aria-label="Toggle public profile"
+                aria-pressed="true"
+              ></button>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Show salary preferences</strong>
+                <span>
+                  Let AI use your salary preferences for recommendations.
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="toggle active"
+                data-setting="salaryPreferences"
+                aria-label="Toggle salary preferences"
+                aria-pressed="true"
+              ></button>
+            </div>
+          </section>
+
+          <!-- Security -->
+          <section class="settings-card" id="security">
+            <div class="card-heading">
+              <h2>Security</h2>
+
+              <p>
+                Update your password and account access.
+              </p>
+            </div>
+
+            <form id="passwordForm">
+
+              <div class="form-grid">
+
+                <div class="form-group full-width">
+                  <label for="currentPassword">
+                    Current password
+                  </label>
+
+                  <div class="password-wrapper">
+                    <input
+                      type="password"
+                      id="currentPassword"
+                      placeholder="Enter current password"
+                      required
+                    />
+
+                    <button
+                      type="button"
+                      class="show-password"
+                      data-target="currentPassword"
+                    >
+                      Show
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="newPassword">
+                    New password
+                  </label>
+
+                  <div class="password-wrapper">
+                    <input
+                      type="password"
+                      id="newPassword"
+                      placeholder="New password"
+                      minlength="6"
+                      required
+                    />
+
+                    <button
+                      type="button"
+                      class="show-password"
+                      data-target="newPassword"
+                    >
+                      Show
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="confirmPassword">
+                    Confirm password
+                  </label>
+
+                  <div class="password-wrapper">
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      placeholder="Confirm password"
+                      minlength="6"
+                      required
+                    />
+
+                    <button
+                      type="button"
+                      class="show-password"
+                      data-target="confirmPassword"
+                    >
+                      Show
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="save-button">
+                  Change password
+                </button>
+              </div>
+
+              <p
+                class="save-message"
+                id="passwordMessage"
+                role="status"
+              >
+                Password updated successfully.
+              </p>
+
+            </form>
+          </section>
+
+          <!-- Danger zone -->
+          <section class="settings-card danger-card">
+            <div class="card-heading">
+              <h2>Danger zone</h2>
+
+              <p>
+                These actions affect your account permanently.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="delete-button"
+              id="deleteAccountButton"
+            >
+              Delete account
+            </button>
+          </section>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Delete confirmation modal -->
+  <div
+    class="confirm-modal"
+    id="confirmModal"
+    aria-hidden="true"
+  >
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <h2>Delete account?</h2>
+
+      <p>
+        This frontend demo will clear your local account data. In a production
+        system, account deletion should be handled securely by your backend.
+      </p>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          id="cancelDelete"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="confirm-delete"
+          id="confirmDelete"
+        >
+          Delete account
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const settingsName =
+      document.getElementById("settingsName");
+
+    const settingsEmail =
+      document.getElementById("settingsEmail");
+
+    const settingsPhone =
+      document.getElementById("settingsPhone");
+
+    const settingsLanguage =
+      document.getElementById("settingsLanguage");
+
+    const accountForm =
+      document.getElementById("accountForm");
+
+    const accountMessage =
+      document.getElementById("accountMessage");
+
+    const passwordForm =
+      document.getElementById("passwordForm");
+
+    const passwordMessage =
+      document.getElementById("passwordMessage");
+
+    const confirmModal =
+      document.getElementById("confirmModal");
+
+    const deleteAccountButton =
+      document.getElementById("deleteAccountButton");
+
+    const cancelDelete =
+      document.getElementById("cancelDelete");
+
+    const confirmDelete =
+      document.getElementById("confirmDelete");
+
+    const modalOverlay =
+      document.getElementById("modalOverlay");
+
+    function loadSettings() {
+      settingsName.value =
+        localStorage.getItem("userName") || "";
+
+      settingsEmail.value =
+        localStorage.getItem("userEmail") || "";
+
+      settingsPhone.value =
+        localStorage.getItem("userPhone") || "";
+
+      settingsLanguage.value =
+        localStorage.getItem("language") || "English";
+    }
+
+    function showMessage(element) {
+      element.classList.add("show");
+
+      setTimeout(() => {
+        element.classList.remove("show");
+      }, 2500);
+    }
+
+    accountForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      localStorage.setItem(
+        "userName",
+        settingsName.value.trim()
+      );
+
+      localStorage.setItem(
+        "userEmail",
+        settingsEmail.value.trim()
+      );
+
+      localStorage.setItem(
+        "userPhone",
+        settingsPhone.value.trim()
+      );
+
+      localStorage.setItem(
+        "language",
+        settingsLanguage.value
+      );
+
+      showMessage(accountMessage);
+    });
+
+    document
+      .querySelectorAll(".toggle")
+      .forEach((toggle) => {
+        const settingName =
+          toggle.dataset.setting;
+
+        const savedState =
+          localStorage.getItem(
+            "setting_" + settingName
+          );
+
+        if (savedState === "false") {
+          toggle.classList.remove("active");
+        } else if (savedState === "true") {
+          toggle.classList.add("active");
+        }
+
+        toggle.setAttribute(
+          "aria-pressed",
+          String(toggle.classList.contains("active"))
+        );
+
+        toggle.addEventListener("click", () => {
+          const isActive =
+            toggle.classList.toggle("active");
+
+          toggle.setAttribute(
+            "aria-pressed",
+            String(isActive)
+          );
+
+          localStorage.setItem(
+            "setting_" + settingName,
+            String(isActive)
+          );
+        });
+      });
+
+    document
+      .querySelectorAll(".show-password")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          const target =
+            document.getElementById(
+              button.dataset.target
+            );
+
+          const isPassword =
+            target.type === "password";
+
+          target.type =
+            isPassword ? "text" : "password";
+
+          button.textContent =
+            isPassword ? "Hide" : "Show";
+        });
+      });
+
+    passwordForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const currentPassword =
+        document.getElementById(
+          "currentPassword"
+        ).value;
+
+      const newPassword =
+        document.getElementById(
+          "newPassword"
+        ).value;
+
+      const confirmPassword =
+        document.getElementById(
+          "confirmPassword"
+        ).value;
+
+      if (
+        !currentPassword ||
+        !newPassword ||
+        !confirmPassword
+      ) {
+        alert("Please complete all password fields.");
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        alert(
+          "New password must contain at least 6 characters."
+        );
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        alert("New passwords do not match.");
+        return;
+      }
+
+      localStorage.setItem(
+        "demoPassword",
+        newPassword
+      );
+
+      passwordForm.reset();
+      showMessage(passwordMessage);
+    });
+
+    function openDeleteModal() {
+      confirmModal.classList.add("show");
+      confirmModal.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      document.body.classList.add("modal-open");
+    }
+
+    function closeDeleteModal() {
+      confirmModal.classList.remove("show");
+      confirmModal.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      document.body.classList.remove("modal-open");
+    }
+
+    deleteAccountButton.addEventListener(
+      "click",
+      openDeleteModal
+    );
+
+    cancelDelete.addEventListener(
+      "click",
+      closeDeleteModal
+    );
+
+    modalOverlay.addEventListener(
+      "click",
+      closeDeleteModal
+    );
+
+    confirmDelete.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "index.html";
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (
+        event.key === "Escape" &&
+        confirmModal.classList.contains("show")
+      ) {
+        closeDeleteModal();
+      }
+    });
+
+    loadSettings();
+  </script>
+
+</body>
+</html>

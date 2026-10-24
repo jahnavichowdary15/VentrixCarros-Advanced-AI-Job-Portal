@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Read the VentrixCarros privacy policy."
+  />
+
+  <title>Privacy Policy | VentrixCarros</title>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --border: #e4e7ec;
+      --light-blue: #eff6ff;
+      --radius: 14px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1180px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 76px;
+    }
+
+    .logo {
+      align-items: center;
+      color: var(--dark);
+      display: inline-flex;
+      font-size: 1.15rem;
+      font-weight: 800;
+      gap: 9px;
+      letter-spacing: -0.04em;
+    }
+
+    .logo-mark {
+      align-items: center;
+      background: var(--primary);
+      border-radius: 8px;
+      color: var(--white);
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      transform: skew(-8deg);
+      width: 32px;
+    }
+
+    .logo-highlight {
+      color: var(--primary);
+    }
+
+    .header-links {
+      align-items: center;
+      display: flex;
+      gap: 18px;
+    }
+
+    .header-links a {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .header-links a:hover {
+      color: var(--primary);
+    }
+
+    .dashboard-link {
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary) !important;
+      padding: 9px 13px;
+    }
+
+    /* Hero */
+    .page-hero {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #eff6ff, #ffffff);
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .page-hero h1 {
+      color: var(--dark);
+      font-size: clamp(2.2rem, 5vw, 3.7rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin: 13px auto 0;
+      max-width: 590px;
+    }
+
+    .updated-date {
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-top: 14px;
+    }
+
+    /* Main */
+    .privacy-main {
+      padding: 45px 0 75px;
+    }
+
+    .privacy-layout {
+      display: grid;
+      gap: 28px;
+      grid-template-columns: 220px 1fr;
+    }
+
+    .contents-card {
+      align-self: start;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .contents-card h2 {
+      color: var(--dark);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    .contents-card a {
+      border-left: 2px solid transparent;
+      color: var(--muted);
+      display: block;
+      font-size: 0.7rem;
+      padding: 7px 0 7px 10px;
+    }
+
+    .contents-card a:hover {
+      border-left-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .policy-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .policy-section {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 27px;
+    }
+
+    .policy-section + .policy-section {
+      padding-top: 27px;
+    }
+
+    .policy-section:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .policy-section h2 {
+      color: var(--dark);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .policy-section h3 {
+      color: var(--dark);
+      font-size: 0.92rem;
+      margin-top: 18px;
+    }
+
+    .policy-section p {
+      color: var(--text);
+      font-size: 0.8rem;
+      margin-top: 9px;
+    }
+
+    .policy-section ul {
+      color: var(--text);
+      font-size: 0.8rem;
+      margin: 10px 0 0 20px;
+    }
+
+    .policy-section li {
+      margin-bottom: 7px;
+    }
+
+    .notice-box {
+      background: var(--light-blue);
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 0.78rem;
+      margin-bottom: 25px;
+      padding: 14px;
+    }
+
+    .contact-link {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--dark);
+      color: #aeb9ca;
+      padding: 35px 0;
+    }
+
+    .footer-content {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-content p {
+      font-size: 0.72rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      font-size: 0.72rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    @media (max-width: 800px) {
+      .privacy-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .contents-card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .header-links a:not(.dashboard-link) {
+        display: none;
+      }
+
+      .policy-card {
+        padding: 23px 20px;
+      }
+
+      .footer-content {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 13px;
+      }
+    }
+
+    /* ===== Header logo (same position and size as the other pages) ===== */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side links line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1180px) / 2 + 24px));
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .logo-image {
+      display: block;
+      width: auto;
+      height: 76px;
+      max-width: 200px;
+      object-fit: contain;
+      transform: none;
+      margin: -2px 0 -2px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    @media (max-width: 600px) {
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container navbar">
+
+      <a href="index.html" class="logo" aria-label="VentrixCarros Home">
+        <img
+          src="logo.jpeg"
+          alt="VentrixCarros Logo"
+          class="logo-image"
+        />
+      </a>
+
+      <nav class="header-links" aria-label="Legal navigation">
+        <a href="about.html">About</a>
+        <a href="help.html">Help</a>
+        <a href="contact.html">Contact</a>
+        <a href="dashboard.html" class="dashboard-link">
+          Dashboard
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Your privacy matters</p>
+
+      <h1>Privacy Policy</h1>
+
+      <p>
+        This page explains how VentrixCarros may collect, use, store, and
+        protect information when you use the platform.
+      </p>
+
+      <p class="updated-date">
+        Last updated: October 9, 2026
+      </p>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="privacy-main">
+    <div class="container privacy-layout">
+
+      <!-- Contents -->
+      <aside class="contents-card">
+        <h2>On this page</h2>
+
+        <a href="#information">Information we collect</a>
+        <a href="#use">How we use information</a>
+        <a href="#ai">AI tools and content</a>
+        <a href="#sharing">Information sharing</a>
+        <a href="#security">Data security</a>
+        <a href="#rights">Your choices</a>
+        <a href="#contact">Contact us</a>
+      </aside>
+
+      <!-- Policy -->
+      <article class="policy-card">
+
+        <div class="notice-box">
+          This is a frontend project policy template. Before launching a real
+          service, have the final policy reviewed for the jurisdictions and
+          data-processing activities that apply to your business.
+        </div>
+
+        <section class="policy-section" id="information">
+          <h2>1. Information we collect</h2>
+
+          <p>
+            We may collect information you provide when you create an account,
+            complete your profile, search for jobs, save opportunities, submit
+            applications, or contact support.
+          </p>
+
+          <h3>Information you provide</h3>
+
+          <ul>
+            <li>Name, email address, phone number, and location.</li>
+            <li>Professional experience, skills, education, and career goals.</li>
+            <li>Resume content, portfolio links, and professional profiles.</li>
+            <li>Job searches, saved jobs, applications, and preferences.</li>
+            <li>Messages and feedback sent to our support team.</li>
+          </ul>
+
+          <h3>Information collected automatically</h3>
+
+          <p>
+            Depending on how the platform is implemented, we may collect
+            device, browser, usage, log, and basic analytics information to
+            operate, secure, and improve the service.
+          </p>
+        </section>
+
+        <section class="policy-section" id="use">
+          <h2>2. How we use information</h2>
+
+          <p>
+            Information may be used to provide and improve the VentrixCarros
+            experience, including:
+          </p>
+
+          <ul>
+            <li>Creating and managing your account.</li>
+            <li>Showing job recommendations based on your preferences.</li>
+            <li>Providing resume, interview, and career tools.</li>
+            <li>Tracking saved jobs and application activity.</li>
+            <li>Responding to questions and support requests.</li>
+            <li>Detecting misuse, protecting accounts, and improving security.</li>
+            <li>Understanding platform performance and feature usage.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section" id="ai">
+          <h2>3. AI tools and generated content</h2>
+
+          <p>
+            VentrixCarros may offer AI-assisted resume analysis, job matching,
+            interview preparation, cover-letter generation, career roadmaps,
+            and salary insights.
+          </p>
+
+          <p>
+            AI outputs are suggestions and may be incomplete, inaccurate, or
+            unsuitable for a particular situation. You should review generated
+            content before using it in an application or professional decision.
+          </p>
+
+          <p>
+            Salary insights are estimates and are not guarantees of
+            compensation, hiring outcomes, or employment.
+          </p>
+        </section>
+
+        <section class="policy-section" id="sharing">
+          <h2>4. Information sharing</h2>
+
+          <p>
+            We do not treat your personal information as public by default.
+            Information may be shared when necessary to operate the platform,
+            provide requested services, comply with law, prevent harm, or
+            protect the rights and security of users and the service.
+          </p>
+
+          <p>
+            If you choose to make your profile visible to employers, the
+            information included in that profile may be viewed by relevant
+            employers or platform users according to your settings.
+          </p>
+        </section>
+
+        <section class="policy-section" id="security">
+          <h2>5. Data security</h2>
+
+          <p>
+            We use reasonable administrative, technical, and organizational
+            measures to protect information. No online service can guarantee
+            absolute security, so you should use a strong password and avoid
+            sharing account credentials.
+          </p>
+
+          <p>
+            Passwords should be securely hashed and authentication should be
+            handled by a protected backend in a production implementation.
+          </p>
+        </section>
+
+        <section class="policy-section" id="rights">
+          <h2>6. Your choices</h2>
+
+          <p>
+            Depending on the applicable law and platform implementation, you
+            may be able to:
+          </p>
+
+          <ul>
+            <li>Access or update information in your profile.</li>
+            <li>Change notification and visibility preferences.</li>
+            <li>Request correction of inaccurate information.</li>
+            <li>Request deletion of your account and associated data.</li>
+            <li>Contact us with questions about data handling.</li>
+          </ul>
+
+          <p>
+            Some information may need to be retained when required for legal,
+            security, fraud-prevention, or operational reasons.
+          </p>
+        </section>
+
+        <section class="policy-section" id="contact">
+          <h2>7. Contact us</h2>
+
+          <p>
+            If you have questions about this Privacy Policy or the handling of
+            your information, contact us at:
+          </p>
+
+          <p>
+            <a
+              class="contact-link"
+              href="mailto:privacy@ventrixcarros.com"
+            >
+              privacy@ventrixcarros.com
+            </a>
+          </p>
+        </section>
+
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>
+        &copy; 2026 VentrixCarros. All rights reserved.
+      </p>
+
+      <div class="footer-links">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="help.html">Help Center</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

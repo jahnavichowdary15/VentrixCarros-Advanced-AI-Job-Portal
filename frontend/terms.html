@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="Read the VentrixCarros Terms of Service."
+  />
+
+  <title>Terms of Service | VentrixCarros</title>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --dark: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --white: #ffffff;
+      --surface: #f8fafc;
+      --border: #e4e7ec;
+      --light-blue: #eff6ff;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1180px;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Header */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .navbar {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      min-height: 76px;
+    }
+
+    .logo {
+      align-items: center;
+      color: var(--dark);
+      display: inline-flex;
+      font-size: 1.15rem;
+      font-weight: 800;
+      gap: 9px;
+      letter-spacing: -0.04em;
+    }
+
+    .logo-mark {
+      align-items: center;
+      background: var(--primary);
+      border-radius: 8px;
+      color: var(--white);
+      display: flex;
+      height: 32px;
+      justify-content: center;
+      transform: skew(-8deg);
+      width: 32px;
+    }
+
+    .logo-highlight {
+      color: var(--primary);
+    }
+
+    .header-links {
+      align-items: center;
+      display: flex;
+      gap: 18px;
+    }
+
+    .header-links a {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .header-links a:hover {
+      color: var(--primary);
+    }
+
+    .dashboard-link {
+      background: var(--light-blue);
+      border-radius: 8px;
+      color: var(--primary) !important;
+      padding: 9px 13px;
+    }
+
+    /* Hero */
+    .page-hero {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(147, 197, 253, 0.42),
+          transparent 28%
+        ),
+        linear-gradient(135deg, #eff6ff, #ffffff);
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .page-hero h1 {
+      color: var(--dark);
+      font-size: clamp(2.2rem, 5vw, 3.7rem);
+      letter-spacing: -0.06em;
+      line-height: 1.1;
+    }
+
+    .page-hero p {
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin: 13px auto 0;
+      max-width: 600px;
+    }
+
+    .updated-date {
+      color: var(--muted);
+      font-size: 0.7rem;
+      margin-top: 14px;
+    }
+
+    /* Main */
+    .terms-main {
+      padding: 45px 0 75px;
+    }
+
+    .terms-layout {
+      display: grid;
+      gap: 28px;
+      grid-template-columns: 220px 1fr;
+    }
+
+    .contents-card {
+      align-self: start;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .contents-card h2 {
+      color: var(--dark);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    .contents-card a {
+      border-left: 2px solid transparent;
+      color: var(--muted);
+      display: block;
+      font-size: 0.7rem;
+      padding: 7px 0 7px 10px;
+    }
+
+    .contents-card a:hover {
+      border-left-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .terms-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .terms-section {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 27px;
+    }
+
+    .terms-section + .terms-section {
+      padding-top: 27px;
+    }
+
+    .terms-section:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .terms-section h2 {
+      color: var(--dark);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .terms-section h3 {
+      color: var(--dark);
+      font-size: 0.92rem;
+      margin-top: 18px;
+    }
+
+    .terms-section p {
+      color: var(--text);
+      font-size: 0.8rem;
+      margin-top: 9px;
+    }
+
+    .terms-section ul {
+      color: var(--text);
+      font-size: 0.8rem;
+      margin: 10px 0 0 20px;
+    }
+
+    .terms-section li {
+      margin-bottom: 7px;
+    }
+
+    .notice-box {
+      background: var(--light-blue);
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 0.78rem;
+      margin-bottom: 25px;
+      padding: 14px;
+    }
+
+    .contact-link {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--dark);
+      color: #aeb9ca;
+      padding: 35px 0;
+    }
+
+    .footer-content {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-content p {
+      font-size: 0.72rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      font-size: 0.72rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    @media (max-width: 800px) {
+      .terms-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .contents-card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .header-links a:not(.dashboard-link) {
+        display: none;
+      }
+
+      .terms-card {
+        padding: 23px 20px;
+      }
+
+      .footer-content {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 13px;
+      }
+    }
+
+    /* ===== Header logo (same position and size as the other pages) ===== */
+    .site-header .container {
+      max-width: none;
+      padding-left: 27px;
+      /* Right-side links line up with the right edge of the page content */
+      padding-right: max(24px, calc((100% - 1180px) / 2 + 24px));
+    }
+
+    /* Header logo size and position
+       (last margin value = left position: bigger number moves it right) */
+    .site-header .logo-image {
+      display: block;
+      width: auto;
+      height: 76px;
+      max-width: 200px;
+      object-fit: contain;
+      transform: none;
+      margin: -2px 0 -2px 60px;
+      /* Makes the white background of logo.jpeg blend into the header */
+      mix-blend-mode: multiply;
+    }
+
+    @media (max-width: 600px) {
+      .site-header .container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header .logo-image {
+        height: 56px;
+        max-width: 140px;
+        margin: -6px 0 -6px -4px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container navbar">
+
+      <a href="index.html" class="logo" aria-label="VentrixCarros Home">
+        <img
+          src="logo.jpeg"
+          alt="VentrixCarros Logo"
+          class="logo-image"
+        />
+      </a>
+
+      <nav class="header-links" aria-label="Legal navigation">
+        <a href="about.html">About</a>
+        <a href="help.html">Help</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="dashboard.html" class="dashboard-link">
+          Dashboard
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Platform guidelines</p>
+
+      <h1>Terms of Service</h1>
+
+      <p>
+        These terms describe the basic rules for using the VentrixCarros
+        platform and its career tools.
+      </p>
+
+      <p class="updated-date">
+        Last updated: October 9, 2026
+      </p>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="terms-main">
+    <div class="container terms-layout">
+
+      <!-- Contents -->
+      <aside class="contents-card">
+        <h2>On this page</h2>
+
+        <a href="#acceptance">Acceptance of terms</a>
+        <a href="#accounts">Accounts</a>
+        <a href="#platform">Using the platform</a>
+        <a href="#ai">AI tools</a>
+        <a href="#jobs">Job listings</a>
+        <a href="#content">User content</a>
+        <a href="#prohibited">Prohibited activity</a>
+        <a href="#termination">Termination</a>
+        <a href="#contact">Contact</a>
+      </aside>
+
+      <!-- Terms -->
+      <article class="terms-card">
+
+        <div class="notice-box">
+          This is a general project template and not legal advice. A production
+          service should have its final terms reviewed by a qualified lawyer.
+        </div>
+
+        <section class="terms-section" id="acceptance">
+          <h2>1. Acceptance of terms</h2>
+
+          <p>
+            By accessing or using VentrixCarros, you agree to follow these
+            Terms of Service and any applicable policies referenced here.
+          </p>
+
+          <p>
+            If you do not agree with these terms, you should not use the
+            platform.
+          </p>
+        </section>
+
+        <section class="terms-section" id="accounts">
+          <h2>2. User accounts</h2>
+
+          <p>
+            Some features may require you to create an account. You are
+            responsible for providing accurate information and keeping your
+            login credentials secure.
+          </p>
+
+          <ul>
+            <li>Do not share your password with other people.</li>
+            <li>Do not create an account using false information.</li>
+            <li>Notify the platform if you suspect unauthorized access.</li>
+            <li>Use only accounts that belong to you.</li>
+          </ul>
+        </section>
+
+        <section class="terms-section" id="platform">
+          <h2>3. Using the platform</h2>
+
+          <p>
+            VentrixCarros provides tools for job discovery, career preparation,
+            profile management, application tracking, and related activities.
+          </p>
+
+          <p>
+            Features may change, be updated, become unavailable, or be
+            discontinued as the platform develops.
+          </p>
+        </section>
+
+        <section class="terms-section" id="ai">
+          <h2>4. AI tools and generated content</h2>
+
+          <p>
+            VentrixCarros may provide AI-assisted resume analysis, job
+            matching, mock interviews, cover letters, career roadmaps, and
+            salary insights.
+          </p>
+
+          <p>
+            AI-generated output is provided for general career assistance. It
+            may contain errors, omissions, outdated information, or unsuitable
+            suggestions. You are responsible for reviewing and deciding whether
+            to use any generated content.
+          </p>
+
+          <p>
+            AI tools do not guarantee interviews, employment, salary outcomes,
+            job matches, or hiring decisions.
+          </p>
+        </section>
+
+        <section class="terms-section" id="jobs">
+          <h2>5. Job listings and employers</h2>
+
+          <p>
+            Job listings may be provided by employers, partners, third-party
+            sources, or platform administrators. VentrixCarros does not
+            guarantee that a listing is accurate, current, available, or
+            legitimate.
+          </p>
+
+          <p>
+            You should verify job details, employer identity, compensation,
+            location, responsibilities, and application requirements before
+            sharing information or accepting an offer.
+          </p>
+        </section>
+
+        <section class="terms-section" id="content">
+          <h2>6. User content</h2>
+
+          <p>
+            You may provide resumes, profile information, applications,
+            messages, feedback, and other content. You are responsible for
+            ensuring that you have the right to provide that information.
+          </p>
+
+          <p>
+            Do not upload content that is unlawful, misleading, abusive,
+            invasive of another person's privacy, or harmful to other users.
+          </p>
+        </section>
+
+        <section class="terms-section" id="prohibited">
+          <h2>7. Prohibited activity</h2>
+
+          <p>
+            You may not misuse the platform or interfere with its operation.
+            Prohibited activity may include:
+          </p>
+
+          <ul>
+            <li>Attempting to access another user's account.</li>
+            <li>Uploading malware or harmful code.</li>
+            <li>Scraping or copying platform content without authorization.</li>
+            <li>Using the service for fraud, spam, or harassment.</li>
+            <li>Misrepresenting an employer, candidate, or job opportunity.</li>
+            <li>Attempting to bypass security or usage limits.</li>
+          </ul>
+        </section>
+
+        <section class="terms-section" id="termination">
+          <h2>8. Suspension and termination</h2>
+
+          <p>
+            Access may be suspended or terminated if we reasonably believe that
+            an account violates these terms, creates risk, harms users, or
+            misuses the platform.
+          </p>
+
+          <p>
+            You may stop using the platform at any time. Account deletion and
+            data retention may be subject to applicable legal and operational
+            requirements.
+          </p>
+        </section>
+
+        <section class="terms-section" id="disclaimer">
+          <h2>9. Disclaimers</h2>
+
+          <p>
+            The platform and its content are provided on an availability basis.
+            To the extent allowed by applicable law, VentrixCarros does not
+            guarantee uninterrupted operation, error-free content, specific
+            career results, or employment outcomes.
+          </p>
+        </section>
+
+        <section class="terms-section" id="contact">
+          <h2>10. Contact</h2>
+
+          <p>
+            Questions about these Terms of Service can be sent to:
+          </p>
+
+          <p>
+            <a
+              class="contact-link"
+              href="mailto:legal@ventrixcarros.com"
+            >
+              legal@ventrixcarros.com
+            </a>
+          </p>
+        </section>
+
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>
+        &copy; 2026 VentrixCarros. All rights reserved.
+      </p>
+
+      <div class="footer-links">
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
