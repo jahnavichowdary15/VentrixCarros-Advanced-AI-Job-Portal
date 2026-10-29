@@ -1,1196 +1,2044 @@
-
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <meta
+
     name="description"
+
     content="Learn about VentrixCarros and its mission to improve the job-search experience."
+
   />
 
   <title>About Us | VentrixCarros</title>
 
   <style>
+
     :root {
+
       --primary: #2563eb;
+
       --primary-dark: #1d4ed8;
+
       --dark: #111827;
+
       --text: #344054;
+
       --muted: #667085;
+
       --white: #ffffff;
+
       --surface: #f8fafc;
+
       --border: #e4e7ec;
+
       --light-blue: #eff6ff;
+
       --green: #16a34a;
+
       --radius: 14px;
+
       --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+
     }
 
     * {
+
       box-sizing: border-box;
+
       margin: 0;
+
       padding: 0;
+
     }
 
     html {
+
       scroll-behavior: smooth;
+
     }
 
     body {
+
       background: var(--surface);
+
       color: var(--text);
+
       font-family:
+
         Inter, ui-sans-serif, system-ui, -apple-system,
+
         BlinkMacSystemFont, "Segoe UI", sans-serif;
+
       line-height: 1.6;
+
     }
 
     a {
+
       color: inherit;
+
       text-decoration: none;
+
     }
 
     button,
+
     input,
+
     textarea {
+
       font: inherit;
+
     }
 
     button {
+
       cursor: pointer;
+
     }
 
     .container {
+
       margin: 0 auto;
+
       max-width: 1240px;
+
       padding: 0 24px;
+
       width: 100%;
+
     }
 
     /* Header */
+
     .site-header {
+
       background: var(--white);
+
       border-bottom: 1px solid var(--border);
+
       position: sticky;
+
       top: 0;
+
       z-index: 20;
+
     }
 
     .navbar {
+
       align-items: center;
+
       display: flex;
+
       justify-content: space-between;
+
       min-height: 76px;
+
     }
 
     /* Single image logo: no duplicate text logo */
+
     .logo {
+
       align-items: center;
+
       display: inline-flex;
+
       flex-shrink: 0;
+
       line-height: 0;
+
     }
 
     .logo-image {
+
       display: block;
+
       max-width: 180px;
+
       height: 70px;
+
       object-fit: contain;
+
       object-position: left center;
+
     }
 
     /* Header spans full width (same as dashboard) */
+
     .site-header .container {
+
       max-width: none;
+
       padding-left: 27px;
+
       /* Right-side buttons line up with the right edge of the page content */
+
       padding-right: max(24px, calc((100% - 1240px) / 2 + 24px));
+
     }
 
     .site-header .logo {
+
       margin-left: 0;
+
     }
 
     /* Header logo size and position
+
        (last margin value = left position: bigger number moves it right) */
+
     .site-header .logo-image {
+
       height: 80px;
+
       max-width: 200px;
+
       margin: -4px 0 -4px 60px;
+
       /* Makes the white background of logo.jpeg blend into the header */
+
       mix-blend-mode: multiply;
+
     }
 
     .header-actions {
+
       align-items: center;
+
       display: flex;
+
       gap: 12px;
+
     }
 
     .back-link {
+
       color: var(--muted);
+
       font-size: 0.8rem;
+
       font-weight: 700;
+
     }
 
     .back-link:hover {
+
       color: var(--primary);
+
     }
 
     .dashboard-button {
+
       background: var(--light-blue);
+
       border-radius: 8px;
+
       color: var(--primary);
+
       font-size: 0.78rem;
+
       font-weight: 700;
+
       padding: 9px 13px;
+
     }
 
     .dashboard-button:hover {
+
       background: #dbeafe;
+
     }
 
     /* Profile icon (same as jobs page) */
+
     .profile-icon {
+
       align-items: center;
+
       background: var(--light-blue);
+
       border: 1px solid #dbeafe;
+
       border-radius: 50%;
+
       color: var(--primary);
+
       display: inline-flex;
+
       flex-shrink: 0;
+
       height: 40px;
+
       justify-content: center;
+
       transition:
-        background 0.2s ease,
+
+        background* 0.2s ease,
+
         color 0.2s ease,
+
         transform 0.2s ease;
+
       width: 40px;
+
     }
 
     .profile-icon:hover {
+
       background: var(--primary);
+
       color: var(--white);
+
       transform: translateY(-1px);
+
     }
 
     .profile-icon svg {
+
       display: block;
+
       height: 22px;
+
       width: 22px;
+
     }
 
     /* Hero */
+
     .page-hero {
+
       background:
+
         radial-gradient(
+
           circle at 85% 10%,
+
           rgba(147, 197, 253, 0.42),
+
           transparent 28%
+
         ),
+
         linear-gradient(135deg, #eff6ff, #ffffff);
+
       padding: 70px 0 65px;
+
     }
 
     .hero-grid {
+
       align-items: center;
+
       display: grid;
+
       gap: 60px;
+
       grid-template-columns: 1fr 0.8fr;
+
     }
 
     .eyebrow {
+
       color: var(--primary);
+
       font-size: 0.73rem;
+
       font-weight: 800;
+
       letter-spacing: 0.13em;
+
       margin-bottom: 10px;
+
       text-transform: uppercase;
+
     }
 
     .page-hero h1 {
+
       color: var(--dark);
+
       font-size: clamp(2.4rem, 6vw, 4.7rem);
+
       letter-spacing: -0.07em;
+
       line-height: 1.05;
+
     }
 
     .page-hero h1 span {
+
       color: var(--primary);
+
       display: block;
+
     }
 
     .page-hero p {
+
       color: var(--muted);
+
       font-size: 1rem;
+
       margin-top: 20px;
+
       max-width: 570px;
+
     }
 
     .hero-actions {
+
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 10px;
+
       margin-top: 28px;
+
     }
 
     .primary-button,
+
     .outline-button {
+
       border-radius: 8px;
+
       font-size: 0.78rem;
+
       font-weight: 700;
+
       padding: 11px 15px;
+
       display: inline-block;
+
       transition: 0.2s ease;
+
     }
 
     .primary-button {
+
       background: var(--primary);
+
       color: var(--white);
+
     }
 
     .primary-button:hover {
+
       background: var(--primary-dark);
+
     }
 
     .outline-button {
+
       border: 1px solid var(--border);
+
       color: var(--primary);
+
     }
 
     .outline-button:hover {
+
       background: var(--white);
+
       border-color: #93c5fd;
+
     }
 
     /* Illustration */
+
     .about-illustration {
+
       align-items: center;
+
       background: var(--white);
+
       border: 1px solid var(--border);
+
       border-radius: 24px;
+
       box-shadow: var(--shadow);
+
       display: flex;
+
       height: 350px;
+
       justify-content: center;
+
       overflow: hidden;
+
       position: relative;
+
     }
 
     .illustration-circle {
+
       border: 1px solid #bfdbfe;
+
       border-radius: 50%;
+
       height: 240px;
+
       position: absolute;
+
       width: 240px;
+
     }
 
     .illustration-circle::before,
+
     .illustration-circle::after {
+
       border: 1px solid #dbeafe;
+
       border-radius: 50%;
+
       content: "";
+
       left: 50%;
+
       position: absolute;
+
       top: 50%;
+
       transform: translate(-50%, -50%);
+
     }
 
     .illustration-circle::before {
+
       height: 170px;
+
       width: 170px;
+
     }
 
     .illustration-circle::after {
+
       height: 100px;
+
       width: 100px;
+
     }
 
     .illustration-center {
+
       align-items: center;
+
       background: var(--primary);
+
       border: 8px solid #dbeafe;
+
       border-radius: 50%;
+
       box-shadow: 0 0 35px rgba(37, 99, 235, 0.4);
+
       color: var(--white);
+
       display: flex;
+
       font-size: 0.65rem;
+
       font-weight: 800;
+
       height: 75px;
+
       justify-content: center;
+
       position: relative;
+
       text-align: center;
+
       width: 75px;
+
       z-index: 2;
+
     }
 
     .orbit-card {
+
       background: var(--white);
+
       border: 1px solid var(--border);
+
       border-radius: 10px;
+
       box-shadow: var(--shadow);
+
       color: var(--dark);
+
       font-size: 0.67rem;
+
       font-weight: 700;
+
       padding: 9px 11px;
+
       position: absolute;
+
       z-index: 3;
+
     }
 
     .orbit-one {
+
       left: 12%;
+
       top: 22%;
+
     }
 
     .orbit-two {
+
       right: 10%;
+
       top: 27%;
+
     }
 
     .orbit-three {
+
       bottom: 20%;
+
       left: 17%;
+
     }
 
     .orbit-four {
+
       bottom: 17%;
+
       right: 13%;
+
     }
 
     /* Main */
+
     .about-main {
+
       padding: 70px 0;
+
     }
 
     .section {
+
       margin-bottom: 75px;
+
     }
 
     .section:last-child {
+
       margin-bottom: 0;
+
     }
 
     .section-heading {
+
       margin-bottom: 35px;
+
       text-align: center;
+
     }
 
     .section-heading h2 {
+
       color: var(--dark);
+
       font-size: clamp(1.8rem, 4vw, 2.6rem);
+
       letter-spacing: -0.05em;
+
     }
 
     .section-heading p {
+
       color: var(--muted);
+
       font-size: 0.82rem;
+
       margin: 10px auto 0;
+
       max-width: 600px;
+
     }
 
     .mission-grid {
+
       display: grid;
+
       gap: 18px;
+
       grid-template-columns: repeat(3, 1fr);
+
     }
 
     .mission-card {
+
       background: var(--white);
+
       border: 1px solid var(--border);
+
       border-radius: var(--radius);
+
       padding: 24px;
+
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+
     }
 
     .mission-card:hover {
+
       box-shadow: var(--shadow);
+
       transform: translateY(-3px);
+
     }
 
     .mission-icon {
+
       align-items: center;
+
       background: var(--light-blue);
+
       border-radius: 10px;
+
       color: var(--primary);
+
       display: flex;
+
       font-size: 1.2rem;
+
       height: 44px;
+
       justify-content: center;
+
       width: 44px;
+
     }
 
     .mission-card h3 {
+
       color: var(--dark);
+
       font-size: 0.98rem;
+
       margin-top: 19px;
+
     }
 
     .mission-card p {
+
       color: var(--muted);
+
       font-size: 0.75rem;
+
       margin-top: 8px;
+
     }
 
     /* Values */
+
     .values-section {
+
       background: var(--white);
+
       border: 1px solid var(--border);
+
       border-radius: 20px;
+
       padding: 34px;
+
     }
 
     .values-grid {
+
       display: grid;
+
       gap: 25px;
+
       grid-template-columns: repeat(2, 1fr);
+
     }
 
     .value-row {
+
       align-items: flex-start;
+
       display: flex;
+
       gap: 13px;
+
     }
 
     .value-number {
+
       align-items: center;
+
       background: var(--light-blue);
+
       border-radius: 8px;
+
       color: var(--primary);
+
       display: flex;
+
       flex-shrink: 0;
+
       font-size: 0.75rem;
+
       font-weight: 800;
+
       height: 32px;
+
       justify-content: center;
+
       width: 32px;
+
     }
 
     .value-row h3 {
+
       color: var(--dark);
+
       font-size: 0.88rem;
+
     }
 
     .value-row p {
+
       color: var(--muted);
+
       font-size: 0.72rem;
+
       margin-top: 4px;
+
     }
 
     /* Contact */
+
     .contact-grid {
+
       display: grid;
+
       gap: 18px;
+
       grid-template-columns: 0.8fr 1.2fr;
+
     }
 
     .contact-info,
+
     .contact-form-card {
+
       background: var(--white);
+
       border: 1px solid var(--border);
+
       border-radius: var(--radius);
+
       padding: 25px;
+
     }
 
     .contact-info h2,
+
     .contact-form-card h2 {
+
       color: var(--dark);
+
       font-size: 1.15rem;
+
     }
 
     .contact-info > p,
+
     .contact-form-card > p {
+
       color: var(--muted);
+
       font-size: 0.75rem;
+
       margin-top: 7px;
+
     }
 
     .contact-details {
+
       display: grid;
+
       gap: 15px;
+
       list-style: none;
+
       margin-top: 25px;
+
     }
 
     .contact-details li {
+
       align-items: flex-start;
+
       display: flex;
+
       gap: 11px;
+
     }
 
     .contact-details span:first-child {
+
       align-items: center;
+
       background: var(--light-blue);
+
       border-radius: 8px;
+
       color: var(--primary);
+
       display: flex;
+
       flex-shrink: 0;
+
       height: 31px;
+
       justify-content: center;
+
       width: 31px;
+
     }
 
     .contact-details strong,
+
     .contact-details small {
+
       display: block;
+
     }
 
     .contact-details strong {
+
       color: var(--dark);
+
       font-size: 0.75rem;
+
     }
 
     .contact-details small {
+
       color: var(--muted);
+
       font-size: 0.68rem;
+
       margin-top: 2px;
+
     }
 
     .contact-form {
+
       display: grid;
+
       gap: 12px;
+
       margin-top: 20px;
+
     }
 
     .contact-form-row {
+
       display: grid;
+
       gap: 12px;
+
       grid-template-columns: 1fr 1fr;
+
     }
 
     .contact-form input,
+
     .contact-form textarea {
+
       border: 1px solid var(--border);
+
       border-radius: 8px;
+
       color: var(--text);
+
       outline: 0;
+
       padding: 11px;
+
       width: 100%;
+
     }
 
     .contact-form input::placeholder,
+
     .contact-form textarea::placeholder {
+
       color: #98a2b3;
+
     }
 
     .contact-form textarea {
+
       min-height: 100px;
+
       resize: vertical;
+
     }
 
     .contact-form input:focus,
+
     .contact-form textarea:focus {
+
       border-color: var(--primary);
+
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+
     }
 
     .contact-form button {
+
       background: var(--primary);
+
       border: 0;
+
       border-radius: 8px;
+
       color: var(--white);
+
       font-size: 0.76rem;
+
       font-weight: 700;
+
       padding: 10px;
+
     }
 
     .contact-form button:hover {
+
       background: var(--primary-dark);
+
     }
 
     .form-message {
+
       color: var(--green);
+
       display: none;
+
       font-size: 0.73rem;
+
       margin-top: 10px;
+
     }
 
     .form-message.show {
+
       display: block;
+
+    }
+
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .contact-details li > div {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .contact-details small,
+    .contact-details small a {
+      overflow-wrap: anywhere;
+      line-height: 1.6;
+    }
+
+    .contact-details small a {
+      color: var(--primary);
+    }
+
+    .contact-details small a:hover {
+      text-decoration: underline;
+    }
+
+    .form-message.error {
+      color: #b42318;
+    }
+
+    .contact-form button:disabled {
+      cursor: wait;
+      opacity: 0.7;
     }
 
     /* Footer */
+
     .site-footer {
+
       background: var(--dark);
+
       color: #aeb9ca;
+
       padding: 35px 0;
+
     }
 
     .footer-content {
+
       align-items: center;
+
       display: flex;
+
       justify-content: space-between;
+
       gap: 20px;
+
     }
 
     .footer-content p {
+
       font-size: 0.72rem;
+
     }
 
     .footer-links {
+
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 18px;
+
       font-size: 0.72rem;
+
     }
 
     .footer-links a:hover {
+
       color: var(--white);
+
     }
 
     /* Tablet */
+
     @media (max-width: 850px) {
+
       .hero-grid {
+
         gap: 35px;
+
         grid-template-columns: 1fr;
+
       }
 
       .contact-grid {
+
         grid-template-columns: 1fr;
+
       }
 
       .mission-grid {
+
         grid-template-columns: repeat(2, 1fr);
+
       }
 
       .about-illustration {
+
         max-width: 600px;
+
         width: 100%;
+
         margin: 0 auto;
+
       }
+
     }
 
     /* Mobile */
+
     @media (max-width: 600px) {
+
       .container {
+
         padding-left: 18px;
+
         padding-right: 18px;
+
       }
 
       .navbar {
+
         min-height: 68px;
+
       }
 
       .logo-image {
+
         width: 140px;
+
         height: 40px;
+
       }
 
       .site-header .container {
+
         padding-left: 18px;
+
         padding-right: 18px;
+
       }
 
       .site-header .logo-image {
+
         height: 56px;
+
         max-width: 140px;
+
         margin: -6px 0 -6px -4px;
+
       }
 
       .profile-icon {
+
         height: 36px;
+
         width: 36px;
+
       }
 
       .profile-icon svg {
+
         height: 20px;
+
         width: 20px;
+
       }
 
       .back-link {
+
         display: none;
+
       }
 
       .dashboard-button {
+
         font-size: 0.72rem;
+
         padding: 8px 10px;
+
       }
 
       .page-hero {
+
         padding: 52px 0 45px;
+
       }
 
       .hero-grid {
+
         gap: 32px;
+
       }
 
       .page-hero h1 {
+
         font-size: clamp(2.3rem, 11vw, 3.5rem);
+
       }
 
       .mission-grid,
+
       .values-grid,
+
       .contact-form-row {
+
         grid-template-columns: 1fr;
+
       }
 
       .about-illustration {
+
         height: 290px;
+
       }
 
       .illustration-circle {
+
         height: 205px;
+
         width: 205px;
+
       }
 
       .illustration-circle::before {
+
         height: 145px;
+
         width: 145px;
+
       }
 
       .illustration-circle::after {
+
         height: 85px;
+
         width: 85px;
+
       }
 
       .orbit-one {
+
         left: 5%;
+
         top: 17%;
+
       }
 
       .orbit-two {
+
         right: 5%;
+
         top: 22%;
+
       }
 
       .orbit-three {
+
         bottom: 14%;
+
         left: 5%;
+
       }
 
       .orbit-four {
+
         bottom: 12%;
+
         right: 5%;
+
       }
 
       .about-main {
+
         padding: 48px 0;
+
       }
 
       .section {
+
         margin-bottom: 52px;
+
       }
 
       .section-heading {
+
         margin-bottom: 25px;
+
       }
 
       .mission-card {
+
         padding: 21px;
+
       }
 
       .values-section {
+
         padding: 24px;
+
       }
 
       .contact-info,
+
       .contact-form-card {
+
         padding: 21px;
+
       }
 
       .footer-content {
+
         align-items: flex-start;
+
         flex-direction: column;
+
         gap: 13px;
+
       }
 
       .footer-links {
+
         gap: 14px;
+
       }
+
     }
 
     @media (prefers-reduced-motion: reduce) {
+
       html {
+
         scroll-behavior: auto;
+
       }
 
       *,
+
       *::before,
+
       *::after {
+
         transition-duration: 0.01ms !important;
+
       }
+
     }
+
   </style>
+
 </head>
 
 <body>
 
   <!-- Header: one image logo only -->
+
   <header class="site-header">
+
     <div class="container navbar">
 
       <a
+
         href="index.html"
+
         class="logo"
+
         aria-label="VentrixCarros home"
+
       >
+
         <img
+
           src="logo.jpeg"
+
           alt="VentrixCarros"
+
           class="logo-image"
+
         />
+
       </a>
 
       <div class="header-actions">
+
         <a href="index.html" class="back-link">
+
           &larr; Home
+
         </a>
 
-        <a href="dashboard.html" class="dashboard-button">
-          Dashboard
-        </a>
+        <a href="login.html" class="dashboard-button" id="headerLogin">Log in</a>
+        <a href="signup.html" class="dashboard-button" id="headerSignup">Create account</a>
+        <a href="dashboard.html" class="dashboard-button" id="headerDashboard" hidden>Dashboard</a>
 
         <!-- Profile icon -->
+
         <a
+
           href="profile.html"
+
           class="profile-icon"
+
+          id="headerProfile"
+
+          hidden
+
           aria-label="Open profile"
+
           title="Profile"
+
         >
+
           <svg
+
             xmlns="http://www.w3.org/2000/svg"
+
             viewBox="0 0 24 24"
+
             fill="none"
+
             stroke="currentColor"
+
             stroke-width="1.8"
+
             stroke-linecap="round"
+
             stroke-linejoin="round"
+
             aria-hidden="true"
+
           >
+
             <circle cx="12" cy="8" r="4"></circle>
+
             <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+
           </svg>
+
         </a>
+
       </div>
 
     </div>
+
   </header>
 
   <!-- Hero -->
+
   <section class="page-hero">
+
     <div class="container hero-grid">
 
       <div>
+
         <p class="eyebrow">About VentrixCarros</p>
 
         <h1>
+
           A clearer way to
+
           <span>build your future.</span>
+
         </h1>
 
         <p>
+
           VentrixCarros brings job discovery, AI career tools, and application
+
           management into one focused workspace for people building their next
+
           opportunity.
+
         </p>
 
         <div class="hero-actions">
+
           <a href="jobs.html" class="primary-button">
+
             Explore jobs
+
           </a>
 
-          <a href="signup.html" class="outline-button">
-            Create an account
-          </a>
+          <a href="signup.html" class="outline-button" id="accountCta">Create an account</a>
+
         </div>
+
       </div>
 
       <div class="about-illustration">
+
         <div class="illustration-circle"></div>
 
         <div class="illustration-center">
+
           Your<br />
+
           career
+
         </div>
 
         <div class="orbit-card orbit-one">
+
           Resume AI
+
         </div>
 
         <div class="orbit-card orbit-two">
+
           Smart jobs
+
         </div>
 
         <div class="orbit-card orbit-three">
+
           Interview prep
+
         </div>
 
         <div class="orbit-card orbit-four">
+
           Career growth
+
         </div>
+
       </div>
 
     </div>
+
   </section>
 
   <!-- Main -->
+
   <main class="about-main">
+
     <div class="container">
 
       <!-- Mission -->
+
       <section class="section">
+
         <div class="section-heading">
+
           <p class="eyebrow">What we do</p>
 
           <h2>One platform for your next move</h2>
 
           <p>
+
             We help job seekers move from searching to preparing to applying
+
             with more clarity and confidence.
+
           </p>
+
         </div>
 
         <div class="mission-grid">
 
           <article class="mission-card">
+
             <div class="mission-icon" aria-hidden="true">&#8982;</div>
 
             <h3>Discover better opportunities</h3>
 
             <p>
+
               Find jobs based on your skills, experience, work style, and
+
               career goals.
+
             </p>
+
           </article>
 
           <article class="mission-card">
+
             <div class="mission-icon" aria-hidden="true">&#10022;</div>
 
             <h3>Prepare with AI support</h3>
 
             <p>
+
               Improve resumes, practice interviews, create cover letters, and
+
               build personalized career roadmaps.
+
             </p>
+
           </article>
 
           <article class="mission-card">
+
             <div class="mission-icon" aria-hidden="true">&#8599;</div>
 
             <h3>Track your progress</h3>
 
             <p>
+
               Save jobs, manage applications, and keep your career activity
+
               organized in one dashboard.
+
             </p>
+
           </article>
 
         </div>
+
       </section>
 
       <!-- Values -->
+
       <section class="section values-section">
+
         <div class="section-heading">
+
           <p class="eyebrow">Our principles</p>
 
           <h2>Built around your progress</h2>
+
         </div>
 
         <div class="values-grid">
 
           <div class="value-row">
+
             <span class="value-number">01</span>
 
             <div>
+
               <h3>Clarity over complexity</h3>
 
               <p>
+
                 Career decisions are already difficult. Our tools should make
+
                 your next step easier to understand.
+
               </p>
+
             </div>
+
           </div>
 
           <div class="value-row">
+
             <span class="value-number">02</span>
 
             <div>
+
               <h3>Useful AI, not empty automation</h3>
 
               <p>
+
                 AI suggestions should be practical, explainable, and connected
+
                 to your real career goals.
+
               </p>
+
             </div>
+
           </div>
 
           <div class="value-row">
+
             <span class="value-number">03</span>
 
             <div>
+
               <h3>Progress is personal</h3>
 
               <p>
+
                 Everyone has different experience, priorities, timelines, and
+
                 definitions of success.
+
               </p>
+
             </div>
+
           </div>
 
           <div class="value-row">
+
             <span class="value-number">04</span>
 
             <div>
+
               <h3>Keep learning and improving</h3>
 
               <p>
+
                 Your profile, skills, resume, and career direction can grow
+
                 with every step.
+
               </p>
+
             </div>
+
           </div>
 
         </div>
+
       </section>
 
       <!-- Contact -->
+
       <section class="section" id="contact">
+
         <div class="section-heading">
+
           <p class="eyebrow">Get in touch</p>
 
           <h2>We would love to hear from you</h2>
 
           <p>
+
             Have a question, suggestion, or partnership idea? Send us a
+
             message.
+
           </p>
+
         </div>
 
         <div class="contact-grid">
 
           <article class="contact-info">
+
             <h2>Contact information</h2>
 
             <p>
+
               Our team is here to help you understand the platform and make
+
               the most of your career tools.
+
             </p>
 
             <ul class="contact-details">
+
               <li>
+
                 <span aria-hidden="true">&#9993;</span>
 
                 <div>
+
                   <strong>Email</strong>
+
                   <small>
-                    <a href="mailto:hello@ventrixcarros.com">
-                      hello@ventrixcarros.com
+
+                    <a href="mailto:ventrixtechnologies@gmail.com">
+
+                      ventrixtechnologies@gmail.com
+
                     </a>
+
                   </small>
+
                 </div>
+
               </li>
 
               <li>
+
                 <span aria-hidden="true">&#8982;</span>
 
                 <div>
+
                   <strong>Location</strong>
-                  <small>Bengaluru, India</small>
+
+                  <small>2nd floor, Hiline Complex, 205, Road No. 12, Sai Enclave, Bhola Nagar, Banjara Hills, Hyderabad, Telangana 500028</small>
+
                 </div>
+
               </li>
 
               <li>
+
                 <span aria-hidden="true">&#9719;</span>
 
                 <div>
+
                   <strong>Support hours</strong>
-                  <small>Monday to Friday, 9 AM–6 PM IST</small>
+
+                  <small>Monday–Friday, 9 AM–6 PM IST</small>
+
+                </div>
+
+              </li>
+
+              <li>
+                <span aria-hidden="true">in</span>
+                <div>
+                  <strong>LinkedIn</strong>
+                  <small><a href="https://www.linkedin.com/in/venkat-tukku-249a251aa/" target="_blank" rel="noopener noreferrer">View our LinkedIn profile</a></small>
                 </div>
               </li>
+
             </ul>
+
           </article>
 
           <article class="contact-form-card">
+
             <h2>Send us a message</h2>
 
             <p>
+
               We usually respond within two business days.
+
             </p>
 
             <form class="contact-form" id="contactForm">
 
               <div class="contact-form-row">
+
                 <input
+
                   type="text"
+
                   id="contactName"
+
                   name="name"
+
                   placeholder="Your name"
+
                   autocomplete="name"
+
                   required
+
                 />
 
                 <input
+
                   type="email"
+
                   id="contactEmail"
+
                   name="email"
+
                   placeholder="Your email"
+
                   autocomplete="email"
+
                   required
+
                 />
+
               </div>
 
               <input
+
                 type="text"
+
                 id="contactSubject"
+
                 name="subject"
+
                 placeholder="Subject"
+
                 required
+
               />
 
               <textarea
+
                 id="contactMessage"
+
                 name="message"
+
                 placeholder="How can we help?"
+
                 required
+
               ></textarea>
 
               <button type="submit">
+
                 Send message
+
               </button>
+
             </form>
 
             <p
+
               class="form-message"
+
               id="formMessage"
+
               role="status"
+
               aria-live="polite"
+
             >
+
               Thank you. Your message has been recorded.
+
             </p>
+
           </article>
 
         </div>
+
       </section>
 
     </div>
+
   </main>
 
   <!-- Footer -->
+
   <footer class="site-footer">
+
     <div class="container footer-content">
+
       <p>
+
         &copy; <span id="currentYear">2026</span>
+
         VentrixCarros. All rights reserved.
+
       </p>
 
       <nav class="footer-links" aria-label="Footer navigation">
+
         <a href="help.html">Help Center</a>
+
         <a href="settings.html">Settings</a>
+
         <a href="#contact">Contact</a>
+
       </nav>
+
     </div>
+
   </footer>
 
   <script>
+    "use strict";
+
     const contactForm = document.getElementById("contactForm");
     const formMessage = document.getElementById("formMessage");
     const currentYear = document.getElementById("currentYear");
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+
+    const API_BASE_URL = "http://localhost:5000/api/v1";
 
     currentYear.textContent = new Date().getFullYear();
 
-    // Demo behavior only: this form does not send data to a server.
-    contactForm.addEventListener("submit", (event) => {
+    // A logged-in user should see Dashboard instead of Create an account.
+    const token =
+      localStorage.getItem("ventrixToken") ||
+      sessionStorage.getItem("ventrixToken");
+
+    const headerLogin = document.getElementById("headerLogin");
+    const headerSignup = document.getElementById("headerSignup");
+    const headerDashboard = document.getElementById("headerDashboard");
+    const headerProfile = document.getElementById("headerProfile");
+    const accountCta = document.getElementById("accountCta");
+
+    if (token) {
+      headerLogin.hidden = true;
+      headerSignup.hidden = true;
+      headerDashboard.hidden = false;
+      headerProfile.hidden = false;
+
+      accountCta.href = "dashboard.html";
+      accountCta.textContent = "Go to Dashboard";
+    } else {
+      headerLogin.hidden = false;
+      headerSignup.hidden = false;
+      headerDashboard.hidden = true;
+      headerProfile.hidden = true;
+
+      accountCta.href = "signup.html";
+      accountCta.textContent = "Create an account";
+    }
+
+    contactForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       if (!contactForm.checkValidity()) {
@@ -1198,17 +2046,54 @@
         return;
       }
 
-      formMessage.textContent =
-        "Thank you. Your message has been recorded.";
+      const formData = new FormData(contactForm);
+      const payload = {
+        name: String(formData.get("name") || "").trim(),
+        email: String(formData.get("email") || "").trim(),
+        subject: String(formData.get("subject") || "").trim(),
+        message: String(formData.get("message") || "").trim(),
+        category: "General inquiry"
+      };
 
-      formMessage.classList.add("show");
-      contactForm.reset();
+      formMessage.textContent = "";
+      formMessage.classList.remove("show", "error");
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
 
-      window.setTimeout(() => {
-        formMessage.classList.remove("show");
-      }, 4000);
+      try {
+        const response = await fetch(`${API_BASE_URL}/contact`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok || result.success === false) {
+          throw new Error(
+            result.message || "We could not send your message. Please try again."
+          );
+        }
+
+        formMessage.textContent =
+          result.message || "Thank you! Your message has been sent successfully.";
+        formMessage.classList.add("show");
+        contactForm.reset();
+      } catch (error) {
+        console.error("Contact form submission failed:", error);
+        formMessage.textContent =
+          error.message ||
+          "Unable to send your message right now. Please try again later.";
+        formMessage.classList.add("show", "error");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send message";
+      }
     });
   </script>
 
 </body>
+
 </html>

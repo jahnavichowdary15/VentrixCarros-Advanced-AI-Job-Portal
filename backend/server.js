@@ -3,50 +3,51 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const { PrismaClient } = require("@prisma/client");
+const { prisma } = require("./config/db");
 
+// Route imports
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 const app = express();
-const prisma = new PrismaClient();
-
 const PORT = Number(process.env.PORT) || 5000;
 
-// Allow the local frontend development servers.
+// Allowed frontend origins
 const allowedOrigins = [
   "http://localhost:5500",
   "http://127.0.0.1:5500",
   "http://localhost:3000",
-  "http://127.0.0.1:3000",
+  "http://127.0.0.1:3000"
 ];
 
+// Make Prisma available to route handlers
 app.locals.prisma = prisma;
 
-// Middleware
+// CORS configuration
 app.use(
   cors({
     origin(origin, callback) {
-      // Requests from PowerShell and other non-browser clients
-      // commonly have no Origin header.
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
       return callback(new Error("Origin not allowed by CORS"));
-    },
+    }
   })
 );
 
+// Parse JSON request bodies
 app.use(express.json({ limit: "1mb" }));
 
 // Root endpoint
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "Welcome to the VentrixCarros API",
+    message: "Welcome to the VentrixCarros API"
   });
 });
 
@@ -55,7 +56,7 @@ app.get("/api/v1/health", (req, res) => {
   res.json({
     success: true,
     status: "healthy",
-    service: "VentrixCarros Backend",
+    service: "VentrixCarros Backend"
   });
 });
 
@@ -64,43 +65,45 @@ app.get("/api/v1/health/database", async (req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
 
-    res.json({
+    return res.json({
       success: true,
       status: "connected",
       database: "MySQL",
-      message: "Database connection successful",
+      message: "Database connection successful"
     });
   } catch (error) {
     console.error("Database health check failed:", error.message);
 
-    res.status(503).json({
+    return res.status(503).json({
       success: false,
       status: "disconnected",
       database: "MySQL",
-      message: "Database connection failed",
+      message: "Database connection failed"
     });
   }
 });
 
-// API routes
+// API route registrations
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/applications", applicationRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
+app.use("/api/v1/contact", contactRoutes);
 
-// Handle unknown API routes
+// API 404 handler
 app.use("/api", (req, res) => {
-  res.status(404).json({
+  return res.status(404).json({
     success: false,
-    message: "API route not found",
+    message: "API route not found"
   });
 });
 
-// Handle other unknown routes
+// General 404 handler
 app.use((req, res) => {
-  res.status(404).json({
+  return res.status(404).json({
     success: false,
-    message: "Route not found",
+    message: "Route not found"
   });
 });
 
@@ -112,31 +115,63 @@ app.use((err, req, res, next) => {
     return next(err);
   }
 
-  res.status(err.status || 500).json({
+  return res.status(err.status || 500).json({
     success: false,
     message:
       err.status && err.status < 500
         ? err.message
-        : "Internal server error",
+        : "Internal server error"
   });
 });
 
-// Start the server after connecting to MySQL.
+// Start server
 async function startServer() {
   try {
     await prisma.$connect();
+
     console.log("MySQL database connected successfully");
 
     const server = app.listen(PORT, () => {
       console.log(
         `VentrixCarros API running at http://localhost:${PORT}`
       );
-      console.log(
-        "Email OTP endpoints: /api/v1/auth/send-otp and /api/v1/auth/verify-otp"
-      );
-      console.log(
-        "Applications endpoint: /api/v1/applications"
-      );
+
+      console.log("\nAuthentication endpoints:");
+      console.log("  POST /api/v1/auth/send-otp");
+      console.log("  POST /api/v1/auth/verify-otp");
+      console.log("  POST /api/v1/auth/signup");
+      console.log("  POST /api/v1/auth/login");
+      console.log("  POST /api/v1/auth/verify-login-otp");
+      console.log("  POST /api/v1/auth/resend-login-otp");
+      console.log("  GET  /api/v1/auth/me");
+
+      console.log("\nProfile endpoints:");
+      console.log("  GET  /api/v1/profile/me");
+      console.log("  PUT  /api/v1/profile/me");
+
+      console.log("\nJob endpoints:");
+      console.log("  GET    /api/v1/jobs");
+      console.log("  GET    /api/v1/jobs/:id");
+      console.log("  GET    /api/v1/jobs/saved/me");
+      console.log("  POST   /api/v1/jobs/:id/save");
+      console.log("  DELETE /api/v1/jobs/:id/save");
+
+      console.log("\nApplication endpoints:");
+      console.log("  POST  /api/v1/applications");
+      console.log("  GET   /api/v1/applications/me");
+      console.log("  PATCH /api/v1/applications/:id/withdraw");
+
+      console.log("\nNotification endpoints:");
+      console.log("  GET   /api/v1/notifications");
+      console.log("  PATCH /api/v1/notifications/read-all");
+      console.log("  PATCH /api/v1/notifications/:id/read");
+
+      console.log("\nContact endpoint:");
+      console.log("  POST  /api/v1/contact");
+
+      console.log("\nHealth endpoints:");
+      console.log("  GET /api/v1/health");
+      console.log("  GET /api/v1/health/database");
     });
 
     server.on("error", (error) => {
@@ -148,25 +183,39 @@ async function startServer() {
         console.error("HTTP server error:", error.message);
       }
 
-      process.exit(1);
+      process.exitCode = 1;
     });
 
-    // Disconnect cleanly when the server is stopped.
-    const shutdown = async () => {
+    let shuttingDown = false;
+
+    async function shutdown() {
+      if (shuttingDown) return;
+
+      shuttingDown = true;
+
       console.log("\nShutting down VentrixCarros API...");
 
       server.close(async () => {
-        await prisma.$disconnect();
-        process.exit(0);
+        try {
+          await prisma.$disconnect();
+          process.exit(0);
+        } catch (error) {
+          console.error("Database disconnect failed:", error.message);
+          process.exitCode = 1;
+        }
       });
-    };
+    }
 
     process.once("SIGINT", shutdown);
     process.once("SIGTERM", shutdown);
   } catch (error) {
-    console.error("Unable to start VentrixCarros API:", error.message);
+    console.error(
+      "Unable to start VentrixCarros API:",
+      error.message
+    );
+
     await prisma.$disconnect();
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 

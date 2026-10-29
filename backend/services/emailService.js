@@ -25,7 +25,7 @@ function createEmailTransporter() {
   });
 }
 
-async function sendOtpEmail(email, otp) {
+async function sendOtpEmail(email, otp, purpose = "signup") {
   const gmailUser = process.env.GMAIL_USER;
 
   if (!gmailUser || !process.env.GMAIL_APP_PASSWORD) {
@@ -36,6 +36,20 @@ async function sendOtpEmail(email, otp) {
     throw error;
   }
 
+  const isLogin = purpose === "login";
+
+  const subject = isLogin
+    ? "Your VentrixCarros login verification code"
+    : "Your VentrixCarros email verification code";
+
+  const heading = isLogin
+    ? "Verify your login"
+    : "Verify your email";
+
+  const instruction = isLogin
+    ? "Use this code to finish signing in to your VentrixCarros account:"
+    : "Use this code to verify your email address:";
+
   const transporter = createEmailTransporter();
 
   const mailOptions = {
@@ -44,11 +58,13 @@ async function sendOtpEmail(email, otp) {
       address: gmailUser.trim()
     },
     to: email,
-    subject: "Your VentrixCarros verification code",
+    subject,
     text: [
       "Hello,",
       "",
-      `Your VentrixCarros verification code is: ${otp}`,
+      instruction,
+      "",
+      `Your verification code is: ${otp}`,
       "",
       "This code expires in 5 minutes.",
       "If you did not request this code, please ignore this email.",
@@ -57,13 +73,13 @@ async function sendOtpEmail(email, otp) {
     ].join("\n"),
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:24px;color:#172033">
-        <h2>Verify your email</h2>
-        <p>Use the verification code below to continue:</p>
+        <h2>${heading}</h2>
+        <p>${instruction}</p>
         <div style="font-size:32px;font-weight:bold;letter-spacing:8px;padding:18px;background:#f1f5f9;text-align:center;border-radius:8px">
           ${otp}
         </div>
         <p>This code expires in <strong>5 minutes</strong>.</p>
-        <p>If you did not request this code, ignore this email.</p>
+        <p>If you did not request this code, please ignore this email.</p>
         <p style="color:#64748b;font-size:12px">VentrixCarros</p>
       </div>
     `

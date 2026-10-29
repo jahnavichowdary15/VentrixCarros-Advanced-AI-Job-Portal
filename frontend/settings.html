@@ -1260,102 +1260,110 @@
         });
       });
 
-    passwordForm.addEventListener("submit", (event) => {
-      event.preventDefault();
+    
+passwordForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-      const currentPassword =
-        document.getElementById(
-          "currentPassword"
-        ).value;
+  const currentPassword =
+    document.getElementById("currentPassword").value;
 
-      const newPassword =
-        document.getElementById(
-          "newPassword"
-        ).value;
+  const newPassword =
+    document.getElementById("newPassword").value;
 
-      const confirmPassword =
-        document.getElementById(
-          "confirmPassword"
-        ).value;
+  const confirmPassword =
+    document.getElementById("confirmPassword").value;
 
-      if (
-        !currentPassword ||
-        !newPassword ||
-        !confirmPassword
-      ) {
-        alert("Please complete all password fields.");
-        return;
+  passwordMessage.classList.remove("show");
+  passwordMessage.style.color = "var(--red)";
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    passwordMessage.textContent = "Please complete all password fields.";
+    passwordMessage.classList.add("show");
+    return;
+  }
+
+  if (newPassword.length < 8 || newPassword.length > 72) {
+    passwordMessage.textContent =
+      "Your new password must contain 8–72 characters.";
+    passwordMessage.classList.add("show");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    passwordMessage.textContent =
+      "The new password and confirmation do not match.";
+    passwordMessage.classList.add("show");
+    return;
+  }
+
+  if (currentPassword === newPassword) {
+    passwordMessage.textContent =
+      "Choose a new password different from your current password.";
+    passwordMessage.classList.add("show");
+    return;
+  }
+
+  // Your login may store the token in either storage location.
+  const token =
+    localStorage.getItem("ventrixToken") ||
+    sessionStorage.getItem("ventrixToken");
+
+  if (!token) {
+    passwordMessage.textContent =
+      "Your login session was not found. Please log in again.";
+    passwordMessage.classList.add("show");
+    return;
+  }
+
+  const submitButton = passwordForm.querySelector(
+    'button[type="submit"]'
+  );
+
+  const originalButtonText = submitButton.textContent;
+  submitButton.disabled = true;
+  submitButton.textContent = "Updating...";
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/v1/auth/change-password",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword
+        })
       }
+    );
 
-      if (newPassword.length < 6) {
-        alert(
-          "New password must contain at least 6 characters."
-        );
-        return;
-      }
+    const result = await response.json();
 
-      if (newPassword !== confirmPassword) {
-        alert("New passwords do not match.");
-        return;
-      }
-
-      localStorage.setItem(
-        "demoPassword",
-        newPassword
-      );
-
-      passwordForm.reset();
-      showMessage(passwordMessage);
-    });
-
-    function openDeleteModal() {
-      confirmModal.classList.add("show");
-      confirmModal.setAttribute(
-        "aria-hidden",
-        "false"
-      );
-
-      document.body.classList.add("modal-open");
+    if (!response.ok || result.success !== true) {
+      throw new Error(result.message || "Unable to change your password.");
     }
 
-    function closeDeleteModal() {
-      confirmModal.classList.remove("show");
-      confirmModal.setAttribute(
-        "aria-hidden",
-        "true"
-      );
+    passwordForm.reset();
 
-      document.body.classList.remove("modal-open");
-    }
+    passwordMessage.textContent =
+      "Password changed successfully! Use your new password next time you log in.";
+    passwordMessage.style.color = "var(--green)";
+    passwordMessage.classList.add("show");
+  } catch (error) {
+    passwordMessage.textContent =
+      error.message === "Failed to fetch"
+        ? "Cannot connect to the server. Make sure your backend is running."
+        : error.message;
 
-    deleteAccountButton.addEventListener(
-      "click",
-      openDeleteModal
-    );
-
-    cancelDelete.addEventListener(
-      "click",
-      closeDeleteModal
-    );
-
-    modalOverlay.addEventListener(
-      "click",
-      closeDeleteModal
-    );
-
-    confirmDelete.addEventListener("click", () => {
-      localStorage.clear();
-      window.location.href = "index.html";
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (
-        event.key === "Escape" &&
-        confirmModal.classList.contains("show")
-      ) {
-        closeDeleteModal();
-      }
-    });
+    passwordMessage.style.color = "var(--red)";
+    passwordMessage.classList.add("show");
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = originalButtonText;
+  }
+});
 
     loadSettings();
   </script>

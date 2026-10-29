@@ -1215,14 +1215,22 @@
           <span class="notification-dot"></span>
         </a>
 
-        <div class="user-menu">
-          <div class="user-avatar" id="userAvatar">U</div>
+       
+<div class="user-menu">
+  <a
+    href="profile.html"
+    class="user-avatar"
+    id="userAvatar"
+    aria-label="Open my profile"
+    title="My profile"
+  >U</a>
 
-          <div class="user-info">
-            <strong id="userName">User</strong>
-            <small>Job seeker</small>
-          </div>
-        </div>
+  <div class="user-info">
+    <strong id="userName">User</strong>
+    <small>Job seeker</small>
+  </div>
+</div>
+
 
         <button
           type="button"
@@ -1799,63 +1807,102 @@
   </div>
 
   <script>
-    const storedUserName =
-      localStorage.getItem("userName");
+  // Read the token saved after successful OTP login.
+  // Remember Me may save it in localStorage or sessionStorage.
+  const token =
+    localStorage.getItem("ventrixToken") ||
+    sessionStorage.getItem("ventrixToken");
 
-    const welcomeName =
-      document.getElementById("welcomeName");
+  // Read the logged-in user's information.
+  const storedUser =
+    localStorage.getItem("ventrixUser") ||
+    sessionStorage.getItem("ventrixUser");
 
-    const userName =
-      document.getElementById("userName");
+  let user = {};
 
-    const userAvatar =
-      document.getElementById("userAvatar");
+  try {
+    user = storedUser ? JSON.parse(storedUser) : {};
+  } catch (error) {
+    console.error("Unable to read saved user information.", error);
+  }
 
-    const profileName =
-      document.getElementById("profileName");
+  // Redirect to login if the token is missing.
+  if (!token) {
+    window.location.replace("login.html");
+  } else {
+    const name = user.name || user.fullName || "User";
+    const firstName = name.trim().split(/\s+/)[0] || "User";
 
-    const profileAvatar =
-      document.getElementById("profileAvatar");
+    const initials =
+      name
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((part) => part.charAt(0))
+        .join("")
+        .substring(0, 2)
+        .toUpperCase() || "U";
 
-    if (storedUserName) {
-      const firstName =
-        storedUserName.split(" ")[0];
+    // Update the existing dashboard without changing its design.
+    const welcomeName = document.getElementById("welcomeName");
+    const userName = document.getElementById("userName");
+    const userAvatar = document.getElementById("userAvatar");
+    const profileName = document.getElementById("profileName");
+    const profileAvatar = document.getElementById("profileAvatar");
 
-      const firstLetter =
-        firstName.charAt(0).toUpperCase();
-
+    if (welcomeName) {
       welcomeName.textContent = firstName;
-      userName.textContent = storedUserName;
-      userAvatar.textContent = firstLetter;
-      profileName.textContent = storedUserName;
-      profileAvatar.textContent = firstLetter;
     }
 
-    document
-      .getElementById("logoutButton")
-      .addEventListener("click", () => {
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("userName");
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userRole");
+    if (userName) {
+      userName.textContent = name;
+    }
 
-        window.location.href = "login.html";
+    if (userAvatar) {
+      userAvatar.textContent = initials;
+    }
+
+    if (profileName) {
+      profileName.textContent = name;
+    }
+
+    if (profileAvatar) {
+      profileAvatar.textContent = initials;
+    }
+  }
+
+  // Logout and clear login information from both storage locations.
+  const logoutButton = document.getElementById("logoutButton");
+
+  if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+      localStorage.removeItem("ventrixToken");
+      localStorage.removeItem("ventrixUser");
+
+      sessionStorage.removeItem("ventrixToken");
+      sessionStorage.removeItem("ventrixUser");
+
+      // Clear older login keys, if present.
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userRole");
+
+      window.location.replace("login.html");
+    });
+  }
+
+  // Preserve the sidebar's active-link highlighting.
+  document.querySelectorAll(".sidebar-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      document.querySelectorAll(".sidebar-link").forEach((item) => {
+        item.classList.remove("active");
       });
 
-    document
-      .querySelectorAll(".sidebar-link")
-      .forEach((link) => {
-        link.addEventListener("click", () => {
-          document
-            .querySelectorAll(".sidebar-link")
-            .forEach((item) => {
-              item.classList.remove("active");
-            });
-
-          link.classList.add("active");
-        });
-      });
-  </script>
+      link.classList.add("active");
+    });
+  });
+</script>
 
 </body>
 </html>

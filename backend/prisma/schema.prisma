@@ -154,3 +154,17 @@ model EmailOtp {
 
   @@index([expiresAt])
 }
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(100)
+  email     String   @db.VarChar(191)
+  subject   String   @db.VarChar(200)
+  message   String   @db.Text
+  status    String   @default("NEW") @db.VarChar(30)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([status, createdAt])
+}

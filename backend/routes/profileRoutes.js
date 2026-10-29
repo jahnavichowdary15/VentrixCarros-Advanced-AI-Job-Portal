@@ -59,8 +59,7 @@ router.get("/me", async (req, res) => {
   }
 });
 
-// PUT /api/v1/profile/me
-// Create or update the logged-in job seeker's profile.
+
 router.put("/me", async (req, res) => {
   try {
     const prisma = req.app.locals.prisma;
