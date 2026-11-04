@@ -1,759 +1,1302 @@
 
+
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+
+
   <meta
+
     name="description"
+
     content="View your VentrixCarros notifications and career updates."
+
   />
+
+
 
   <title>Notifications | VentrixCarros</title>
 
+
+
   <style>
+
     :root {
+
       --primary: #2563eb;
+
       --primary-dark: #1d4ed8;
+
       --dark: #111827;
+
       --text: #344054;
+
       --muted: #667085;
+
       --white: #ffffff;
+
       --surface: #f8fafc;
+
       --border: #e4e7ec;
+
       --light-blue: #eff6ff;
+
       --green: #16a34a;
+
       --orange: #ea580c;
+
       --purple: #7c3aed;
+
       --red: #dc2626;
+
       --radius: 14px;
+
       --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+
     }
 
-    * {
+
+
+    \* {
+
       box-sizing: border-box;
+
       margin: 0;
+
       padding: 0;
+
     }
+
+
 
     html {
+
       scroll-behavior: smooth;
+
     }
+
+
 
     body {
+
       background: var(--surface);
+
       color: var(--text);
+
       font-family:
+
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+
         "Segoe UI", sans-serif;
+
       line-height: 1.6;
+
     }
+
+
 
     a {
+
       color: inherit;
+
       text-decoration: none;
+
     }
+
+
 
     button {
+
       font: inherit;
+
       cursor: pointer;
+
     }
+
+
 
     .container {
+
       margin: 0 auto;
+
       max-width: 1100px;
+
       padding: 0 24px;
+
       width: 100%;
+
     }
 
-    /* Header */
+
+
+    /\* Header \*/
+
     .site-header {
+
       background: var(--white);
+
       border-bottom: 1px solid var(--border);
+
       position: sticky;
+
       top: 0;
+
       z-index: 20;
+
     }
+
+
 
     .navbar {
+
       align-items: center;
+
       display: flex;
+
       justify-content: space-between;
+
       min-height: 76px;
+
     }
+
+
 
     .logo {
+
       align-items: center;
+
       color: var(--dark);
+
       display: inline-flex;
+
       gap: 9px;
+
     }
+
+
 
     .logo-image {
+
       display: block;
+
       height: 70px;
+
       width: auto;
+
       max-width: 180px;
+
       object-fit: contain;
+
     }
 
-    /* Header spans full width (same as dashboard) */
+
+
+    /\* Header spans full width (same as dashboard) \*/
+
     .site-header .container {
+
       max-width: none;
+
       padding-left: 27px;
-      /* Right-side buttons line up with the right edge of the page content */
+
+      /\* Right-side buttons line up with the right edge of the page content \*/
+
       padding-right: max(24px, calc((100% - 1100px) / 2 + 24px));
+
     }
+
+
 
     .site-header .logo {
+
       margin-left: 0;
+
     }
 
-    /* Header logo size and position
-       (last margin value = left position: bigger number moves it right) */
+
+
+    /\* Header logo size and position
+
+       (last margin value = left position: bigger number moves it right) \*/
+
     .site-header .logo-image {
+
       height: 80px;
+
       max-width: 200px;
+
       margin: -4px 0 -4px 60px;
-      /* Makes the white background of logo.jpeg blend into the header */
+
+      /\* Makes the white background of logo.jpeg blend into the header \*/
+
       mix-blend-mode: multiply;
+
     }
+
+
 
     .header-actions {
+
       align-items: center;
+
       display: flex;
+
       gap: 12px;
+
     }
+
+
 
     .back-link {
+
       color: var(--muted);
+
       font-size: 0.8rem;
+
       font-weight: 700;
+
     }
+
+
 
     .back-link:hover {
+
       color: var(--primary);
+
     }
+
+
 
     .dashboard-button {
+
       background: var(--light-blue);
+
       border-radius: 8px;
+
       color: var(--primary);
+
       font-size: 0.78rem;
+
       font-weight: 700;
+
       padding: 9px 13px;
+
     }
+
+
 
     .dashboard-button:hover {
+
       background: #dbeafe;
+
     }
 
-    /* Profile icon (same as jobs page) */
+
+
+    /\* Profile icon (same as jobs page) \*/
+
     .profile-icon {
+
       align-items: center;
+
       background: var(--light-blue);
+
       border: 1px solid #dbeafe;
+
       border-radius: 50%;
+
       color: var(--primary);
+
       display: inline-flex;
+
       flex-shrink: 0;
+
       height: 40px;
+
       justify-content: center;
+
       transition:
+
         background 0.2s ease,
+
         color 0.2s ease,
+
         transform 0.2s ease;
+
       width: 40px;
+
     }
+
+
 
     .profile-icon:hover {
+
       background: var(--primary);
+
       color: var(--white);
+
       transform: translateY(-1px);
+
     }
+
+
 
     .profile-icon svg {
+
       display: block;
+
       height: 22px;
+
       width: 22px;
+
     }
 
-    /* Hero */
+
+
+    /\* Hero \*/
+
     .page-hero {
+
       background:
+
         radial-gradient(
+
           circle at 85% 10%,
+
           rgba(147, 197, 253, 0.42),
+
           transparent 28%
+
         ),
+
         linear-gradient(135deg, #eff6ff, #ffffff);
+
       padding: 55px 0 42px;
+
     }
+
+
 
     .eyebrow {
+
       color: var(--primary);
+
       font-size: 0.73rem;
+
       font-weight: 800;
+
       letter-spacing: 0.13em;
+
       margin-bottom: 10px;
+
       text-transform: uppercase;
+
     }
+
+
 
     .page-hero h1 {
+
       color: var(--dark);
+
       font-size: clamp(2rem, 5vw, 3.5rem);
+
       letter-spacing: -0.06em;
+
       line-height: 1.1;
+
     }
+
+
 
     .page-hero h1 span {
+
       color: var(--primary);
+
     }
+
+
 
     .page-hero p {
+
       color: var(--muted);
+
       margin-top: 13px;
+
       max-width: 650px;
+
     }
 
-    /* Main */
+
+
+    /\* Main \*/
+
     .notifications-main {
+
       padding: 35px 0 70px;
+
     }
+
+
 
     .notifications-toolbar {
+
       align-items: center;
+
       display: flex;
+
       justify-content: space-between;
+
       margin-bottom: 18px;
+
     }
+
+
 
     .notifications-toolbar h2 {
+
       color: var(--dark);
+
       font-size: 1.3rem;
+
     }
+
+
 
     .notifications-toolbar p {
+
       color: var(--muted);
+
       font-size: 0.75rem;
+
       margin-top: 4px;
+
     }
+
+
 
     .mark-all-button {
+
       background: var(--white);
+
       border: 1px solid var(--border);
+
       border-radius: 8px;
+
       color: var(--primary);
+
       font-size: 0.74rem;
+
       font-weight: 700;
+
       padding: 9px 12px;
+
     }
+
+
 
     .mark-all-button:hover {
+
       background: var(--light-blue);
+
       border-color: #bfdbfe;
+
     }
+
+
 
     .notification-card {
+
       background: var(--white);
+
       border: 1px solid var(--border);
+
       border-radius: var(--radius);
+
       overflow: hidden;
+
     }
+
+
 
     .notification-group-title {
+
       background: #f8fafc;
+
       border-bottom: 1px solid var(--border);
+
       color: var(--muted);
+
       font-size: 0.68rem;
+
       font-weight: 800;
+
       letter-spacing: 0.08em;
+
       padding: 13px 18px;
+
       text-transform: uppercase;
+
     }
+
+
 
     .notification-item {
+
       align-items: flex-start;
+
       border-bottom: 1px solid var(--border);
+
       display: flex;
+
       gap: 13px;
+
       padding: 18px;
+
       transition: background 0.2s ease;
+
     }
+
+
 
     .notification-item:last-child {
+
       border-bottom: 0;
+
     }
+
+
 
     .notification-item.unread {
+
       background: #fafdff;
+
     }
+
+
 
     .notification-item:hover {
+
       background: var(--light-blue);
+
     }
+
+
 
     .notification-icon {
+
       align-items: center;
+
       border-radius: 10px;
+
       display: flex;
+
       flex-shrink: 0;
+
       font-size: 1rem;
+
       height: 40px;
+
       justify-content: center;
+
       width: 40px;
+
     }
+
+
 
     .blue-icon {
+
       background: #dbeafe;
+
       color: var(--primary);
+
     }
+
+
 
     .green-icon {
+
       background: #dcfce7;
+
       color: var(--green);
+
     }
+
+
 
     .orange-icon {
+
       background: #ffedd5;
+
       color: var(--orange);
+
     }
+
+
 
     .purple-icon {
+
       background: #ede9fe;
+
       color: var(--purple);
+
     }
+
+
 
     .notification-content {
+
       flex: 1;
+
       min-width: 0;
+
     }
+
+
 
     .notification-content h3 {
+
       color: var(--dark);
+
       font-size: 0.82rem;
+
     }
+
+
 
     .notification-content p {
+
       color: var(--muted);
+
       font-size: 0.73rem;
+
       margin-top: 4px;
+
     }
+
+
 
     .notification-time {
+
       color: #98a2b3;
+
       display: block;
+
       font-size: 0.65rem;
+
       margin-top: 7px;
+
     }
+
+
 
     .unread-dot {
+
       background: var(--primary);
+
       border-radius: 50%;
+
       height: 7px;
+
       margin-top: 6px;
+
       width: 7px;
+
     }
+
+
 
     .empty-state {
+
       background: var(--white);
+
       border: 1px solid var(--border);
+
       border-radius: var(--radius);
+
       color: var(--muted);
+
       display: none;
+
       padding: 45px;
+
       text-align: center;
+
     }
+
+
 
     .empty-state.show {
+
       display: block;
+
     }
+
+
 
     .empty-state-icon {
+
       align-items: center;
+
       background: var(--light-blue);
+
       border-radius: 50%;
+
       color: var(--primary);
+
       display: flex;
+
       font-size: 1.5rem;
+
       height: 60px;
+
       justify-content: center;
+
       margin: 0 auto 14px;
+
       width: 60px;
+
     }
+
+
 
     .empty-state h3 {
+
       color: var(--dark);
+
       font-size: 1rem;
+
     }
+
+
 
     .empty-state p {
+
       font-size: 0.75rem;
+
       margin-top: 5px;
+
     }
+
+
 
     @media (max-width: 600px) {
+
       .container {
+
         padding-left: 18px;
+
         padding-right: 18px;
+
       }
+
+
 
       .logo-image {
+
         height: 42px;
+
         max-width: 150px;
+
       }
+
+
 
       .site-header .container {
+
         padding-left: 18px;
+
         padding-right: 18px;
+
       }
+
+
 
       .site-header .logo-image {
+
         height: 56px;
+
         max-width: 140px;
+
         margin: -6px 0 -6px -4px;
+
       }
+
+
 
       .profile-icon {
+
         height: 36px;
+
         width: 36px;
+
       }
+
+
 
       .profile-icon svg {
+
         height: 20px;
+
         width: 20px;
+
       }
+
+
 
       .back-link {
+
         display: none;
+
       }
+
+
 
       .notifications-toolbar {
+
         align-items: flex-start;
+
         flex-direction: column;
+
         gap: 13px;
+
       }
+
+
 
       .mark-all-button {
+
         width: 100%;
+
       }
+
+
 
       .notification-item {
+
         padding: 15px;
+
       }
 
+
+
       .notification-time {
+
         font-size: 0.62rem;
+
       }
+
     }
+
   </style>
+
 </head>
+
+
 
 <body>
 
+
+
   <!-- Header -->
+
   <header class="site-header">
+
     <div class="container navbar">
 
+
+
       <a
+
         href="index.html"
+
         class="logo"
+
         aria-label="VentrixCarros Home"
+
       >
+
         <img
+
           src="logo.jpeg"
+
           alt="VentrixCarros Logo"
+
           class="logo-image"
+
         />
+
       </a>
 
+
+
       <div class="header-actions">
+
         <a href="index.html" class="back-link">
+
           ← Home
+
         </a>
+
+
 
         <a href="dashboard.html" class="dashboard-button">
+
           Dashboard
+
         </a>
+
+
 
         <!-- Profile icon -->
+
         <a
+
           href="profile.html"
+
           class="profile-icon"
+
           aria-label="Open profile"
+
           title="Profile"
+
         >
+
           <svg
+
             xmlns="http://www.w3.org/2000/svg"
+
             viewBox="0 0 24 24"
+
             fill="none"
+
             stroke="currentColor"
+
             stroke-width="1.8"
+
             stroke-linecap="round"
+
             stroke-linejoin="round"
+
             aria-hidden="true"
+
           >
+
             <circle cx="12" cy="8" r="4"></circle>
+
             <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+
           </svg>
+
         </a>
+
       </div>
 
+
+
     </div>
+
   </header>
 
+
+
   <!-- Hero -->
+
   <section class="page-hero">
+
     <div class="container">
+
       <p class="eyebrow">Stay up to date</p>
 
+
+
       <h1>
+
         Your latest
+
         <span>career updates.</span>
+
       </h1>
 
+
+
       <p>
+
         Review job recommendations, application activity, AI insights, and
+
         important account notifications.
+
       </p>
+
     </div>
+
   </section>
 
+
+
   <!-- Main -->
+
   <main class="notifications-main">
+
     <div class="container">
 
+
+
       <div class="notifications-toolbar">
+
         <div>
+
           <h2>Notifications</h2>
+
           <p id="notificationCount">
+
             4 unread notifications
+
           </p>
+
         </div>
+
+
 
         <button
+
           type="button"
+
           class="mark-all-button"
+
           id="markAllButton"
+
         >
+
           Mark all as read
+
         </button>
+
       </div>
 
-      <section class="notification-card" id="notificationCard">
 
-        <div class="notification-group-title">
-          Today
+
+      <section class="notification-card" id="notificationCard" aria-live="polite">
+        <div id="notificationList">
+          <div class="notification-group-title">Notifications</div>
+          <article class="notification-item">
+            <div class="notification-content"><p>Loading notifications...</p></div>
+          </article>
         </div>
-
-        <article class="notification-item unread">
-          <div class="notification-icon blue-icon">
-            ⌕
-          </div>
-
-          <div class="notification-content">
-            <h3>New job matches found</h3>
-
-            <p>
-              We found 8 new frontend developer roles that match your profile.
-            </p>
-
-            <span class="notification-time">
-              20 minutes ago
-            </span>
-          </div>
-
-          <span class="unread-dot"></span>
-        </article>
-
-        <article class="notification-item unread">
-          <div class="notification-icon green-icon">
-            ✓
-          </div>
-
-          <div class="notification-content">
-            <h3>Your resume score improved</h3>
-
-            <p>
-              Your AI resume score increased from 68 to 72 after your latest
-              updates.
-            </p>
-
-            <span class="notification-time">
-              2 hours ago
-            </span>
-          </div>
-
-          <span class="unread-dot"></span>
-        </article>
-
-        <article class="notification-item unread">
-          <div class="notification-icon orange-icon">
-            ◉
-          </div>
-
-          <div class="notification-content">
-            <h3>Interview preparation reminder</h3>
-
-            <p>
-              Continue your frontend developer mock interview practice before
-              your next application.
-            </p>
-
-            <span class="notification-time">
-              4 hours ago
-            </span>
-          </div>
-
-          <span class="unread-dot"></span>
-        </article>
-
-        <div class="notification-group-title">
-          Earlier
-        </div>
-
-        <article class="notification-item unread">
-          <div class="notification-icon purple-icon">
-            ✦
-          </div>
-
-          <div class="notification-content">
-            <h3>Career roadmap updated</h3>
-
-            <p>
-              Your personalized roadmap now includes TypeScript and testing
-              milestones.
-            </p>
-
-            <span class="notification-time">
-              Yesterday
-            </span>
-          </div>
-
-          <span class="unread-dot"></span>
-        </article>
-
-        <article class="notification-item">
-          <div class="notification-icon blue-icon">
-            ♡
-          </div>
-
-          <div class="notification-content">
-            <h3>Job saved successfully</h3>
-
-            <p>
-              Frontend Developer at TechNova Solutions was added to your saved
-              jobs.
-            </p>
-
-            <span class="notification-time">
-              2 days ago
-            </span>
-          </div>
-        </article>
-
-        <article class="notification-item">
-          <div class="notification-icon green-icon">
-            ▤
-          </div>
-
-          <div class="notification-content">
-            <h3>Application status changed</h3>
-
-            <p>
-              Your application for UI/UX Design Intern is now shortlisted.
-            </p>
-
-            <span class="notification-time">
-              5 days ago
-            </span>
-          </div>
-        </article>
-
       </section>
 
       <section class="empty-state" id="emptyState">
+
         <div class="empty-state-icon">✓</div>
+
+
 
         <h3>You are all caught up</h3>
 
+
+
         <p>
+
           New career updates and recommendations will appear here.
+
         </p>
+
       </section>
 
+
+
     </div>
+
   </main>
 
+
+
   <script>
-    const markAllButton =
-      document.getElementById("markAllButton");
+    const API_BASE = "http://localhost:5000/api/v1";
+    const token = localStorage.getItem("ventrixToken");
 
-    const notificationCount =
-      document.getElementById("notificationCount");
+    const markAllButton = document.getElementById("markAllButton");
+    const notificationCount = document.getElementById("notificationCount");
+    const notificationCard = document.getElementById("notificationCard");
+    const notificationList = document.getElementById("notificationList");
+    const emptyState = document.getElementById("emptyState");
 
-    const notificationCard =
-      document.getElementById("notificationCard");
+    let notifications = [];
 
-    const emptyState =
-      document.getElementById("emptyState");
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
 
-    function updateNotificationCount() {
-      const unreadItems =
-        document.querySelectorAll(
-          ".notification-item.unread"
-        );
+    function getIcon(type) {
+      const value = String(type || "GENERAL").toUpperCase();
+      if (value.includes("JOB") || value.includes("MATCH")) return ["⌕", "blue-icon"];
+      if (value.includes("APPLICATION") || value.includes("INTERVIEW")) return ["▤", "green-icon"];
+      if (value.includes("CAREER") || value.includes("AI")) return ["✦", "purple-icon"];
+      if (value.includes("SUCCESS") || value.includes("OFFER")) return ["✓", "green-icon"];
+      return ["●", "orange-icon"];
+    }
 
-      const count = unreadItems.length;
+    function formatTime(dateValue) {
+      if (!dateValue) return "Recently";
+      const date = new Date(dateValue);
+      if (Number.isNaN(date.getTime())) return "Recently";
+      const now = new Date();
+      const sameDay = date.toDateString() === now.toDateString();
+      const yesterday = new Date(now);
+      yesterday.setDate(now.getDate() - 1);
+      if (sameDay) {
+        return date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+      }
+      if (date.toDateString() === yesterday.toDateString()) return "Yesterday";
+      return date.toLocaleDateString([], { day: "numeric", month: "short", year: "numeric" });
+    }
 
-      notificationCount.textContent =
-        count === 0
-          ? "No unread notifications"
-          : count + " unread notifications";
+    function updateCount() {
+      const unread = notifications.filter((item) => !item.isRead).length;
+      notificationCount.textContent = `${unread} unread ${unread === 1 ? "notification" : "notifications"}`;
+      markAllButton.disabled = unread === 0;
+      markAllButton.style.opacity = unread === 0 ? "0.55" : "1";
+    }
 
-      if (count === 0) {
+    function renderNotifications() {
+      updateCount();
+
+      if (!notifications.length) {
         notificationCard.style.display = "none";
         emptyState.classList.add("show");
+        return;
+      }
+
+      notificationCard.style.display = "block";
+      emptyState.classList.remove("show");
+
+      const today = [];
+      const earlier = [];
+      const todayString = new Date().toDateString();
+
+      notifications.forEach((item) => {
+        const created = item.createdAt ? new Date(item.createdAt) : null;
+        if (created && !Number.isNaN(created.getTime()) && created.toDateString() === todayString) {
+          today.push(item);
+        } else {
+          earlier.push(item);
+        }
+      });
+
+      function renderGroup(label, items) {
+        if (!items.length) return "";
+        return `<div class="notification-group-title">${label}</div>` + items.map((item) => {
+          const [icon, iconClass] = getIcon(item.type);
+          const unreadClass = item.isRead ? "" : " unread";
+          const dot = item.isRead ? "" : '<span class="unread-dot" aria-label="Unread"></span>';
+          return `
+            <article class="notification-item${unreadClass}" data-id="${escapeHtml(item.id)}" ${item.isRead ? "" : 'title="Click to mark as read"'}>
+              <div class="notification-icon ${iconClass}" aria-hidden="true">${icon}</div>
+              <div class="notification-content">
+                <h3>${escapeHtml(item.title || "Notification")}</h3>
+                <p>${escapeHtml(item.message || "")}</p>
+                <span class="notification-time">${escapeHtml(formatTime(item.createdAt))}</span>
+              </div>
+              ${dot}
+            </article>`;
+        }).join("");
+      }
+
+      notificationList.innerHTML = renderGroup("Today", today) + renderGroup("Earlier", earlier);
+      notificationList.querySelectorAll(".notification-item.unread").forEach((item) => {
+        item.addEventListener("click", () => markOneAsRead(item.dataset.id));
+      });
+    }
+
+    async function loadNotifications() {
+      if (!token) {
+        notificationCount.textContent = "Please log in to view notifications";
+        markAllButton.disabled = true;
+        notificationCard.style.display = "none";
+        emptyState.classList.add("show");
+        emptyState.querySelector("h3").textContent = "Please log in";
+        emptyState.querySelector("p").textContent = "Log in to your student account to view your notifications.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/notifications`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.success === false) {
+          throw new Error(result.message || `Request failed (${response.status})`);
+        }
+
+        notifications = Array.isArray(result.notifications) ? result.notifications : [];
+        renderNotifications();
+      } catch (error) {
+        console.error("Notifications loading error:", error);
+        notificationCard.style.display = "none";
+        emptyState.classList.add("show");
+        emptyState.querySelector("h3").textContent = "Unable to load notifications";
+        emptyState.querySelector("p").textContent = error.message || "Please try again later.";
+        notificationCount.textContent = "Notifications could not be loaded";
+        markAllButton.disabled = true;
       }
     }
 
-    document
-      .querySelectorAll(".notification-item")
-      .forEach((item) => {
-        item.addEventListener("click", () => {
-          item.classList.remove("unread");
-
-          const dot =
-            item.querySelector(".unread-dot");
-
-          if (dot) {
-            dot.remove();
-          }
-
-          updateNotificationCount();
+    async function markOneAsRead(id) {
+      if (!id || !token) return;
+      try {
+        const response = await fetch(`${API_BASE}/notifications/${encodeURIComponent(id)}/read`, {
+          method: "PATCH",
+          headers: { Authorization: `Bearer ${token}` }
         });
-      });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.success === false) {
+          throw new Error(result.message || `Request failed (${response.status})`);
+        }
+        const item = notifications.find((notification) => notification.id === id);
+        if (item) item.isRead = true;
+        renderNotifications();
+      } catch (error) {
+        console.error("Mark notification as read error:", error);
+        alert(error.message || "Could not mark this notification as read.");
+      }
+    }
 
-    markAllButton.addEventListener("click", () => {
-      document
-        .querySelectorAll(".notification-item.unread")
-        .forEach((item) => {
-          item.classList.remove("unread");
-
-          const dot =
-            item.querySelector(".unread-dot");
-
-          if (dot) {
-            dot.remove();
-          }
+    markAllButton.addEventListener("click", async () => {
+      if (!token || !notifications.some((item) => !item.isRead)) return;
+      markAllButton.disabled = true;
+      try {
+        const response = await fetch(`${API_BASE}/notifications/read-all`, {
+          method: "PATCH",
+          headers: { Authorization: `Bearer ${token}` }
         });
-
-      updateNotificationCount();
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.success === false) {
+          throw new Error(result.message || `Request failed (${response.status})`);
+        }
+        notifications = notifications.map((item) => ({ ...item, isRead: true }));
+        renderNotifications();
+      } catch (error) {
+        console.error("Mark all notifications as read error:", error);
+        alert(error.message || "Could not mark all notifications as read.");
+        markAllButton.disabled = false;
+      }
     });
 
-    updateNotificationCount();
+    loadNotifications();
   </script>
 
+
+
 </body>
+
 </html>

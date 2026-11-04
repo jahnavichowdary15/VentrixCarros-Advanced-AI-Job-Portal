@@ -4,8 +4,10 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
-const { sendOtpEmail } = require("../services/emailService");
-
+const {
+  sendOtpEmail,
+  sendLoginAlertEmail
+} = require("../services/emailService");
 const router = express.Router();
 const prisma = new PrismaClient();
 
@@ -386,6 +388,7 @@ router.post("/login", async (req, res) => {
 });
 
 // LOGIN: verify OTP and return JWT
+// LOGIN: verify OTP and complete login
 router.post("/verify-login-otp", async (req, res) => {
   try {
     const email = normalizeEmail(req.body?.email);
@@ -418,6 +421,34 @@ router.post("/verify-login-otp", async (req, res) => {
       });
     }
 
+    // Create an in-app login notification for student accounts.
+    if (user.role === "JOB_SEEKER") {
+      try {
+        await prisma.notification.create({
+          data: {
+            userId: user.id,
+            title: "New login to your account",
+            message:
+              "A successful login to your VentrixCarros account was detected.",
+            type: "GENERAL",
+          },
+        });
+      } catch (notificationError) {
+        console.error(
+          "Could not save login notification:",
+          notificationError.message
+        );
+      }
+    }
+
+    // Send login alert email without blocking the login response.
+    sendLoginAlertEmail(user.email, user.name).catch((emailError) => {
+      console.error(
+        "Login alert email failed:",
+        emailError.message
+      );
+    });
+
     return res.json({
       success: true,
       message: "Login successful.",
@@ -426,57 +457,10 @@ router.post("/verify-login-otp", async (req, res) => {
     });
   } catch (error) {
     console.error("Verify login OTP failed:", error);
+
     return res.status(500).json({
       success: false,
       message: "Unable to verify the login OTP right now.",
-    });
-  }
-});
-
-// LOGIN: resend OTP after password check
-router.post("/resend-login-otp", async (req, res) => {
-  try {
-    const email = normalizeEmail(req.body?.email);
-    const password = req.body?.password;
-
-    if (!email || typeof password !== "string" || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Email and password are required.",
-      });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (
-      !user ||
-      !(await bcrypt.compare(password, user.passwordHash)) ||
-      !user.isActive ||
-      !user.emailVerified
-    ) {
-      return res.status(401).json({
-        success: false,
-        message: "Unable to resend OTP. Please check your login details.",
-      });
-    }
-
-    await sendAndSaveOtp(email);
-
-    return res.json({
-      success: true,
-      message: "A new OTP has been sent to your email.",
-      email,
-    });
-  } catch (error) {
-    console.error("Resend login OTP failed:", error);
-    return res.status(error.status || 500).json({
-      success: false,
-      message:
-        error.status === 429
-          ? error.message
-          : "Unable to resend the OTP right now.",
     });
   }
 });

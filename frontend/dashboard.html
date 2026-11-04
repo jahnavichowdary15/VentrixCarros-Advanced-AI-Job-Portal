@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,11 +94,9 @@
       letter-spacing: -0.04em;
     }
 
-  
     .site-header .container {
       max-width: none;
       padding-left: 27px;
-   
       padding-right: max(27px, calc((100% - 1501px) / 2 + 24px));
     }
 
@@ -107,13 +104,10 @@
       margin-left: 0;
     }
 
-    
     .site-header .logo-image {
       height: 70px;
       max-width: 200px;
       margin: -4px 0 -4px 70px;
-      
-     
     }
 
     /* Logo image */
@@ -223,6 +217,8 @@
 
     .user-info small {
       color: var(--muted);
+    }
+        .user-info small {
       font-size: 0.68rem;
     }
 
@@ -448,8 +444,7 @@
       border-radius: var(--radius);
       padding: 19px;
     }
-
-    .stat-card-top {
+        .stat-card-top {
       align-items: center;
       display: flex;
       justify-content: space-between;
@@ -666,27 +661,27 @@
     }
 
     .match-circle {
-      align-items: center;
-      background: var(--light-blue);
-      border: 5px solid #bfdbfe;
-      border-radius: 50%;
-      display: flex;
-      flex-direction: column;
-      height: 59px;
-      justify-content: center;
-      width: 59px;
-    }
+  align-items: center;
+  background: var(--light-blue);
+  border: 5px solid #bfdbfe;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 59px;
+  justify-content: center;
+  width: 59px;
+}
 
-    .match-circle strong {
-      color: var(--primary);
-      font-size: 0.85rem;
-      line-height: 1;
-    }
+.match-circle strong {
+  color: var(--primary);
+  font-size: 0.85rem;
+  line-height: 1;
+}
 
-    .match-circle small {
-      color: var(--muted);
-      font-size: 0.55rem;
-    }
+.match-circle small {
+  color: var(--muted);
+  font-size: 0.55rem;
+}
 
     .match-info strong,
     .match-info span {
@@ -897,8 +892,7 @@
       color: var(--dark);
       font-size: 1rem;
     }
-
-    .profile-mini p {
+        .profile-mini p {
       color: var(--primary);
       font-size: 0.73rem;
       font-weight: 700;
@@ -1123,7 +1117,7 @@
 
       .site-header .container {
         padding-left: 18px;
-        padding-right: 18px;
+                padding-right: 18px;
       }
 
       .site-header .logo-image {
@@ -1182,7 +1176,22 @@
       .cta-content .btn {
         width: 100%;
       }
+      /* Profile photo in dashboard */
     }
+    .user-avatar,
+.profile-mini-avatar {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.user-avatar img,
+.profile-mini-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
   </style>
 </head>
 
@@ -1215,22 +1224,20 @@
           <span class="notification-dot"></span>
         </a>
 
-       
-<div class="user-menu">
-  <a
-    href="profile.html"
-    class="user-avatar"
-    id="userAvatar"
-    aria-label="Open my profile"
-    title="My profile"
-  >U</a>
+        <div class="user-menu">
+          <a
+            href="profile.html"
+            class="user-avatar"
+            id="userAvatar"
+            aria-label="Open my profile"
+            title="My profile"
+          >U</a>
 
-  <div class="user-info">
-    <strong id="userName">User</strong>
-    <small>Job seeker</small>
-  </div>
-</div>
-
+          <div class="user-info">
+            <strong id="userName">User</strong>
+            <small>Job seeker</small>
+          </div>
+        </div>
 
         <button
           type="button"
@@ -1573,7 +1580,7 @@
                 <div class="roadmap-step active">
                   <span>2</span>
                   <strong>Advanced JavaScript</strong>
-                </div>
+                                  </div>
 
                 <div class="roadmap-line"></div>
 
@@ -1798,7 +1805,7 @@
                 <small>GrowthBase · Submitted</small>
               </div>
             </div>
-          </section>
+                      </section>
 
         </div>
 
@@ -1807,34 +1814,89 @@
   </div>
 
   <script>
-  // Read the token saved after successful OTP login.
-  // Remember Me may save it in localStorage or sessionStorage.
-  const token =
-    localStorage.getItem("ventrixToken") ||
-    sessionStorage.getItem("ventrixToken");
+    const API = "http://localhost:5000/api/v1";
 
-  // Read the logged-in user's information.
-  const storedUser =
-    localStorage.getItem("ventrixUser") ||
-    sessionStorage.getItem("ventrixUser");
+    // Authentication
+    const token =
+      localStorage.getItem("ventrixToken") ||
+      sessionStorage.getItem("ventrixToken");
 
-  let user = {};
+    const storedUser =
+      localStorage.getItem("ventrixUser") ||
+      sessionStorage.getItem("ventrixUser");
 
-  try {
-    user = storedUser ? JSON.parse(storedUser) : {};
-  } catch (error) {
-    console.error("Unable to read saved user information.", error);
-  }
+    let user = {};
 
-  // Redirect to login if the token is missing.
-  if (!token) {
-    window.location.replace("login.html");
-  } else {
-    const name = user.name || user.fullName || "User";
-    const firstName = name.trim().split(/\s+/)[0] || "User";
+    try {
+      user = storedUser ? JSON.parse(storedUser) : {};
+    } catch (error) {
+      console.error("Unable to read saved user information.", error);
+    }
 
-    const initials =
-      name
+    if (!token) {
+      window.location.replace("login.html");
+    }
+
+    // Common API request
+    async function apiRequest(endpoint) {
+      const response = await fetch(API + endpoint, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + token
+        }
+      });
+
+      let result = {};
+
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
+
+      if (!response.ok || result.success === false) {
+        throw new Error(
+          result.message || "Unable to retrieve dashboard information."
+        );
+      }
+
+      return result;
+    }
+
+    // Display profile photo or initials
+    function renderDashboardAvatar(elementId, photoPath, initials) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+
+      element.replaceChildren();
+
+      if (photoPath) {
+        const image = document.createElement("img");
+
+        image.src = /^https?:\/\//i.test(photoPath)
+          ? photoPath
+          : "http://localhost:5000" +
+            (photoPath.startsWith("/") ? photoPath : "/" + photoPath);
+
+        image.alt = "Profile photo";
+
+        image.onerror = () => {
+          element.textContent = initials || "U";
+        };
+
+        element.appendChild(image);
+      } else {
+        element.textContent = initials || "U";
+      }
+    }
+
+    // Display the logged-in user's information
+    function updateUserInformation() {
+      const name = user.name || user.fullName || "User";
+      const firstName = name.trim().split(/\s+/)[0] || "User";
+
+      const initials = name
         .trim()
         .split(/\s+/)
         .filter(Boolean)
@@ -1843,66 +1905,362 @@
         .substring(0, 2)
         .toUpperCase() || "U";
 
-    // Update the existing dashboard without changing its design.
-    const welcomeName = document.getElementById("welcomeName");
-    const userName = document.getElementById("userName");
-    const userAvatar = document.getElementById("userAvatar");
-    const profileName = document.getElementById("profileName");
-    const profileAvatar = document.getElementById("profileAvatar");
+      const elements = {
+        welcomeName: firstName,
+        userName: name,
+        profileName: name
+      };
 
-    if (welcomeName) {
-      welcomeName.textContent = firstName;
-    }
-
-    if (userName) {
-      userName.textContent = name;
-    }
-
-    if (userAvatar) {
-      userAvatar.textContent = initials;
-    }
-
-    if (profileName) {
-      profileName.textContent = name;
-    }
-
-    if (profileAvatar) {
-      profileAvatar.textContent = initials;
-    }
-  }
-
-  // Logout and clear login information from both storage locations.
-  const logoutButton = document.getElementById("logoutButton");
-
-  if (logoutButton) {
-    logoutButton.addEventListener("click", () => {
-      localStorage.removeItem("ventrixToken");
-      localStorage.removeItem("ventrixUser");
-
-      sessionStorage.removeItem("ventrixToken");
-      sessionStorage.removeItem("ventrixUser");
-
-      // Clear older login keys, if present.
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("userName");
-      localStorage.removeItem("userEmail");
-      localStorage.removeItem("userRole");
-
-      window.location.replace("login.html");
-    });
-  }
-
-  // Preserve the sidebar's active-link highlighting.
-  document.querySelectorAll(".sidebar-link").forEach((link) => {
-    link.addEventListener("click", () => {
-      document.querySelectorAll(".sidebar-link").forEach((item) => {
-        item.classList.remove("active");
+      Object.entries(elements).forEach(([id, value]) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
       });
 
-      link.classList.add("active");
+      renderDashboardAvatar("userAvatar", "", initials);
+      renderDashboardAvatar("profileAvatar", "", initials);
+    }
+
+    // Update profile completion using the backend value
+    function updateProfileCompletion(profile) {
+      const completion = Math.max(
+        0,
+        Math.min(100, Number(profile?.completion) || 0)
+      );
+
+      const progressBars = [
+        document.querySelector(".profile-completion .progress-bar span"),
+        document.querySelector(".profile-progress span")
+      ];
+
+      progressBars.forEach((bar) => {
+        if (bar) bar.style.width = completion + "%";
+      });
+
+      const progressLabels = [
+        document.querySelector(".profile-completion .progress-text"),
+        document.querySelector(".profile-progress-row strong")
+      ];
+
+      progressLabels.forEach((label) => {
+        if (label) label.textContent = completion + "%";
+      });
+
+      const profileRole = document.getElementById("profileRole");
+
+      if (profileRole) {
+        profileRole.textContent =
+          profile.headline || "Add your professional headline";
+      }
+    }
+        // Match jobs against the student's profile.
+    // This is rule-based matching, not AI-generated matching.
+    function calculateJobMatch(job, skills, studentLocation) {
+      const jobText = [
+        job.title,
+        job.description,
+        job.requirements
+      ].join(" ").toLowerCase();
+
+      const matchedSkills = skills.filter((skill) =>
+        jobText.includes(skill.toLowerCase())
+      );
+
+      let score = skills.length
+        ? Math.round((matchedSkills.length / skills.length) * 80)
+        : 0;
+
+      if (
+        studentLocation &&
+        job.location &&
+        job.location.toLowerCase().includes(studentLocation.toLowerCase())
+      ) {
+        score += 20;
+      }
+
+      return {
+        score: Math.min(score, 100),
+        matchedSkills
+      };
+    }
+
+    // Create the recommendations section
+    function createRecommendationSection() {
+      if (document.getElementById("liveRecommendations")) return;
+
+      const section = document.createElement("section");
+
+      section.id = "liveRecommendations";
+      section.className = "content-card";
+      section.style.marginBottom = "28px";
+
+      section.innerHTML = `
+        <div class="section-header">
+          <div>
+            <h2>Recommended jobs</h2>
+            <p class="muted-text">
+              Opportunities matched with your profile and skills.
+            </p>
+          </div>
+          <a href="jobs.html" class="view-link">Explore all jobs</a>
+        </div>
+
+        <div id="recommendationList">
+          <p class="muted-text">Loading recommended jobs...</p>
+        </div>
+      `;
+
+      const careerSection = document.getElementById("careerTools");
+
+      if (careerSection) {
+        careerSection.insertAdjacentElement("beforebegin", section);
+      } else {
+        document.querySelector(".dashboard-main .container")
+          ?.prepend(section);
+      }
+    }
+
+    // Render recommended jobs
+    function renderRecommendations(jobs, profile) {
+      const list = document.getElementById("recommendationList");
+
+      if (!list) return;
+
+      const skills = Array.isArray(profile.skills)
+        ? profile.skills.filter(
+            (skill) => typeof skill === "string" && skill.trim()
+          )
+        : [];
+
+      const studentLocation = (
+        profile.location || ""
+      ).trim().toLowerCase();
+
+      const recommendations = jobs.map((job) => ({
+        job,
+        ...calculateJobMatch(job, skills, studentLocation)
+      }));
+
+      recommendations.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+
+        return new Date(b.job.createdAt) - new Date(a.job.createdAt);
+      });
+
+      const topJobs = recommendations.slice(0, 5);
+
+      if (!topJobs.length) {
+        list.innerHTML = `
+          <p class="muted-text">
+            No active job opportunities are available right now.
+            Please check again later.
+          </p>
+        `;
+        return;
+      }
+
+      list.innerHTML = "";
+
+      topJobs.forEach(({ job, score, matchedSkills }) => {
+        const row = document.createElement("div");
+        row.className = "activity-row";
+
+        const icon = document.createElement("span");
+        icon.className = "activity-icon";
+        icon.textContent = (job.title || "J").charAt(0).toUpperCase();
+
+        const info = document.createElement("div");
+        info.className = "activity-info";
+
+        const title = document.createElement("strong");
+        title.textContent = job.title || "Untitled job";
+
+        const details = document.createElement("small");
+        details.textContent = [
+          job.company?.name || "Company",
+          job.location || "Location not specified",
+          job.jobType || ""
+        ].filter(Boolean).join(" · ");
+
+        const match = document.createElement("small");
+        match.textContent =
+          score + "% profile match" +
+          (matchedSkills.length
+            ? " · Skills: " + matchedSkills.join(", ")
+            : "");
+
+        info.append(title, details, match);
+
+        const link = document.createElement("a");
+        link.className = "view-link";
+        link.href = "jobs.html?jobId=" + encodeURIComponent(job.id);
+        link.textContent = "View job";
+
+        row.append(icon, info, link);
+        list.appendChild(row);
+      });
+    }
+        // Load dashboard information from the backend
+    async function loadDashboard() {
+      createRecommendationSection();
+
+      try {
+        const [profileResult, jobsResult, savedResult] =
+          await Promise.all([
+            apiRequest("/profile/me"),
+            apiRequest("/jobs?limit=50"),
+            apiRequest("/jobs/saved/me")
+          ]);
+
+        const profile = profileResult.profile || {};
+
+        const profileName =
+          profile.fullName ||
+          profile.name ||
+          user.name ||
+          user.fullName ||
+          "User";
+
+        const profileInitials = profileName
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((part) => part.charAt(0))
+          .join("")
+          .substring(0, 2)
+          .toUpperCase() || "U";
+
+        renderDashboardAvatar(
+          "userAvatar",
+          profile.profilePicture,
+          profileInitials
+        );
+
+        renderDashboardAvatar(
+          "profileAvatar",
+          profile.profilePicture,
+          profileInitials
+        );
+
+        const jobs = Array.isArray(jobsResult.jobs)
+          ? jobsResult.jobs
+          : [];
+
+        const savedJobs = Array.isArray(savedResult.jobs)
+          ? savedResult.jobs
+          : [];
+
+        updateProfileCompletion(profile);
+        renderRecommendations(jobs, profile);
+
+        // Update saved jobs statistic
+        const statCards = document.querySelectorAll(
+          ".stats-grid .stat-card"
+        );
+
+        if (statCards[0]) {
+          const value = statCards[0].querySelector(".stat-value");
+          const change = statCards[0].querySelector(".stat-change");
+
+          if (value) value.textContent = savedJobs.length;
+          if (change) change.textContent = "Saved opportunities";
+        }
+
+        // Update the saved jobs preview
+        const savedSection = Array.from(
+          document.querySelectorAll(".content-card")
+        ).find((card) =>
+          card.querySelector("h2")?.textContent.trim() === "Saved jobs"
+        );
+
+        if (savedSection) {
+          const oldRows = savedSection.querySelectorAll(".activity-row");
+          oldRows.forEach((row) => row.remove());
+
+          const header = savedSection.querySelector(".section-header");
+
+          if (savedJobs.length) {
+            savedJobs.slice(0, 3).forEach((job) => {
+              const row = document.createElement("div");
+              row.className = "activity-row";
+
+              const icon = document.createElement("span");
+              icon.className = "activity-icon";
+              icon.textContent = (job.title || "J").charAt(0).toUpperCase();
+
+              const info = document.createElement("div");
+              info.className = "activity-info";
+
+              const title = document.createElement("strong");
+              title.textContent = job.title || "Untitled job";
+
+              const company = document.createElement("small");
+              company.textContent =
+                (job.company?.name || "Company") +
+                " · " +
+                (job.location || "Location not specified");
+
+              info.append(title, company);
+              row.append(icon, info);
+
+              header.insertAdjacentElement("afterend", row);
+            });
+          } else {
+            const empty = document.createElement("p");
+            empty.className = "muted-text";
+            empty.textContent = "You haven't saved any jobs yet.";
+            header.insertAdjacentElement("afterend", empty);
+          }
+        }
+
+      } catch (error) {
+        console.error("Dashboard loading failed:", error);
+
+        const list = document.getElementById("recommendationList");
+
+        if (list) {
+          list.textContent =
+            "Unable to load recommendations. Please refresh the page.";
+        }
+      }
+    }
+
+    // Logout
+    const logoutButton = document.getElementById("logoutButton");
+
+    if (logoutButton) {
+      logoutButton.addEventListener("click", () => {
+        localStorage.removeItem("ventrixToken");
+        localStorage.removeItem("ventrixUser");
+        localStorage.removeItem("profileFullName");
+
+        sessionStorage.removeItem("ventrixToken");
+        sessionStorage.removeItem("ventrixUser");
+
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("userRole");
+
+        window.location.replace("login.html");
+      });
+    }
+
+    // Sidebar active-link highlighting
+    document.querySelectorAll(".sidebar-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        document.querySelectorAll(".sidebar-link").forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        link.classList.add("active");
+      });
     });
-  });
-</script>
+
+    if (token) {
+      updateUserInformation();
+      loadDashboard();
+    }
+  </script>
 
 </body>
 </html>

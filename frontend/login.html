@@ -994,7 +994,7 @@
     });
 
     // Automatically remove whitespace from pasted OTPs.
-    otpInput.addEventListener("input", () => {
+      otpInput.addEventListener("input", () => {
       otpInput.value = otpInput.value.replace(/\D/g, "").slice(0, 6);
     });
   </script>

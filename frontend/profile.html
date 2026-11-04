@@ -18,6 +18,7 @@
       --border: #e4e7ec;
       --light-blue: #eff6ff;
       --green: #16a34a;
+      --orange: #ea580c;
       --red: #dc2626;
       --radius: 14px;
       --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
@@ -48,8 +49,8 @@
 
     button,
     input,
-    select,
-    textarea {
+    textarea,
+    select {
       font: inherit;
     }
 
@@ -59,12 +60,11 @@
 
     .container {
       width: 100%;
-      max-width: 1240px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Header */
     .site-header {
       position: sticky;
       top: 0;
@@ -74,328 +74,211 @@
     }
 
     .navbar {
+      min-height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 76px;
     }
 
     .logo {
       display: inline-flex;
       align-items: center;
-      flex-shrink: 0;
+      gap: 9px;
+      color: var(--dark);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
     }
 
     .logo-image {
       display: block;
+      height: 69px;
       width: auto;
-      max-width: 200px;
-      height: 80px;
+      max-width: 180px;
       object-fit: contain;
-      margin: -4px 0 -4px 60px;
-      mix-blend-mode: multiply;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .back-link {
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    .back-link:hover {
-      color: var(--primary);
-    }
-
-    .dashboard-button {
-      padding: 9px 13px;
+    .back-home-button {
+      padding: 8px 12px;
+      background: var(--white);
+      border: 1px solid var(--border);
       border-radius: 8px;
-      background: var(--light-blue);
-      color: var(--primary);
+      color: var(--muted);
       font-size: 0.78rem;
       font-weight: 700;
     }
 
-    .dashboard-button:hover {
-      background: #dbeafe;
-    }
-
-    .profile-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      border: 1px solid #dbeafe;
-      border-radius: 50%;
+    .back-home-button:hover {
       background: var(--light-blue);
-      color: var(--primary);
-      transition: background 0.2s ease, color 0.2s ease,
-        transform 0.2s ease;
-    }
-
-    .profile-icon:hover {
-      background: var(--primary);
-      color: var(--white);
-      transform: translateY(-1px);
-    }
-
-    .profile-icon svg {
-      display: block;
-      width: 22px;
-      height: 22px;
-    }
-
-    /* Hero */
-    .page-hero {
-      padding: 55px 0 42px;
-      background:
-        radial-gradient(
-          circle at 85% 10%,
-          rgba(147, 197, 253, 0.42),
-          transparent 28%
-        ),
-        linear-gradient(135deg, #eff6ff, #ffffff);
-    }
-
-    .eyebrow {
-      margin-bottom: 10px;
-      color: var(--primary);
-      font-size: 0.73rem;
-      font-weight: 800;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-    }
-
-    .page-hero h1 {
-      color: var(--dark);
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      letter-spacing: -0.06em;
-      line-height: 1.1;
-    }
-
-    .page-hero h1 span {
+      border-color: #bfdbfe;
       color: var(--primary);
     }
 
-    .page-hero .hero-description {
-      max-width: 650px;
-      margin-top: 13px;
-      color: var(--muted);
-    }
-
-    /* Main layout */
-    .profile-main {
-      padding: 34px 0 70px;
-    }
-
-    .profile-layout {
+    .page-layout {
       display: grid;
-      grid-template-columns: 270px minmax(0, 1fr);
-      gap: 24px;
-      align-items: start;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 28px;
+      padding-top: 34px;
+      padding-bottom: 60px;
     }
 
-    .panel {
-      padding: 24px;
+    .profile-sidebar,
+    .profile-content {
+      min-width: 0;
+    }
+
+    .profile-card,
+    .form-card {
+      background: var(--white);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      background: var(--white);
+      box-shadow: var(--shadow);
     }
 
-    /* Profile summary */
-    .profile-summary {
-      position: sticky;
-      top: 100px;
-    }
-
-    .profile-summary-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
+    .profile-card {
+      padding: 25px;
+      text-align: center;
     }
 
     .avatar-wrapper {
       position: relative;
-      flex-shrink: 0;
-      width: fit-content;
+      width: 112px;
+      height: 112px;
+      margin: 0 auto 16px;
     }
 
     .profile-avatar {
+      width: 112px;
+      height: 112px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100px;
-      height: 100px;
       overflow: hidden;
       border-radius: 50%;
       background: var(--light-blue);
       color: var(--primary);
-      font-size: 2.1rem;
+      font-size: 2rem;
       font-weight: 800;
+      border: 4px solid var(--white);
+      box-shadow: 0 0 0 1px var(--border);
     }
 
     .profile-avatar img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 50%;
     }
 
     .avatar-edit {
       position: absolute;
       right: 0;
-      bottom: 2px;
+      bottom: 0;
+      width: 34px;
+      height: 34px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 30px;
-      height: 30px;
       border: 3px solid var(--white);
       border-radius: 50%;
       background: var(--primary);
       color: var(--white);
-      font-size: 0.75rem;
+      font-size: 0.85rem;
     }
 
-    .profile-summary h2 {
-      margin-top: 17px;
-      overflow-wrap: anywhere;
+    .avatar-edit:hover {
+      background: var(--primary-dark);
+    }
+
+    .avatar-edit:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .profile-card h2 {
       color: var(--dark);
       font-size: 1.15rem;
     }
 
-    .profile-role {
-      margin-top: 4px;
-      color: var(--primary);
+    .profile-card p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .profile-card .profile-location {
+      margin-top: 12px;
       font-size: 0.78rem;
-      font-weight: 700;
     }
 
-    .profile-location {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 0.7rem;
-      overflow-wrap: anywhere;
-    }
-
-    .profile-score {
-      margin-top: 24px;
-      padding: 14px;
-      border-radius: 10px;
-      background: var(--light-blue);
-    }
-
-    .score-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 0.7rem;
-    }
-
-    .score-heading strong {
-      color: var(--primary);
-    }
-
-    .score-bar {
-      height: 6px;
-      margin-top: 9px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: #dbeafe;
-    }
-
-    .score-bar span {
-      display: block;
-      width: 0;
-      height: 100%;
-      border-radius: inherit;
-      background: var(--primary);
-      transition: width 0.3s ease;
-    }
-
-    .profile-summary-list {
+    .profile-content {
       display: grid;
-      gap: 13px;
-      margin-top: 23px;
-      padding-top: 19px;
-      border-top: 1px solid var(--border);
-      list-style: none;
+      gap: 22px;
     }
 
-    .profile-summary-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      color: var(--muted);
-      font-size: 0.74rem;
-      overflow-wrap: anywhere;
+    .page-heading {
+      margin-bottom: 22px;
     }
 
-    .summary-symbol {
+    .eyebrow {
+      margin-bottom: 8px;
       color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
     }
 
-    .profile-link {
-      display: block;
-      margin-top: 22px;
-      color: var(--primary);
-      font-size: 0.74rem;
-      font-weight: 700;
-    }
-
-    /* Form sections */
-    .form-section {
-      padding-bottom: 27px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .form-section + .form-section {
-      padding-top: 27px;
-    }
-
-    .form-section:last-of-type {
-      border-bottom: 0;
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 19px;
-    }
-
-    .section-heading h2 {
+    h1,
+    h2,
+    h3 {
       color: var(--dark);
-      font-size: 1.1rem;
+      line-height: 1.25;
     }
 
-    .section-heading p {
-      margin-top: 5px;
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: -0.05em;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+    }
+
+    .muted-text {
+      margin-top: 7px;
       color: var(--muted);
-      font-size: 0.74rem;
+      font-size: 0.84rem;
+    }
+
+    .form-card {
+      padding: 26px;
+    }
+
+    .form-card-header {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 15px;
+      gap: 18px;
     }
 
     .form-group {
-      display: grid;
-      align-content: start;
-      gap: 7px;
       min-width: 0;
-      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
     }
 
     .form-group.full-width {
@@ -404,202 +287,164 @@
 
     .form-group label {
       color: var(--dark);
-      font-size: 0.76rem;
+      font-size: 0.8rem;
       font-weight: 700;
     }
 
     .form-group input,
-    .form-group select,
-    .form-group textarea {
+    .form-group textarea,
+    .form-group select {
       width: 100%;
-      min-width: 0;
-      padding: 11px;
-      outline: 0;
+      min-height: 44px;
+      padding: 10px 12px;
+      outline: none;
+      background: var(--white);
       border: 1px solid var(--border);
       border-radius: 8px;
-      background: var(--white);
       color: var(--text);
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      font-size: 0.84rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .form-group textarea {
-      min-height: 110px;
+      min-height: 120px;
       resize: vertical;
     }
 
-    .skills-input {
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #98a2b3;
+    }
+
+    .field-hint {
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .skills-input-row {
       display: flex;
-      gap: 8px;
+      gap: 9px;
     }
 
-    .skills-input input {
+    .skills-input-row input {
       flex: 1;
-    }
-
-    .add-skill-button {
-      padding: 0 13px;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      background: var(--light-blue);
-      color: var(--primary);
-      font-size: 0.74rem;
-      font-weight: 700;
-    }
-
-    .add-skill-button:hover {
-      background: #dbeafe;
+      min-width: 0;
     }
 
     .skills-list {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 11px;
+      margin-top: 12px;
     }
 
     .skill-tag {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
       padding: 6px 10px;
-      border-radius: 999px;
       background: var(--light-blue);
+      border-radius: 999px;
       color: var(--primary);
-      font-size: 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 700;
     }
 
-    .remove-skill {
+    .skill-remove {
       border: 0;
       background: transparent;
       color: var(--primary);
-      font-size: 0.9rem;
       font-weight: 800;
+      cursor: pointer;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 10px 16px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .button-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .button-secondary {
+      background: var(--white);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .button-secondary:hover {
+      background: var(--surface);
     }
 
     .form-actions {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      padding-top: 25px;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
     }
 
-    .cancel-button,
-    .save-button {
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 0.78rem;
-      font-weight: 700;
-    }
-
-    .cancel-button {
-      border: 1px solid var(--border);
-      background: var(--white);
-      color: var(--muted);
-    }
-
-    .save-button {
-      border: 1px solid var(--primary);
-      background: var(--primary);
-      color: var(--white);
-    }
-
-    .save-button:hover {
-      background: var(--primary-dark);
-    }
-
-    .save-button:disabled {
-      cursor: wait;
-      opacity: 0.7;
-    }
-
-    .save-message {
+    .message {
       display: none;
-      margin-top: 12px;
-      text-align: right;
-      font-size: 0.75rem;
+      margin-bottom: 18px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
     }
 
-    .save-message.show {
+    .message.show {
       display: block;
     }
 
-    .save-message.success {
-      color: var(--green);
+    .message.success {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
     }
 
-    .save-message.error {
-      color: var(--red);
-    }
-
-    .avatar-input {
-      display: none;
+    .message.error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
     }
 
     @media (max-width: 900px) {
-      .profile-layout {
+      .page-layout {
         grid-template-columns: 1fr;
       }
 
-      .profile-summary {
-        position: static;
-      }
-
-      .profile-summary-top {
-        align-items: center;
-      }
-
-      .profile-summary h2 {
-        margin-top: 0;
-      }
-
-      .profile-score {
-        margin-top: 20px;
+      .profile-sidebar {
+        max-width: 100%;
       }
     }
 
     @media (max-width: 600px) {
       .container {
-        padding-right: 18px;
-        padding-left: 18px;
-      }
-
-      .site-header .container {
-        padding-right: 18px;
-        padding-left: 18px;
-      }
-
-      .site-header .logo-image {
-        height: 56px;
-        max-width: 140px;
-        margin: -6px 0 -6px -4px;
-      }
-
-      .profile-icon {
-        width: 36px;
-        height: 36px;
-      }
-
-      .profile-icon svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      .back-link {
-        display: none;
-      }
-
-      .page-hero {
-        padding: 38px 0 32px;
-      }
-
-      .panel {
-        padding: 18px;
+        padding: 0 15px;
       }
 
       .form-grid {
@@ -610,939 +455,877 @@
         grid-column: auto;
       }
 
-      .skills-input {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .add-skill-button {
-        min-height: 42px;
+      .form-card {
+        padding: 18px;
       }
 
       .form-actions {
         flex-direction: column-reverse;
       }
 
-      .cancel-button,
-      .save-button {
+      .form-actions .button {
         width: 100%;
       }
     }
   </style>
 </head>
-
 <body>
+
   <header class="site-header">
     <div class="container navbar">
-      <a href="index.html" class="logo" aria-label="VentrixCarros Home">
-        <img
-          src="logo.jpeg"
-          alt="VentrixCarros Logo"
-          class="logo-image"
-        />
+      <a href="index.html" class="logo">
+        <img src="logo.jpeg" alt="VentrixCarros" class="logo-image">
       </a>
 
       <div class="header-actions">
-        <a href="index.html" class="back-link">← Home</a>
-        <a href="dashboard.html" class="dashboard-button">Dashboard</a>
-
-        <a
-          href="profile.html"
-          class="profile-icon"
-          aria-label="Open profile"
-          title="Profile"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="8" r="4"></circle>
-            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
-          </svg>
-        </a>
+        <a href="index.html" class="back-home-button">Home</a>
+        <a href="dashboard.html" class="back-home-button">Dashboard</a>
       </div>
     </div>
   </header>
 
-  <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Professional profile</p>
-      <h1>Present your <span>best work.</span></h1>
-      <p class="hero-description">
-        Keep your profile updated so employers and VentrixCarros AI can better
-        understand your skills, goals, and experience.
-      </p>
-    </div>
-  </section>
+  <main class="container page-layout">
 
-  <main class="profile-main">
-    <div class="container">
-      <div class="profile-layout">
-        <aside class="panel profile-summary">
-          <div class="profile-summary-top">
-            <div class="avatar-wrapper">
-              <div class="profile-avatar" id="profileAvatar">U</div>
-              <button
-                type="button"
-                class="avatar-edit"
-                id="avatarEdit"
-                aria-label="Edit profile photo"
-                title="Choose profile photo"
-              >✎</button>
+    <aside class="profile-sidebar">
+      <div class="profile-card">
+
+        <div class="avatar-wrapper">
+          <div class="profile-avatar" id="profileAvatar">
+            U
+          </div>
+
+          <button
+            type="button"
+            class="avatar-edit"
+            id="avatarEdit"
+            title="Change profile photo"
+            aria-label="Change profile photo"
+          >
+            ✎
+          </button>
+
+          <input
+            type="file"
+            id="avatarInput"
+            accept="image/jpeg,image/png,image/webp"
+            hidden
+          >
+        </div>
+
+        <h2 id="summaryName">Your Name</h2>
+        <p id="summaryRole">Role not added</p>
+        <p class="profile-location" id="summaryLocation">
+          Location not added
+        </p>
+
+      </div>
+    </aside>
+
+    <section class="profile-content">
+
+      <div class="page-heading">
+        <p class="eyebrow">Student Workspace</p>
+        <h1>My Profile</h1>
+        <p class="muted-text">
+          Manage your professional information and career preferences.
+        </p>
+      </div>
+
+      <div id="messageBox" class="message" role="alert"></div>
+
+      <form id="profileForm">
+
+        <section class="form-card">
+
+          <div class="form-card-header">
+            <h2>Personal Information</h2>
+            <p class="muted-text">
+              Keep your personal information up to date.
+            </p>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
               <input
-                type="file"
-                class="avatar-input"
-                id="avatarInput"
-                accept="image/*"
-              />
+                type="text"
+                id="fullName"
+                placeholder="Enter your full name"
+                autocomplete="name"
+              >
             </div>
 
-            <div>
-              <h2 id="summaryName">Your Name</h2>
-              <p class="profile-role" id="summaryRole">Your current role</p>
-              <span class="profile-location" id="summaryLocation">
-                Location not added
-              </span>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                readonly
+              >
             </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                placeholder="Enter your phone number"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input
+                type="text"
+                id="location"
+                placeholder="City, State"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="currentRole">Current Role / Headline</label>
+              <input
+                type="text"
+                id="currentRole"
+                placeholder="Example: Computer Science Student"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="experience">Experience</label>
+              <select id="experience">
+                <option value="">Select experience</option>
+                <option value="Fresher">Fresher</option>
+                <option value="Less than 1 year">Less than 1 year</option>
+                <option value="1-2 years">1-2 years</option>
+                <option value="2-3 years">2-3 years</option>
+                <option value="3-5 years">3-5 years</option>
+                <option value="5+ years">5+ years</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="about">About Me</label>
+              <textarea
+                id="about"
+                placeholder="Write a short professional introduction..."
+              ></textarea>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="form-card">
+
+          <div class="form-card-header">
+            <h2>Skills & Expertise</h2>
+            <p class="muted-text">
+              Add the skills that describe your capabilities.
+            </p>
           </div>
 
-          <div class="profile-score">
-            <div class="score-heading">
-              <span>Profile completion</span>
-              <strong id="completionValue">0%</strong>
-            </div>
-            <div class="score-bar">
-              <span id="completionBar"></span>
-            </div>
-          </div>
+          <div class="form-group full-width">
+            <label for="skillInput">Add Skills</label>
 
-          <ul class="profile-summary-list">
-            <li>
-              <span class="summary-symbol">✉</span>
-              <span id="summaryEmail">Email not added</span>
-            </li>
-            <li>
-              <span class="summary-symbol">☎</span>
-              <span id="summaryPhone">Phone not added</span>
-            </li>
-            <li>
-              <span class="summary-symbol">◉</span>
-              <span id="summaryExperience">Experience not added</span>
-            </li>
-          </ul>
+            <div class="skills-input-row">
+              <input
+                type="text"
+                id="skillInput"
+                placeholder="Example: JavaScript"
+              >
 
-          <a href="resume.html" class="profile-link">
-            Analyze my resume →
-          </a>
-        </aside>
-
-        <section class="panel">
-          <form id="profileForm">
-            <div class="form-section">
-              <div class="section-heading">
-                <div>
-                  <h2>Basic information</h2>
-                  <p>Add the information employers should see first.</p>
-                </div>
-              </div>
-
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="fullName">Full name</label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    placeholder="Your full name"
-                    autocomplete="name"
-                    required
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="email">Email address</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="you@example.com"
-                    autocomplete="email"
-                    required
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="phone">Phone number</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    placeholder="+91 98765 43210"
-                    autocomplete="tel"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="location">Location</label>
-                  <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    placeholder="Bengaluru, India"
-                    autocomplete="address-level2"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="currentRole">Current role</label>
-                  <input
-                    type="text"
-                    id="currentRole"
-                    name="currentRole"
-                    placeholder="Frontend Developer"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="experience">Experience</label>
-                  <select id="experience" name="experience">
-                    <option value="">Select experience</option>
-                    <option value="Entry level">Entry level</option>
-                    <option value="1–2 years">1–2 years</option>
-                    <option value="3–5 years">3–5 years</option>
-                    <option value="5+ years">5+ years</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="section-heading">
-                <div>
-                  <h2>About you</h2>
-                  <p>Write a short summary that explains your strengths.</p>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="about">Professional summary</label>
-                <textarea
-                  id="about"
-                  name="about"
-                  placeholder="Example: Frontend developer focused on building responsive and accessible web experiences..."
-                ></textarea>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="section-heading">
-                <div>
-                  <h2>Skills</h2>
-                  <p>Skills can help personalize job recommendations.</p>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="skillInput">Add skills</label>
-                <div class="skills-input">
-                  <input
-                    type="text"
-                    id="skillInput"
-                    placeholder="Example: React"
-                  />
-                  <button
-                    type="button"
-                    class="add-skill-button"
-                    id="addSkillButton"
-                  >Add skill</button>
-                </div>
-                <div class="skills-list" id="skillsList"></div>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="section-heading">
-                <div>
-                  <h2>Career preferences</h2>
-                  <p>Help us recommend more relevant opportunities.</p>
-                </div>
-              </div>
-
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="preferredRole">Preferred role</label>
-                  <input
-                    type="text"
-                    id="preferredRole"
-                    name="preferredRole"
-                    placeholder="Frontend Developer"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="preferredLocation">Preferred location</label>
-                  <input
-                    type="text"
-                    id="preferredLocation"
-                    name="preferredLocation"
-                    placeholder="Remote, Bengaluru, etc."
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="jobType">Job type</label>
-                  <select id="jobType" name="jobType">
-                    <option value="">Select job type</option>
-                    <option value="Internship">Internship</option>
-                    <option value="Full-time">Full-time</option>
-                    <option value="Part-time">Part-time</option>
-                    <option value="Contract">Contract</option>
-                    <option value="Remote">Remote</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="section-heading">
-                <div>
-                  <h2>Professional links</h2>
-                  <p>Add links to help employers explore your work.</p>
-                </div>
-              </div>
-
-              <div class="form-grid">
-                <div class="form-group">
-                  <label for="portfolio">Portfolio URL</label>
-                  <input
-                    type="url"
-                    id="portfolio"
-                    name="portfolio"
-                    placeholder="https://yourportfolio.com"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="linkedin">LinkedIn URL</label>
-                  <input
-                    type="url"
-                    id="linkedin"
-                    name="linkedin"
-                    placeholder="https://linkedin.com/in/yourname"
-                  />
-                </div>
-
-                <div class="form-group full-width">
-                  <label for="github">GitHub URL</label>
-                  <input
-                    type="url"
-                    id="github"
-                    name="github"
-                    placeholder="https://github.com/yourusername"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="form-actions">
               <button
                 type="button"
-                class="cancel-button"
-                id="cancelButton"
-              >Cancel</button>
-
-              <button type="submit" class="save-button" id="saveButton">
-                Save profile
+                class="button button-primary"
+                id="addSkillButton"
+              >
+                Add
               </button>
             </div>
 
-            <p
-              class="save-message"
-              id="saveMessage"
-              role="status"
-              aria-live="polite"
-            ></p>
-          </form>
+            <div id="skillsList" class="skills-list"></div>
+          </div>
+
         </section>
-      </div>
-    </div>
+
+        <section class="form-card">
+
+          <div class="form-card-header">
+            <h2>Career Preferences</h2>
+            <p class="muted-text">
+              Tell us what kind of opportunities you are looking for.
+            </p>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label for="preferredRole">Preferred Job Role</label>
+              <input
+                type="text"
+                id="preferredRole"
+                placeholder="Example: Software Developer"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="preferredLocation">Preferred Location</label>
+              <input
+                type="text"
+                id="preferredLocation"
+                placeholder="Example: Bengaluru"
+              >
+            </div>
+
+            <div class="form-group full-width">
+              <label for="jobType">Preferred Job Type</label>
+              <select id="jobType">
+                <option value="">Select job type</option>
+                <option value="FULL_TIME">Full Time</option>
+                <option value="PART_TIME">Part Time</option>
+                <option value="INTERNSHIP">Internship</option>
+                <option value="CONTRACT">Contract</option>
+                <option value="REMOTE">Remote</option>
+              </select>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="form-card">
+
+          <div class="form-card-header">
+            <h2>Professional Links</h2>
+            <p class="muted-text">
+              Add links to your portfolio and professional accounts.
+            </p>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group full-width">
+              <label for="portfolio">Portfolio Website</label>
+              <input
+                type="url"
+                id="portfolio"
+                placeholder="https://yourportfolio.com"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="linkedin">LinkedIn Profile</label>
+              <input
+                type="url"
+                id="linkedin"
+                placeholder="https://linkedin.com/in/username"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="github">GitHub Profile</label>
+              <input
+                type="url"
+                id="github"
+                placeholder="https://github.com/username"
+              >
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+
+            <button
+              type="button"
+              class="button button-secondary"
+              id="cancelButton"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="button button-primary"
+              id="saveButton"
+            >
+              Save Profile
+            </button>
+
+          </div>
+
+        </section>
+
+      </form>
+
+    </section>
+
   </main>
-    <script>
-    (() => {
-      "use strict";
+  <script>
+(() => {
+  "use strict";
 
-      // Backend API
-      const API = "http://localhost:5000/api/v1";
+  const API = "http://localhost:5000/api/v1";
 
-      const form = document.getElementById("profileForm");
-      const saveButton = document.getElementById("saveButton");
-      const cancelButton = document.getElementById("cancelButton");
-      const message = document.getElementById("saveMessage");
+  const profileAvatar = document.getElementById("profileAvatar");
+  const avatarEdit = document.getElementById("avatarEdit");
+  const avatarInput = document.getElementById("avatarInput");
+  const profileForm = document.getElementById("profileForm");
+  const messageBox = document.getElementById("messageBox");
+  const saveButton = document.getElementById("saveButton");
+  const cancelButton = document.getElementById("cancelButton");
+  const skillInput = document.getElementById("skillInput");
+  const addSkillButton = document.getElementById("addSkillButton");
+  const skillsList = document.getElementById("skillsList");
 
-      const skillsList = document.getElementById("skillsList");
-      const skillInput = document.getElementById("skillInput");
-      const addSkillButton = document.getElementById("addSkillButton");
+  let skills = [];
+  let originalData = {};
+  let savedPhotoUrl = "";
+  let avatarDataUrl = "";
 
-      const profileAvatar = document.getElementById("profileAvatar");
-      const avatarEdit = document.getElementById("avatarEdit");
-      const avatarInput = document.getElementById("avatarInput");
+  const fieldIds = [
+    "fullName",
+    "email",
+    "phone",
+    "location",
+    "currentRole",
+    "experience",
+    "about",
+    "preferredRole",
+    "preferredLocation",
+    "jobType",
+    "portfolio",
+    "linkedin",
+    "github"
+  ];
 
-      let skills = [];
-      let originalData = {};
-      let avatarDataUrl = "";
+  function getStored(key) {
+    try {
+      return localStorage.getItem(key) ||
+        sessionStorage.getItem(key) || "";
+    } catch {
+      return "";
+    }
+  }
 
-      const fieldIds = [
+  function getToken() {
+    return getStored("ventrixToken");
+  }
+
+  function readStoredUser() {
+    try {
+      return JSON.parse(getStored("ventrixUser") || "{}");
+    } catch {
+      return {};
+    }
+  }
+
+  function getField(id) {
+    return document.getElementById(id)?.value.trim() || "";
+  }
+
+  function setField(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.value = value ?? "";
+  }
+
+  function showMessage(message, type = "success") {
+    messageBox.textContent = message;
+    messageBox.className = "message show " + type;
+  }
+
+  function clearMessage() {
+    messageBox.textContent = "";
+    messageBox.className = "message";
+  }
+
+  function getPhotoUrl(path) {
+  if (!path) return "";
+
+  if (/^https?:\/\//i.test(path)) {
+    return path;
+  }
+
+  return "http://localhost:5000" +
+    (path.startsWith("/") ? path : "/" + path);
+}
+
+  function initials(name) {
+    return String(name || "User")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(part => part.charAt(0).toUpperCase())
+      .join("") || "U";
+  }
+
+  function renderAvatar(name) {
+    profileAvatar.replaceChildren();
+
+    const photo = avatarDataUrl || getPhotoUrl(savedPhotoUrl);
+
+    if (photo) {
+      const image = document.createElement("img");
+      image.src = photo;
+      image.alt = "Profile photo";
+
+      image.onerror = () => {
+        savedPhotoUrl = "";
+        avatarDataUrl = "";
+        profileAvatar.textContent = initials(name);
+      };
+
+      profileAvatar.appendChild(image);
+    } else {
+      profileAvatar.textContent = initials(name);
+    }
+  }
+
+  function updateSummary() {
+    const name = getField("fullName") || "Your Name";
+    const role = getField("currentRole") || "Role not added";
+    const location = getField("location") || "Location not added";
+
+    document.getElementById("summaryName").textContent = name;
+    document.getElementById("summaryRole").textContent = role;
+    document.getElementById("summaryLocation").textContent = location;
+
+    renderAvatar(name);
+  }
+
+  function setSkills(items) {
+    skills = Array.isArray(items)
+      ? items.map(item => String(item).trim()).filter(Boolean)
+      : [];
+
+    renderSkills();
+  }
+
+  function renderSkills() {
+    skillsList.replaceChildren();
+
+    skills.forEach((skill, index) => {
+      const tag = document.createElement("span");
+      tag.className = "skill-tag";
+
+      const text = document.createElement("span");
+      text.textContent = skill;
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "skill-remove";
+      remove.textContent = "×";
+      remove.setAttribute("aria-label", "Remove " + skill);
+
+      remove.addEventListener("click", () => {
+        skills.splice(index, 1);
+        renderSkills();
+      });
+
+      tag.append(text, remove);
+      skillsList.appendChild(tag);
+    });
+  }
+
+  function addSkill() {
+    const skill = skillInput.value.trim();
+
+    if (!skill) return;
+
+    if (skills.some(item =>
+      item.toLowerCase() === skill.toLowerCase()
+    )) {
+      showMessage("This skill is already added.", "error");
+      return;
+    }
+
+    skills.push(skill);
+    skillInput.value = "";
+    renderSkills();
+    clearMessage();
+  }
+
+  function readFormData() {
+    return {
+      fullName: getField("fullName"),
+      email: getField("email"),
+      phone: getField("phone"),
+      location: getField("location"),
+      currentRole: getField("currentRole"),
+      experience: getField("experience"),
+      about: getField("about"),
+      skills: [...skills],
+      preferredRole: getField("preferredRole"),
+      preferredLocation: getField("preferredLocation"),
+      jobType: getField("jobType"),
+      portfolio: getField("portfolio"),
+      linkedin: getField("linkedin"),
+      github: getField("github")
+    };
+  }
+
+  function populateForm(data = {}) {
+    const profile = data.profile || data.user || data;
+
+    savedPhotoUrl = profile.profilePicture || "";
+    avatarDataUrl = "";
+
+    setField(
+      "fullName",
+      profile.fullName ||
+      profile.name ||
+      profile.displayName ||
+      ""
+    );
+
+    const storedUser = readStoredUser();
+
+    setField(
+      "email",
+      profile.email || storedUser.email || ""
+    );
+
+    setField(
+      "phone",
+      profile.phone || profile.phoneNumber || ""
+    );
+
+    setField("location", profile.location || "");
+
+    setField(
+      "currentRole",
+      profile.headline ||
+      profile.currentRole ||
+      profile.roleTitle ||
+      ""
+    );
+
+    setField("experience", profile.experience || "");
+
+    setField(
+      "about",
+      profile.about || profile.bio || ""
+    );
+
+    setField("preferredRole", profile.preferredRole || "");
+    setField("preferredLocation", profile.preferredLocation || "");
+    setField("jobType", profile.jobType || "");
+
+    setField(
+      "portfolio",
+      profile.portfolioUrl || profile.portfolio || ""
+    );
+
+    setField(
+      "linkedin",
+      profile.linkedinUrl || profile.linkedin || ""
+    );
+
+    setField(
+      "github",
+      profile.githubUrl || profile.github || ""
+    );
+
+    setSkills(profile.skills || []);
+
+    updateSummary();
+    originalData = readFormData();
+  }
+
+  function saveLocalFields(data) {
+    const updatedUser = {
+      ...readStoredUser(),
+      name: data.fullName,
+      fullName: data.fullName,
+      email: data.email
+    };
+
+    try {
+      localStorage.setItem(
+        "profileFullName",
+        data.fullName
+      );
+
+      localStorage.setItem(
+        "ventrixUser",
+        JSON.stringify(updatedUser)
+      );
+
+      if (sessionStorage.getItem("ventrixUser")) {
+        sessionStorage.setItem(
+          "ventrixUser",
+          JSON.stringify(updatedUser)
+        );
+      }
+    } catch (error) {
+      console.warn(
+        "Unable to update local profile information.",
+        error
+      );
+    }
+  }
+
+  async function requestProfile(method = "GET", body = null) {
+    const token = getToken();
+
+    if (!token) {
+      throw new Error(
+        "Your login session was not found. Please log in again."
+      );
+    }
+
+    const options = {
+      method,
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + token
+      }
+    };
+
+    if (body !== null) {
+      options.headers["Content-Type"] = "application/json";
+      options.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(API + "/profile/me", options);
+
+    let result;
+
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("The server returned an invalid response.");
+    }
+
+    if (!response.ok || result.success === false) {
+      throw new Error(
+        result.message || "Unable to process your profile request."
+      );
+    }
+
+    return result;
+  }
+
+  async function loadProfile() {
+    try {
+      const result = await requestProfile("GET");
+
+      populateForm(result.profile || result);
+
+    } catch (error) {
+      console.error("Profile loading error:", error);
+
+      showMessage(
+        error.message || "Unable to load your profile.",
+        "error"
+      );
+
+      const storedUser = readStoredUser();
+
+      setField(
         "fullName",
-        "email",
-        "phone",
-        "location",
-        "currentRole",
-        "experience",
-        "about",
-        "preferredRole",
-        "preferredLocation",
-        "jobType",
-        "portfolio",
-        "linkedin",
-        "github"
-      ];
-
-      function getStored(key) {
-        return (
-          localStorage.getItem(key) ||
-          sessionStorage.getItem(key) ||
-          ""
-        );
-      }
-
-      function getToken() {
-        return getStored("ventrixToken");
-      }
-
-      function readStoredUser() {
-        try {
-          const raw =
-            localStorage.getItem("ventrixUser") ||
-            sessionStorage.getItem("ventrixUser");
-
-          return raw ? JSON.parse(raw) : {};
-        } catch (error) {
-          console.warn("Unable to read stored user information.", error);
-          return {};
-        }
-      }
-
-      function showMessage(text, type = "success") {
-        message.textContent = text;
-        message.className = "save-message show " + type;
-      }
-
-      function clearMessage() {
-        message.textContent = "";
-        message.className = "save-message";
-      }
-
-      function getField(id) {
-        return document.getElementById(id).value.trim();
-      }
-
-      function setField(id, value) {
-        const element = document.getElementById(id);
-
-        if (element) {
-          element.value = value == null ? "" : String(value);
-        }
-      }
-
-      function normalizeSkills(value) {
-        if (Array.isArray(value)) {
-          return value
-            .map((item) => {
-              if (typeof item === "string") return item.trim();
-
-              if (item && typeof item.name === "string") {
-                return item.name.trim();
-              }
-
-              return "";
-            })
-            .filter(Boolean);
-        }
-
-        if (typeof value === "string" && value.trim()) {
-          return value
-            .split(",")
-            .map((item) => item.trim())
-            .filter(Boolean);
-        }
-
-        return [];
-      }
-
-      function setSkills(newSkills) {
-        skills = [...new Set(normalizeSkills(newSkills))];
-        renderSkills();
-      }
-
-      function renderSkills() {
-        skillsList.replaceChildren();
-
-        skills.forEach((skill, index) => {
-          const tag = document.createElement("span");
-          tag.className = "skill-tag";
-
-          const label = document.createElement("span");
-          label.textContent = skill;
-
-          const removeButton = document.createElement("button");
-          removeButton.type = "button";
-          removeButton.className = "remove-skill";
-          removeButton.textContent = "×";
-          removeButton.setAttribute("aria-label", "Remove " + skill);
-
-          removeButton.addEventListener("click", () => {
-            skills.splice(index, 1);
-            renderSkills();
-            updateSummary();
-          });
-
-          tag.append(label, removeButton);
-          skillsList.appendChild(tag);
-        });
-      }
-
-      function addSkill() {
-        const skill = skillInput.value.trim();
-
-        if (!skill) {
-          skillInput.focus();
-          return;
-        }
-
-        if (skills.some((item) => item.toLowerCase() === skill.toLowerCase())) {
-          showMessage("That skill has already been added.", "error");
-          skillInput.focus();
-          return;
-        }
-
-        skills.push(skill);
-        skillInput.value = "";
-        renderSkills();
-        updateSummary();
-        clearMessage();
-        skillInput.focus();
-      }
-
-      function initials(name) {
-        const words = String(name || "")
-          .trim()
-          .split(/\s+/)
-          .filter(Boolean);
-
-        if (!words.length) return "U";
-
-        return words
-          .slice(0, 2)
-          .map((word) => word.charAt(0).toUpperCase())
-          .join("");
-      }
-
-      function renderAvatar(name) {
-        profileAvatar.replaceChildren();
-
-        if (avatarDataUrl) {
-          const image = document.createElement("img");
-          image.src = avatarDataUrl;
-          image.alt = "Profile photo";
-          profileAvatar.appendChild(image);
-        } else {
-          profileAvatar.textContent = initials(name);
-        }
-      }
-
-      function updateSummary() {
-        const name = getField("fullName") || "Your Name";
-        const role = getField("currentRole") || "Role not added";
-        const location = getField("location") || "Location not added";
-        const email = getField("email") || "Email not added";
-        const phone = getField("phone") || "Phone not added";
-        const experience = getField("experience") || "Experience not added";
-
-        document.getElementById("summaryName").textContent = name;
-        document.getElementById("summaryRole").textContent = role;
-        document.getElementById("summaryLocation").textContent = "⌖ " + location;
-        document.getElementById("summaryEmail").textContent = email;
-        document.getElementById("summaryPhone").textContent = phone;
-        document.getElementById("summaryExperience").textContent = experience;
-
-        renderAvatar(name);
-        updateCompletion();
-      }
-
-      function updateCompletion() {
-        const values = [
-          getField("fullName"),
-          getField("email"),
-          getField("phone"),
-          getField("location"),
-          getField("currentRole"),
-          getField("experience"),
-          getField("about"),
-          skills.length > 0,
-          getField("preferredRole"),
-          getField("preferredLocation"),
-          getField("jobType"),
-          getField("portfolio") ||
-            getField("linkedin") ||
-            getField("github")
-        ];
-
-        const completed = values.filter((value) => Boolean(value)).length;
-        const percentage = Math.round((completed / values.length) * 100);
-
-        document.getElementById("completionValue").textContent =
-          percentage + "%";
-
-        document.getElementById("completionBar").style.width =
-          percentage + "%";
-      }
-
-      function readFormData() {
-        return {
-          name: getField("fullName"),
-          fullName: getField("fullName"),
-          email: getField("email"),
-          phone: getField("phone"),
-          location: getField("location"),
-          currentRole: getField("currentRole"),
-          experience: getField("experience"),
-          about: getField("about"),
-          skills: [...skills],
-          preferredRole: getField("preferredRole"),
-          preferredLocation: getField("preferredLocation"),
-          jobType: getField("jobType"),
-          portfolio: getField("portfolio"),
-          linkedin: getField("linkedin"),
-          github: getField("github")
-        };
-      }
-
-      function populateForm(data = {}) {
-        const profile = data.profile || data.user || data;
-
-        setField(
-          "fullName",
-          profile.fullName ||
-            profile.name ||
-            profile.displayName ||
-            ""
-        );
-
-        const savedUser = readStoredUser();
-
-        setField(
-          "email",
-          profile.email || savedUser.email || ""
-        );      
-        setField("phone", profile.phone || profile.phoneNumber || "");
-        setField("location", profile.location || "");
-        setField(
-           "currentRole",
-            profile.headline || profile.currentRole || profile.roleTitle || ""
-        );
-        setField("experience", profile.experience || "");
-        setField("about", profile.about || profile.bio || "");
-        setField("preferredRole", profile.preferredRole || "");
-        setField("preferredLocation", profile.preferredLocation || "");
-        setField("jobType", profile.jobType || "");
-        setField(
-          "portfolio",
-          profile.portfolioUrl || profile.portfolio || ""
-        );      
-        setField(
-         "linkedin",
-          profile.linkedinUrl || profile.linkedin || ""
-        );
-        setField("github", profile.github || "");
-
-        setSkills(profile.skills || []);
-
-        updateSummary();
-        originalData = readFormData();
-      }
-
-      function saveLocalFields(data) {
-        const updatedUser = {
-          ...readStoredUser(),
-          name: data.fullName,
-          fullName: data.fullName,
-          email: data.email
-        };
-
-        try {
-          localStorage.setItem("profileFullName", data.fullName);
-          localStorage.setItem("ventrixUser", JSON.stringify(updatedUser));
-
-          if (sessionStorage.getItem("ventrixUser")) {
-            sessionStorage.setItem(
-              "ventrixUser",
-              JSON.stringify(updatedUser)
-            );
-          }
-        } catch (error) {
-          console.warn("Unable to update local profile information.", error);
-        }
-      }
-
-      async function requestProfile(method = "GET", body = null) {
-        const token = getToken();
-
-        if (!token) {
-          throw new Error(
-            "Your login session was not found. Please log in again."
-          );
-        }
-
-        const options = {
-          method,
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + token
-          }
-        };
-
-        if (body !== null) {
-          options.headers["Content-Type"] = "application/json";
-          options.body = JSON.stringify(body);
-        }
-
-        const response = await fetch(API + "/profile/me", options);
-
-        let result = {};
-
-        try {
-          result = await response.json();
-        } catch {
-          result = {};
-        }
-
-        if (response.status === 401 || response.status === 403) {
-          throw new Error(
-            result.message ||
-              "Your session has expired or you do not have permission. Please log in again."
-          );
-        }
-
-        if (!response.ok || result.success === false) {
-          throw new Error(
-            result.message ||
-              "The profile request failed. Please try again."
-          );
-        }
-
-        return result;
-      }
-
-      async function loadProfile() {
-        const storedUser = readStoredUser();
-
-        // Show stored information while the server request is in progress.
-        const localName =
-          localStorage.getItem("profileFullName") ||
-          storedUser.fullName ||
-          storedUser.name ||
-          "";
-
-        populateForm({
-          ...storedUser,
-          fullName: localName,
-          name: localName
-        });
-
-        try {
-          const result = await requestProfile("GET");
-
-          const serverProfile = result.profile || result.user || result.data;
-
-          if (serverProfile && typeof serverProfile === "object") {
-            /*
-             * A saved local name is preferred here to avoid unexpectedly
-             * replacing it with an older name returned by the API.
-             * The name is still sent to the server when Save is clicked.
-             */
-            const preferredName =
-              localStorage.getItem("profileFullName") ||
-              serverProfile.fullName ||
-              serverProfile.name ||
-              "";
-
-            populateForm({
-              ...serverProfile,
-              fullName: preferredName,
-              name: preferredName
-            });
-          }
-        } catch (error) {
-          console.error("Profile load failed:", error);
-
-          if (!localName) {
-            showMessage(
-              error.message ||
-                "Could not load your profile from the server.",
-              "error"
-            );
-          } else {
-            showMessage(
-              "Showing saved profile information. " + error.message,
-              "error"
-            );
-          }
-        }
-      }
-
-      async function saveProfile(event) {
-        event.preventDefault();
-        clearMessage();
-
-        if (!form.reportValidity()) {
-          return;
-        }
-
-        const data = readFormData();
-
-        if (!getToken()) {
-          showMessage(
-            "Please log in before saving your profile.",
-            "error"
-          );
-          return;
-        }
-
-        saveButton.disabled = true;
-        saveButton.textContent = "Saving...";
-
-        try {
-          const profilePayload = {
+        storedUser.name || storedUser.fullName || ""
+      );
+
+      setField("email", storedUser.email || "");
+      updateSummary();
+    }
+  }
+
+  async function saveProfile(event) {
+    event.preventDefault();
+    clearMessage();
+
+    const data = readFormData();
+
+    if (!data.fullName) {
+      showMessage("Please enter your full name.", "error");
+      document.getElementById("fullName").focus();
+      return;
+    }
+
+    saveButton.disabled = true;
+    saveButton.textContent = "Saving...";
+
+    const payload = {
+  fullName: data.fullName,
   phone: data.phone,
   location: data.location,
   headline: data.currentRole,
   bio: data.about,
   skills: data.skills,
   experience: data.experience,
+  preferredRole: data.preferredRole,
+  preferredLocation: data.preferredLocation,
+  jobType: data.jobType,
   portfolioUrl: data.portfolio,
-  linkedinUrl: data.linkedin
+  linkedinUrl: data.linkedin,
+  githubUrl: data.github
 };
 
-const result = await requestProfile("PUT", profilePayload);
-          saveLocalFields(data);
-          originalData = { ...data };
+    try {
+      const result = await requestProfile("PUT", payload);
 
-          const returnedProfile =
-            result.profile || result.user || result.data;
-
-          if (returnedProfile && typeof returnedProfile === "object") {
-            // Keep the entered name visible even if the response omits it.
-            populateForm({
-              ...returnedProfile,
-              ...data,
-              fullName: data.fullName,
-              name: data.fullName
-            });
-
-            originalData = readFormData();
-          } else {
-            updateSummary();
-          }
-
-          showMessage(
-            result.message || "Profile saved successfully.",
-            "success"
-          );
-        } catch (error) {
-          console.error("Profile save failed:", error);
-
-          showMessage(
-            error.message ||
-              "Unable to save your profile. Check your connection and try again.",
-            "error"
-          );
-        } finally {
-          saveButton.disabled = false;
-          saveButton.textContent = "Save profile";
-        }
+      if (result.profile) {
+        populateForm(result.profile);
+      } else {
+        originalData = readFormData();
+        updateSummary();
       }
 
-      function cancelChanges() {
-        populateForm(originalData);
-        clearMessage();
-      }
+      saveLocalFields(data);
 
-      // Profile photo selection: preview only.
-      // A separate upload endpoint is needed to persist photos on the server.
-      avatarEdit.addEventListener("click", () => {
-        avatarInput.click();
-      });
+      showMessage(
+        result.message || "Profile saved successfully.",
+        "success"
+      );
 
-      avatarInput.addEventListener("change", () => {
-        const file = avatarInput.files && avatarInput.files[0];
+    } catch (error) {
+      console.error("Profile save error:", error);
 
-        if (!file) return;
+      showMessage(
+        error.message || "Unable to save your profile.",
+        "error"
+      );
 
-        if (!file.type.startsWith("image/")) {
-          showMessage("Please select an image file.", "error");
-          avatarInput.value = "";
-          return;
-        }
+    } finally {
+      saveButton.disabled = false;
+      saveButton.textContent = "Save Profile";
+    }
+  }
 
-        if (file.size > 5 * 1024 * 1024) {
-          showMessage("Please choose an image smaller than 5 MB.", "error");
-          avatarInput.value = "";
-          return;
-        }
+  async function uploadProfilePhoto(file) {
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
 
-        const reader = new FileReader();
+    if (!allowedTypes.includes(file.type)) {
+      throw new Error(
+        "Please select a JPG, PNG, or WEBP image."
+      );
+    }
 
-        reader.onload = () => {
-          avatarDataUrl = String(reader.result || "");
-          renderAvatar(getField("fullName"));
-        };
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error(
+        "Please choose an image smaller than 5 MB."
+      );
+    }
 
-        reader.onerror = () => {
-          showMessage("Unable to read that image.", "error");
-        };
+    const token = getToken();
 
-        reader.readAsDataURL(file);
-      });
+    if (!token) {
+      throw new Error(
+        "Your login session was not found. Please log in again."
+      );
+    }
 
-      addSkillButton.addEventListener("click", addSkill);
+    const formData = new FormData();
+    formData.append("profilePhoto", file);
 
-      skillInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          addSkill();
-        }
-      });
+    const response = await fetch(API + "/profile/photo", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + token
+      },
+      body: formData
+    });
 
-      fieldIds.forEach((id) => {
-        const field = document.getElementById(id);
+    let result;
 
-        field.addEventListener("input", updateSummary);
-        field.addEventListener("change", updateSummary);
-      });
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("The server returned an invalid response.");
+    }
 
-      form.addEventListener("submit", saveProfile);
-      cancelButton.addEventListener("click", cancelChanges);
+    if (!response.ok || result.success === false) {
+      throw new Error(
+        result.message || "Unable to upload profile photo."
+      );
+    }
 
-      // Initialize the page.
-      setSkills(["HTML", "CSS", "JavaScript", "React"]);
-      loadProfile();
-    })();
-  </script>
+    const photoPath =
+      result.profilePicture ||
+      result.profile?.profilePicture;
+
+    if (!photoPath) {
+      throw new Error(
+        "The server did not return the saved photo URL."
+      );
+    }
+
+    savedPhotoUrl = photoPath;
+    avatarDataUrl = "";
+
+    renderAvatar(getField("fullName"));
+
+    showMessage(
+      "Profile photo uploaded and saved successfully.",
+      "success"
+    );
+  }
+
+  avatarEdit.addEventListener("click", () => {
+    avatarInput.click();
+  });
+
+  avatarInput.addEventListener("change", async () => {
+    const file = avatarInput.files?.[0];
+
+    if (!file) return;
+
+    avatarEdit.disabled = true;
+
+    showMessage("Uploading profile photo...", "success");
+
+    try {
+      await uploadProfilePhoto(file);
+    } catch (error) {
+      console.error("Profile photo upload error:", error);
+
+      showMessage(
+        error.message || "Unable to upload profile photo.",
+        "error"
+      );
+    } finally {
+      avatarEdit.disabled = false;
+      avatarInput.value = "";
+    }
+  });
+
+  addSkillButton.addEventListener("click", addSkill);
+
+  skillInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addSkill();
+    }
+  });
+
+  fieldIds.forEach(id => {
+    const element = document.getElementById(id);
+
+    if (element) {
+      element.addEventListener("input", updateSummary);
+      element.addEventListener("change", updateSummary);
+    }
+  });
+
+  profileForm.addEventListener("submit", saveProfile);
+
+  cancelButton.addEventListener("click", () => {
+    populateForm(originalData);
+    clearMessage();
+  });
+
+  loadProfile();
+
+})();
+</script>
+
 </body>
 </html>

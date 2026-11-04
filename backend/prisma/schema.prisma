@@ -42,33 +42,44 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  profile       Profile?
-  jobs          Job[]          @relation("CompanyJobs")
-  savedJobs     SavedJob[]
-  applications  Application[]
-  notifications Notification[]
+  profile          Profile?
+  jobs             Job[]                @relation("CompanyJobs")
+  savedJobs        SavedJob[]
+  applications     Application[]
+  notifications    Notification[]
+  digestPreference JobDigestPreference?
+  digestDeliveries JobDigestDelivery[]
 
   @@index([role])
   @@index([createdAt])
 }
 
 model Profile {
-  id             String   @id @default(cuid())
-  userId         String   @unique
-  phone          String?
-  location       String?
-  headline       String?
-  bio            String?  @db.Text
-  skills         Json?
-  education      String?  @db.Text
-  experience     String?  @db.Text
+  id     String @id @default(cuid())
+  userId String @unique
+
+  phone      String?
+  location   String?
+  headline   String?
+  bio        String? @db.Text
+  skills     Json?
+  education  String? @db.Text
+  experience String? @db.Text
+
   resumeUrl      String?
   linkedinUrl    String?
   portfolioUrl   String?
+  githubUrl      String?
   profilePicture String?
-  completion     Int      @default(0)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+
+  preferredRole     String?
+  preferredLocation String?
+  jobType           String?
+
+  completion Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -90,9 +101,10 @@ model Job {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  company      User          @relation("CompanyJobs", fields: [companyId], references: [id], onDelete: Restrict)
-  savedBy      SavedJob[]
-  applications Application[]
+  company          User                @relation("CompanyJobs", fields: [companyId], references: [id], onDelete: Restrict)
+  savedBy          SavedJob[]
+  applications     Application[]
+  digestDeliveries JobDigestDelivery[]
 
   @@index([companyId])
   @@index([isActive, createdAt])
@@ -167,4 +179,32 @@ model ContactMessage {
 
   @@index([email])
   @@index([status, createdAt])
+}
+
+model JobDigestPreference {
+  id         String    @id @default(cuid())
+  userId     String    @unique
+  enabled    Boolean   @default(false)
+  sendTime   String    @default("08:00")
+  timezone   String    @default("Asia/Kolkata")
+  enabledAt  DateTime?
+  lastSentAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model JobDigestDelivery {
+  id     String   @id @default(cuid())
+  userId String
+  jobId  String
+  sentAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job  Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jobId])
+  @@index([userId, sentAt])
+  @@index([jobId])
 }

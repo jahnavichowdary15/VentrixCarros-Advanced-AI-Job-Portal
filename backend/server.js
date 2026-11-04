@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -12,6 +11,12 @@ const jobRoutes = require("./routes/jobRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const contactRoutes = require("./routes/contactRoutes");
+const digestRoutes = require("./routes/digestRoutes");
+const path = require("path");
+// Daily Job Digest Scheduler
+const {
+  startJobDigestScheduler,
+} = require("./services/jobDigestScheduler");
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
@@ -42,7 +47,13 @@ app.use(
 
 // Parse JSON request bodies
 app.use(express.json({ limit: "1mb" }));
-
+// Serve uploaded profile photos
+app.use(
+  "/uploads",
+  express.static(
+    path.join(__dirname, "uploads")
+  )
+);
 // Root endpoint
 app.get("/", (req, res) => {
   res.json({
@@ -63,7 +74,7 @@ app.get("/api/v1/health", (req, res) => {
 // Database health check
 app.get("/api/v1/health/database", async (req, res) => {
   try {
-    await prisma.$queryRaw`SELECT 1`;
+    await prisma.$queryRawUnsafe("SELECT 1");
 
     return res.json({
       success: true,
@@ -90,6 +101,7 @@ app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/applications", applicationRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/contact", contactRoutes);
+app.use("/api/v1/digest", digestRoutes);
 
 // API 404 handler
 app.use("/api", (req, res) => {
@@ -126,10 +138,15 @@ app.use((err, req, res, next) => {
 
 // Start server
 async function startServer() {
+  let digestScheduler;
+
   try {
     await prisma.$connect();
 
     console.log("MySQL database connected successfully");
+
+    // Start automatic Daily Job Email Digest scheduler
+    digestScheduler = startJobDigestScheduler();
 
     const server = app.listen(PORT, () => {
       console.log(
@@ -169,9 +186,16 @@ async function startServer() {
       console.log("\nContact endpoint:");
       console.log("  POST  /api/v1/contact");
 
+      console.log("\nDaily Job Digest endpoints:");
+      console.log("  GET   /api/v1/digest/preferences");
+      console.log("  PUT   /api/v1/digest/preferences");
+      console.log("  POST  /api/v1/digest/test");
+
       console.log("\nHealth endpoints:");
       console.log("  GET /api/v1/health");
       console.log("  GET /api/v1/health/database");
+
+      console.log("\nDaily Job Digest automatic scheduler is active.");
     });
 
     server.on("error", (error) => {
@@ -195,9 +219,16 @@ async function startServer() {
 
       console.log("\nShutting down VentrixCarros API...");
 
+      // Stop the digest scheduler
+      if (digestScheduler) {
+        digestScheduler.stop();
+        console.log("Daily Job Digest scheduler stopped.");
+      }
+
       server.close(async () => {
         try {
           await prisma.$disconnect();
+          console.log("Database disconnected successfully.");
           process.exit(0);
         } catch (error) {
           console.error("Database disconnect failed:", error.message);
@@ -208,11 +239,16 @@ async function startServer() {
 
     process.once("SIGINT", shutdown);
     process.once("SIGTERM", shutdown);
+
   } catch (error) {
     console.error(
       "Unable to start VentrixCarros API:",
       error.message
     );
+
+    if (digestScheduler) {
+      digestScheduler.stop();
+    }
 
     await prisma.$disconnect();
     process.exitCode = 1;
