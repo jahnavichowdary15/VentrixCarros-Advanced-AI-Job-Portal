@@ -49,6 +49,7 @@ model User {
   notifications    Notification[]
   digestPreference JobDigestPreference?
   digestDeliveries JobDigestDelivery[]
+  resumes          Resume[]
 
   @@index([role])
   @@index([createdAt])
@@ -207,4 +208,20 @@ model JobDigestDelivery {
   @@unique([userId, jobId])
   @@index([userId, sentAt])
   @@index([jobId])
+}
+
+model Resume {
+  id           String   @id @default(cuid())
+  userId       String
+  title        String   @default("My Resume")
+  targetRole   String?
+  targetIndustry String?
+  template     String   @default("professional")
+  content      Json
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
 }

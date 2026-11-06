@@ -1117,224 +1117,126 @@
       }, 3000);
     }
 
-    // Generate cover letter
+    
+// Generate cover letter using Groq AI API
 
-    function generateLetter() {
+async function generateLetter() {
+  const name = candidateName.value.trim();
+  const role = jobTitle.value.trim();
+  const company = companyName.value.trim();
+  const userExperience = experience.value.trim();
+  const userSkills = skills.value.trim();
+  const jobDetails = jobDescription.value.trim();
 
-      const name = candidateName.value.trim();
-      const role = jobTitle.value.trim();
-      const company = companyName.value.trim();
-      const userExperience = experience.value.trim();
-      const userSkills = skills.value.trim();
-      const jobDetails = jobDescription.value.trim();
+  // Validate all required fields
+  if (
+    !name ||
+    !role ||
+    !company ||
+    !userExperience ||
+    !userSkills ||
+    !jobDetails
+  ) {
+    showStatus("Please complete all fields before generating your cover letter.");
 
-      // Validate all required fields
+    const firstMissingField = [
+      candidateName,
+      jobTitle,
+      companyName,
+      experience,
+      skills,
+      jobDescription
+    ].find((field) => !field.value.trim());
 
-      if (
-        !name ||
-        !role ||
-        !company ||
-        !userExperience ||
-        !userSkills ||
-        !jobDetails
-      ) {
-        showStatus("Please complete all fields before generating your cover letter.");
-
-        const firstMissingField = [
-          candidateName,
-          jobTitle,
-          companyName,
-          experience,
-          skills,
-          jobDescription
-        ].find((field) => !field.value.trim());
-
-        if (firstMissingField) {
-          firstMissingField.focus();
-        }
-
-        return false;
-      }
-
-      // Prepare experience and skills
-
-      const experienceText = userExperience.endsWith(".")
-        ? userExperience
-        : userExperience + ".";
-
-      const skillsText = userSkills.replace(/\s*,\s*/g, ", ");
-
-      // Opening paragraph
-
-      let opening;
-
-      if (selectedTone === "Friendly") {
-
-        opening =
-          `I am excited to apply for the ${role} position at ${company}. ` +
-          `I was pleased to learn about this opportunity and would love ` +
-          `to contribute to your team.`;
-
-      } else if (selectedTone === "Confident") {
-
-        opening =
-          `I am writing to express my strong interest in the ${role} ` +
-          `position at ${company}. My experience and skills have prepared ` +
-          `me to contribute effectively to this role.`;
-
-      } else if (selectedTone === "Concise") {
-
-        opening =
-          `I am applying for the ${role} position at ${company}. ` +
-          `My experience and skills make me a strong candidate ` +
-          `for this opportunity.`;
-
-      } else {
-
-        opening =
-          `I am writing to express my interest in the ${role} position ` +
-          `at ${company}. My background and professional capabilities ` +
-          `align with the requirements of this opportunity.`;
-      }
-
-      // Experience and skills paragraph
-
-      const experienceParagraph =
-        `${experienceText} Through this experience, I have developed ` +
-        `practical knowledge and the ability to approach tasks ` +
-        `responsibly and professionally.`;
-
-      const skillsParagraph =
-        ` My key skills include ${skillsText}. I believe these skills ` +
-        `can help me contribute to the responsibilities of the ${role} position.`;
-
-      // Job description paragraph
-
-      let jobParagraph;
-
-      if (selectedTone === "Friendly") {
-
-        jobParagraph =
-          `I am particularly interested in this opportunity because ` +
-          `of the responsibilities described in the job posting. ` +
-          `I would enjoy learning, collaborating with your team, ` +
-          `and contributing to ${company}.`;
-
-      } else if (selectedTone === "Confident") {
-
-        jobParagraph =
-          `The requirements of this position are closely aligned ` +
-          `with my capabilities and interests. I am confident that ` +
-          `I can use my background to support ${company}'s objectives ` +
-          `and contribute positively to the team.`;
-
-      } else if (selectedTone === "Concise") {
-
-        jobParagraph =
-          `The responsibilities outlined for this role align with ` +
-          `my background. I would welcome the opportunity to ` +
-          `contribute to ${company}.`;
-
-      } else {
-
-        jobParagraph =
-          `After reviewing the job description, I am particularly ` +
-          `interested in the responsibilities and expectations of ` +
-          `this position. I would welcome the opportunity to apply ` +
-          `my knowledge and skills while contributing to ${company}'s goals.`;
-      }
-
-      // Closing paragraph
-
-      let closing;
-
-      if (selectedTone === "Friendly") {
-
-        closing =
-          `Thank you for taking the time to consider my application. ` +
-          `I would be happy to discuss how I could contribute to your team.`;
-
-      } else if (selectedTone === "Confident") {
-
-        closing =
-          `I would appreciate the opportunity to discuss how my ` +
-          `experience and skills can contribute to your organisation. ` +
-          `Thank you for your consideration.`;
-
-      } else if (selectedTone === "Concise") {
-
-        closing =
-          `Thank you for considering my application. I look forward ` +
-          `to the opportunity to discuss this role.`;
-
-      } else {
-
-        closing =
-          `Thank you for your time and consideration. I would welcome ` +
-          `the opportunity to discuss my application and suitability ` +
-          `for this position.`;
-      }
-
-      // Update preview
-
-      previewCandidateName.textContent = name;
-      previewClosingName.textContent = name;
-
-      previewCompany.textContent =
-        `Application for ${role} · ${company}`;
-
-      paragraphOne.textContent = opening;
-
-      paragraphTwo.textContent =
-        `${experienceParagraph} ${skillsParagraph}`;
-
-      paragraphThree.textContent =
-        `${jobParagraph} ${closing}`;
-
-      // Current date
-
-      document.getElementById("letterDate").textContent =
-        new Date().toLocaleDateString("en-IN", {
-          day: "numeric",
-          month: "long",
-          year: "numeric"
-        });
-
-      return true;
+    if (firstMissingField) {
+      firstMissingField.focus();
     }
 
-    // Generate button
+    return;
+  }
 
-    generateButton.addEventListener("click", () => {
+  // Get login token
+  const token = localStorage.getItem("ventrixToken");
 
-      if (!generateLetter()) {
-        return;
+  if (!token) {
+    showStatus("Please log in to generate your AI cover letter.");
+    return;
+  }
+
+  // Show loading state
+  letterEmpty.style.display = "none";
+  letterPreview.classList.remove("show");
+  letterLoading.classList.add("show");
+
+  generateButton.disabled = true;
+  generateButton.textContent = "Generating...";
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/v1/cover-letters/generate",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          candidateName: name,
+          jobTitle: role,
+          companyName: company,
+          experience: userExperience,
+          skills: userSkills,
+          jobDescription: jobDetails,
+          tone: selectedTone
+        })
       }
+    );
 
-      letterEmpty.style.display = "none";
-      letterPreview.classList.remove("show");
-      letterLoading.classList.add("show");
+    const data = await response.json();
 
-      generateButton.disabled = true;
-      generateButton.textContent = "Generating...";
+    if (!response.ok || !data.success) {
+      throw new Error(
+        data.message || "Unable to generate your cover letter."
+      );
+    }
 
-      setTimeout(() => {
+    if (!data.coverLetter || !data.coverLetter.trim()) {
+      throw new Error("AI returned an empty cover letter.");
+    }
 
-        letterLoading.classList.remove("show");
-        letterPreview.classList.add("show");
+    // Display the complete AI-generated letter
+    letterPreview.textContent = data.coverLetter.trim();
 
-        editHint.style.display = "block";
+    // Preserve line breaks in the generated letter
+    letterPreview.style.whiteSpace = "pre-wrap";
 
-        generateButton.disabled = false;
-        generateButton.textContent = "Generate again";
+    letterPreview.classList.add("show");
 
-        showStatus("Your cover letter is ready. You can now edit it.");
+    // Show editing instructions
+    editHint.style.display = "block";
 
-      }, 700);
+    showStatus(
+      "Your AI cover letter is ready. You can now edit it."
+    );
 
-    });
+  } catch (error) {
+    console.error("Cover letter generation error:", error);
 
-    // Get the edited cover letter text
+    letterEmpty.style.display = "flex";
+
+    showStatus(error.message || "Something went wrong. Please try again.");
+
+  } finally {
+    letterLoading.classList.remove("show");
+
+    generateButton.disabled = false;
+    generateButton.textContent = "Generate again";
+  }
+}
+
+// Generate button
+generateButton.addEventListener("click", generateLetter);
+
 
     function getLetterText() {
       return letterPreview.innerText.trim();
@@ -1406,6 +1308,5 @@
     });
 
   </script>
-
 </body>
 </html>

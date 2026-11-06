@@ -156,7 +156,7 @@
 
 
 
-    /\* Header \*/
+    
 
     .site-header {
 
@@ -216,7 +216,7 @@
 
 
 
-    /\* Header spans full width (same as dashboard) \*/
+    
 
     .site-header .container {
 
@@ -224,8 +224,7 @@
 
       padding-left: 27px;
 
-      /\* Right-side buttons line up with the right edge of the page content \*/
-
+    
       padding-right: max(24px, calc((100% - 1240px) / 2 + 24px));
 
     }
@@ -240,9 +239,7 @@
 
 
 
-    /\* Header logo size and position
-
-       (last margin value = left position: bigger number moves it right) \*/
+   
 
     .site-header .logo-image {
 
@@ -252,7 +249,7 @@
 
       margin: -4px 0 -4px 60px;
 
-      /\* Makes the white background of logo.jpeg blend into the header \*/
+    
 
       mix-blend-mode: multiply;
 
@@ -318,7 +315,7 @@
 
 
 
-    /\* Profile icon (same as other pages) \*/
+   
 
     .profile-icon {
 
@@ -342,14 +339,13 @@
 
       transition:
 
-        *background* 0.2s ease,
+        background* 0.2s ease,
 
         color 0.2s ease,
 
         transform 0.2s ease;
 
       width: 40px;
-
     }
 
 
@@ -378,7 +374,7 @@
 
 
 
-    /\* Hero \*/
+  
 
     .page-hero {
 
@@ -454,7 +450,7 @@
 
 
 
-    /\* Main \*/
+    \* Main \*/
 
     .applications-main {
 
@@ -857,11 +853,6 @@
       display: block;
 
     }
-
-
-
-    /\* Modal \*/
-
     .application-modal {
 
       display: none;
@@ -873,17 +864,11 @@
       z-index: 100;
 
     }
-
-
-
     .application-modal.show {
 
       display: block;
 
     }
-
-
-
     .modal-overlay {
 
       background: rgba(15, 23, 42, 0.45);
@@ -1669,8 +1654,7 @@
           `Location: ${location || "Not specified"}`,
           `Cover letter: ${application.coverLetter || "Not added"}`
         ];
-        alert(details.join("
-"));
+        alert(details.join(""));
       });
       actionCell.appendChild(detailsButton);
       row.appendChild(actionCell);

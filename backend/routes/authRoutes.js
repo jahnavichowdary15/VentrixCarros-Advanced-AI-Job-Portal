@@ -389,181 +389,53 @@ router.post("/login", async (req, res) => {
 
 // LOGIN: verify OTP and return JWT
 // LOGIN: verify OTP and complete login
-router.post("/verify-login-otp", async (req, res) => {
+
+// LOGIN: resend OTP
+router.post("/resend-login-otp", async (req, res) => {
   try {
     const email = normalizeEmail(req.body?.email);
-    const otp = String(req.body?.otp || "").trim();
 
-    if (!email || !/^\d{6}$/.test(otp)) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({
         success: false,
-        message: "Enter your email and the six-digit OTP.",
-      });
-    }
-
-    const result = await checkOtp(email, otp);
-
-    if (!result.ok) {
-      return res.status(400).json({
-        success: false,
-        message: result.message,
+        message: "Please enter a valid email address."
       });
     }
 
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email }
     });
 
+    // Avoid revealing whether an email has an account.
     if (!user || !user.isActive || !user.emailVerified) {
-      return res.status(401).json({
-        success: false,
-        message: "Unable to complete login. Please log in again.",
+      return res.json({
+        success: true,
+        message: "If your account is eligible, a new login OTP will be sent."
       });
     }
 
-    // Create an in-app login notification for student accounts.
-    if (user.role === "JOB_SEEKER") {
-      try {
-        await prisma.notification.create({
-          data: {
-            userId: user.id,
-            title: "New login to your account",
-            message:
-              "A successful login to your VentrixCarros account was detected.",
-            type: "GENERAL",
-          },
-        });
-      } catch (notificationError) {
-        console.error(
-          "Could not save login notification:",
-          notificationError.message
-        );
-      }
-    }
-
-    // Send login alert email without blocking the login response.
-    sendLoginAlertEmail(user.email, user.name).catch((emailError) => {
-      console.error(
-        "Login alert email failed:",
-        emailError.message
-      );
-    });
+    await sendAndSaveOtp(email);
 
     return res.json({
       success: true,
-      message: "Login successful.",
-      token: createToken(user),
-      user: publicUser(user),
+      otpRequired: true,
+      email,
+      message: "A new login OTP has been sent to your email."
     });
-  } catch (error) {
-    console.error("Verify login OTP failed:", error);
 
-    return res.status(500).json({
+  } catch (error) {
+    console.error("Resend login OTP failed:", error);
+
+    return res.status(error.status || 500).json({
       success: false,
-      message: "Unable to verify the login OTP right now.",
+      message:
+        error.status === 429
+          ? error.message
+          : "Unable to resend the login OTP. Please try again later."
     });
   }
 });
 
-/* CHANGE PASSWORD: update the authenticated user's password in MySQL */
-router.put("/change-password", async (req, res) => {
-  try {
-    const authorization = req.headers.authorization || "";
-    const token = authorization.startsWith("Bearer ")
-      ? authorization.slice(7)
-      : "";
-
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Please log in again to change your password."
-      });
-    }
-
-    let decoded;
-
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
-    } catch {
-      return res.status(401).json({
-        success: false,
-        message: "Your session has expired. Please log in again."
-      });
-    }
-
-    const currentPassword = req.body?.currentPassword;
-    const newPassword = req.body?.newPassword;
-
-    if (
-      typeof currentPassword !== "string" ||
-      typeof newPassword !== "string" ||
-      !currentPassword ||
-      !newPassword
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Current password and new password are required."
-      });
-    }
-
-    if (newPassword.length < 8 || newPassword.length > 72) {
-      return res.status(400).json({
-        success: false,
-        message: "New password must be between 8 and 72 characters."
-      });
-    }
-
-    if (currentPassword === newPassword) {
-      return res.status(400).json({
-        success: false,
-        message: "Your new password must be different from your current password."
-      });
-    }
-
-    // Token subject is the user's String ID (CUID).
-    const user = await prisma.user.findUnique({
-      where: { id: String(decoded.sub) }
-    });
-
-    if (!user || !user.isActive) {
-      return res.status(401).json({
-        success: false,
-        message: "Your account could not be verified."
-      });
-    }
-
-    const passwordMatches = await bcrypt.compare(
-      currentPassword,
-      user.passwordHash
-    );
-
-    if (!passwordMatches) {
-      return res.status(400).json({
-        success: false,
-        message: "Your current password is incorrect."
-      });
-    }
-
-    const passwordHash = await bcrypt.hash(newPassword, 12);
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { passwordHash }
-    });
-
-    return res.json({
-      success: true,
-      message: "Password changed successfully. Use your new password next time you log in."
-    });
-  } catch (error) {
-    console.error("Change password failed:", error);
-
-    return res.status(500).json({
-      success: false,
-      message: "Unable to change your password right now. Please try again."
-    });
-  }
-});
 
 // GET current authenticated user
 router.get("/me", async (req, res) => {
@@ -611,6 +483,85 @@ router.get("/me", async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Unable to retrieve your account right now.",
+    });
+  }
+});
+
+
+// LOGIN: verify OTP and complete login
+router.post("/verify-login-otp", async (req, res) => {
+  try {
+    const email = normalizeEmail(req.body?.email);
+    const otp = String(req.body?.otp || "").trim();
+
+    if (!email || !/^\d{6}$/.test(otp)) {
+      return res.status(400).json({
+        success: false,
+        message: "Enter your email and the six-digit OTP."
+      });
+    }
+
+    const result = await checkOtp(email, otp);
+
+    if (!result.ok) {
+      return res.status(400).json({
+        success: false,
+        message: result.message
+      });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email }
+    });
+
+    if (!user || !user.isActive || !user.emailVerified) {
+      return res.status(401).json({
+        success: false,
+        message: "Unable to complete login. Please log in again."
+      });
+    }
+
+    // Create login notification for student accounts.
+    if (user.role === "JOB_SEEKER") {
+      try {
+        await prisma.notification.create({
+          data: {
+            userId: user.id,
+            title: "New login to your account",
+            message:
+              "A successful login to your VentrixCarros account was detected.",
+            type: "GENERAL"
+          }
+        });
+      } catch (notificationError) {
+        console.error(
+          "Could not save login notification:",
+          notificationError.message
+        );
+      }
+    }
+
+    // Send login alert without delaying login.
+    sendLoginAlertEmail(user.email, user.name).catch((emailError) => {
+      console.error(
+        "Login alert email failed:",
+        emailError.message
+      );
+    });
+
+    return res.json({
+      success: true,
+      message: "Login successful.",
+      token: createToken(user),
+      user: publicUser(user)
+    });
+
+  } catch (error) {
+    console.error("Verify login OTP failed:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to verify the login OTP right now."
     });
   }
 });

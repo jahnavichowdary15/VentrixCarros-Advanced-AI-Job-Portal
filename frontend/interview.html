@@ -1031,247 +1031,486 @@
 
     </div>
   </main>
+<script>
+const API_BASE = "http://localhost:5000/api/v1/mock-interviews";
 
-  <script>
-    const roleSelect =
-      document.getElementById("roleSelect");
+// DOM elements
+const roleSelect = document.getElementById("roleSelect");
+const jobDescription = document.getElementById("jobDescription");
+const startInterview = document.getElementById("startInterview");
+const interviewEmpty = document.getElementById("interviewEmpty");
+const interviewSession = document.getElementById("interviewSession");
+const finalResult = document.getElementById("finalResult");
 
-    const jobDescription =
-      document.getElementById("jobDescription");
+const sessionLabel = document.getElementById("sessionLabel");
+const questionNumber = document.getElementById("questionNumber");
+const questionText = document.getElementById("questionText");
+const answerBox = document.getElementById("answerBox");
 
-    const startInterview =
-      document.getElementById("startInterview");
+const submitAnswer = document.getElementById("submitAnswer");
+const skipQuestion = document.getElementById("skipQuestion");
+const questionProgress = document.getElementById("questionProgress");
 
-    const interviewEmpty =
-      document.getElementById("interviewEmpty");
+const feedbackCard = document.getElementById("feedbackCard");
+const feedbackText = document.getElementById("feedbackText");
+const timerElement = document.getElementById("timer");
+const restartInterview = document.getElementById("restartInterview");
 
-    const interviewSession =
-      document.getElementById("interviewSession");
+const finalScore = document.getElementById("finalScore");
 
-    const finalResult =
-      document.getElementById("finalResult");
+const interviewTypeButtons = document.querySelectorAll(
+  "[data-interview-type]"
+);
 
-    const sessionLabel =
-      document.getElementById("sessionLabel");
+// Interview state
+let selectedInterviewType = "Technical";
+let questions = [];
+let currentQuestion = 0;
+let answers = [];
+let timerInterval = null;
+let secondsRemaining = 300;
+let isEvaluating = false;
+let awaitingNext = false;
+let interviewFinished = false;
 
-    const questionNumber =
-      document.getElementById("questionNumber");
+// Authentication
+function getToken() {
+  return localStorage.getItem("ventrixToken");
+}
 
-    const questionText =
-      document.getElementById("questionText");
+// API helper
+async function apiRequest(endpoint, body) {
+  const token = getToken();
 
-    const answerBox =
-      document.getElementById("answerBox");
+  if (!token) {
+    throw new Error("Your login session is missing. Please log in again.");
+  }
 
-    const submitAnswer =
-      document.getElementById("submitAnswer");
+  const response = await fetch(`${API_BASE}/${endpoint}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
 
-    const skipQuestion =
-      document.getElementById("skipQuestion");
+  const data = await response.json();
 
-    const questionProgress =
-      document.getElementById("questionProgress");
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || "Something went wrong.");
+  }
 
-    const feedbackCard =
-      document.getElementById("feedbackCard");
+  return data;
+}
 
-    const feedbackText =
-      document.getElementById("feedbackText");
+// Interview type selection
+interviewTypeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (questions.length > 0 && !interviewFinished) {
+      return;
+    }
 
-    const timerElement =
-      document.getElementById("timer");
-
-    const restartInterview =
-      document.getElementById("restartInterview");
-
-    const interviewTypeButtons =
-      document.querySelectorAll(
-        "[data-interview-type]"
-      );
-
-    let selectedInterviewType = "Technical";
-    let currentQuestion = 0;
-    let timerInterval;
-    let secondsRemaining = 300;
-
-    const questions = {
-      Technical: [
-        "Explain how you would improve the performance of a React application.",
-        "What is the difference between state and props in React?",
-        "How do you make a website responsive?",
-        "Explain how you would handle API loading and error states.",
-        "Describe a frontend project you are proud of."
-      ],
-
-      Behavioral: [
-        "Tell me about yourself and your experience.",
-        "Describe a difficult project and how you handled it.",
-        "Tell me about a time you received critical feedback.",
-        "How do you prioritize tasks when deadlines are close?",
-        "Why are you interested in this role?"
-      ],
-
-      Mixed: [
-        "Tell me about yourself and your experience.",
-        "Explain how you would improve a slow web page.",
-        "Describe a time you solved a difficult problem.",
-        "How do you collaborate with designers and developers?",
-        "What would you like to learn in your next role?"
-      ],
-
-      Company: [
-        "Why do you want to work with our company?",
-        "What product or service interests you most?",
-        "How would your skills help our team?",
-        "Describe a project that shows your problem-solving ability.",
-        "Why should we choose you for this role?"
-      ]
-    };
-
-    interviewTypeButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        interviewTypeButtons.forEach((item) => {
-          item.classList.remove("selected");
-        });
-
-        button.classList.add("selected");
-        selectedInterviewType =
-          button.dataset.interviewType;
-      });
+    interviewTypeButtons.forEach((item) => {
+      item.classList.remove("selected");
     });
 
-    function startTimer() {
+    button.classList.add("selected");
+    selectedInterviewType = button.dataset.interviewType;
+  });
+});
+
+// Display status messages
+function showStatus(message) {
+  let status = document.getElementById("interviewStatus");
+
+  if (!status) {
+    status = document.createElement("div");
+    status.id = "interviewStatus";
+    status.style.cssText = `
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      color: #1d4ed8;
+      font-size: 13px;
+      margin-top: 12px;
+      padding: 12px;
+    `;
+
+    startInterview.insertAdjacentElement("afterend", status);
+  }
+
+  status.textContent = message;
+}
+
+// Start AI interview
+startInterview.addEventListener("click", startNewInterview);
+
+async function startNewInterview() {
+  if (isEvaluating) return;
+
+  startInterview.disabled = true;
+  startInterview.textContent = "Generating AI questions...";
+
+  try {
+    const data = await apiRequest("start", {
+      role: roleSelect.value,
+      interviewType: selectedInterviewType,
+      jobDescription: jobDescription.value.trim(),
+    });
+
+    questions = data.questions;
+    answers = [];
+    currentQuestion = 0;
+    awaitingNext = false;
+    interviewFinished = false;
+
+    finalResult.classList.remove("show");
+    interviewEmpty.style.display = "none";
+    interviewSession.classList.add("show");
+
+    sessionLabel.textContent =
+      roleSelect.value + " · " + selectedInterviewType;
+
+    startTimer();
+    updateQuestion();
+
+    showStatus("Your personalized AI interview has started!");
+
+  } catch (error) {
+    console.error("Interview start error:", error);
+    showStatus(error.message);
+  } finally {
+    startInterview.disabled = false;
+    startInterview.textContent = "Start mock interview";
+  }
+}
+
+// Timer
+function startTimer() {
+  clearInterval(timerInterval);
+
+  secondsRemaining = 300;
+  updateTimerDisplay();
+
+  timerInterval = setInterval(() => {
+    secondsRemaining--;
+
+    updateTimerDisplay();
+
+    if (secondsRemaining <= 0) {
       clearInterval(timerInterval);
-      secondsRemaining = 300;
-
-      timerInterval = setInterval(() => {
-        secondsRemaining--;
-
-        const minutes = Math.floor(
-          secondsRemaining / 60
-        );
-
-        const seconds = secondsRemaining % 60;
-
-        timerElement.textContent =
-          String(minutes).padStart(2, "0") +
-          ":" +
-          String(seconds).padStart(2, "0");
-
-        if (secondsRemaining <= 0) {
-          clearInterval(timerInterval);
-          finishInterview();
-        }
-      }, 1000);
+      finishInterview();
     }
+  }, 1000);
+}
 
-    function updateQuestion() {
-      const questionSet =
-        questions[selectedInterviewType];
+function updateTimerDisplay() {
+  const minutes = Math.floor(secondsRemaining / 60);
+  const seconds = secondsRemaining % 60;
 
-      questionNumber.textContent =
-        "Question " +
-        (currentQuestion + 1) +
-        " of " +
-        questionSet.length;
+  timerElement.textContent =
+    String(minutes).padStart(2, "0") +
+    ":" +
+    String(seconds).padStart(2, "0");
+}
 
-      questionText.textContent =
-        questionSet[currentQuestion];
+// Display current question
+function updateQuestion() {
+  if (currentQuestion >= questions.length) {
+    finishInterview();
+    return;
+  }
 
-      questionProgress.style.width =
-        ((currentQuestion + 1) /
-          questionSet.length) *
-          100 +
-        "%";
+  questionNumber.textContent =
+    "Question " +
+    (currentQuestion + 1) +
+    " of " +
+    questions.length;
 
-      answerBox.value = "";
-      feedbackCard.classList.remove("show");
-      feedbackText.textContent =
-        "Your answer should include a specific example and measurable results.";
+  questionText.textContent = questions[currentQuestion];
 
-      submitAnswer.textContent =
-        currentQuestion === questionSet.length - 1
-          ? "Finish interview"
-          : "Submit answer";
-    }
+  questionProgress.style.width =
+    ((currentQuestion + 1) / questions.length) * 100 + "%";
 
-    startInterview.addEventListener("click", () => {
-      currentQuestion = 0;
+  answerBox.value = "";
+  feedbackCard.classList.remove("show");
+  feedbackText.textContent = "";
 
-      interviewEmpty.style.display = "none";
-      finalResult.classList.remove("show");
-      interviewSession.classList.add("show");
+  awaitingNext = false;
 
-      sessionLabel.textContent =
-        roleSelect.value +
-        " · " +
-        selectedInterviewType;
+  submitAnswer.disabled = false;
+  skipQuestion.disabled = false;
+  submitAnswer.textContent = "Submit answer";
+}
 
-      updateQuestion();
-      startTimer();
-    });
+// Submit answer for AI evaluation
+submitAnswer.addEventListener("click", handleSubmitAnswer);
 
-    submitAnswer.addEventListener("click", () => {
-      const answer = answerBox.value.trim();
+async function handleSubmitAnswer() {
+  if (isEvaluating) return;
 
-      if (!answer) {
-        alert("Please enter an answer before continuing.");
-        answerBox.focus();
-        return;
-      }
-
-      feedbackCard.classList.add("show");
-
-      if (answer.length < 80) {
-        feedbackText.textContent =
-          "Good start. Add more detail, explain your actions, and include the result.";
-      } else {
-        feedbackText.textContent =
-          "Strong answer structure. Add one measurable result to make it more convincing.";
-      }
-
-      const questionSet =
-        questions[selectedInterviewType];
-
-      if (currentQuestion === questionSet.length - 1) {
-        setTimeout(finishInterview, 700);
-        return;
-      }
-
-      setTimeout(() => {
-        currentQuestion++;
-        updateQuestion();
-      }, 700);
-    });
-
-    skipQuestion.addEventListener("click", () => {
-      const questionSet =
-        questions[selectedInterviewType];
-
-      if (currentQuestion === questionSet.length - 1) {
-        finishInterview();
-        return;
-      }
-
+  // Second click moves to the next question
+  if (awaitingNext) {
+    if (currentQuestion === questions.length - 1) {
+      await finishInterview();
+    } else {
       currentQuestion++;
       updateQuestion();
-    });
-
-    function finishInterview() {
-      clearInterval(timerInterval);
-      interviewSession.classList.remove("show");
-      finalResult.classList.add("show");
-      document.getElementById("finalScore").textContent =
-        Math.floor(76 + Math.random() * 18);
     }
+    return;
+  }
 
-    restartInterview.addEventListener("click", () => {
-      finalResult.classList.remove("show");
-      interviewEmpty.style.display = "flex";
-      answerBox.value = "";
-      timerElement.textContent = "05:00";
+  const answer = answerBox.value.trim();
+
+  if (!answer) {
+    alert("Please enter your answer before continuing.");
+    answerBox.focus();
+    return;
+  }
+
+  isEvaluating = true;
+  submitAnswer.disabled = true;
+  skipQuestion.disabled = true;
+  submitAnswer.textContent = "AI is evaluating...";
+
+  try {
+    const data = await apiRequest("evaluate", {
+      role: roleSelect.value,
+      interviewType: selectedInterviewType,
+      question: questions[currentQuestion],
+      answer,
     });
-  </script>
+
+    const evaluation = data.evaluation;
+
+    answers[currentQuestion] = {
+      question: questions[currentQuestion],
+      answer,
+      score: evaluation.score,
+    };
+
+    displayFeedback(evaluation);
+
+    awaitingNext = true;
+
+    submitAnswer.textContent =
+      currentQuestion === questions.length - 1
+        ? "View final report"
+        : "Next question";
+
+  } catch (error) {
+    console.error("Answer evaluation error:", error);
+    feedbackCard.classList.add("show");
+    feedbackText.textContent = error.message;
+
+    submitAnswer.textContent = "Try again";
+  } finally {
+    isEvaluating = false;
+    submitAnswer.disabled = false;
+    skipQuestion.disabled = false;
+  }
+}
+
+// Display detailed AI feedback
+function displayFeedback(evaluation) {
+  feedbackCard.replaceChildren();
+
+  const heading = document.createElement("strong");
+  heading.textContent = `AI Feedback — Score: ${evaluation.score}/100`;
+  feedbackCard.appendChild(heading);
+
+  const feedback = document.createElement("p");
+  feedback.textContent = evaluation.feedback;
+  feedback.style.marginTop = "9px";
+  feedbackCard.appendChild(feedback);
+
+  addFeedbackList(
+    feedbackCard,
+    "Strengths",
+    evaluation.strengths
+  );
+
+  addFeedbackList(
+    feedbackCard,
+    "Areas to improve",
+    evaluation.improvements
+  );
+
+  const sampleHeading = document.createElement("strong");
+  sampleHeading.textContent = "Suggested improved answer";
+  sampleHeading.style.display = "block";
+  sampleHeading.style.marginTop = "12px";
+  feedbackCard.appendChild(sampleHeading);
+
+  const sample = document.createElement("p");
+  sample.textContent = evaluation.sampleAnswer;
+  sample.style.marginTop = "6px";
+  feedbackCard.appendChild(sample);
+
+  feedbackCard.classList.add("show");
+}
+
+// Safely create feedback lists
+function addFeedbackList(container, headingText, items) {
+  const heading = document.createElement("strong");
+  heading.textContent = headingText;
+  heading.style.display = "block";
+  heading.style.marginTop = "12px";
+  container.appendChild(heading);
+
+  const list = document.createElement("ul");
+  list.style.paddingLeft = "20px";
+  list.style.marginTop = "6px";
+
+  items.forEach((item) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    list.appendChild(li);
+  });
+
+  container.appendChild(list);
+}
+
+// Skip question
+skipQuestion.addEventListener("click", handleSkipQuestion);
+
+function handleSkipQuestion() {
+  if (isEvaluating || awaitingNext || interviewFinished) return;
+
+  answers[currentQuestion] = {
+    question: questions[currentQuestion],
+    answer: "Skipped by candidate.",
+    score: 0,
+  };
+
+  if (currentQuestion === questions.length - 1) {
+    finishInterview();
+    return;
+  }
+
+  currentQuestion++;
+  updateQuestion();
+}
+
+// Generate final AI report
+async function finishInterview() {
+  if (interviewFinished || isEvaluating) return;
+
+  clearInterval(timerInterval);
+
+  const completedAnswers = answers.filter(Boolean);
+
+  if (completedAnswers.length === 0) {
+    interviewSession.classList.remove("show");
+    interviewEmpty.style.display = "flex";
+    showStatus("Please answer at least one question to generate your report.");
+    return;
+  }
+
+  interviewFinished = true;
+  submitAnswer.disabled = true;
+  skipQuestion.disabled = true;
+  submitAnswer.textContent = "Generating report...";
+
+  try {
+    const data = await apiRequest("final-report", {
+      role: roleSelect.value,
+      interviewType: selectedInterviewType,
+      answers: completedAnswers,
+    });
+
+    displayFinalReport(data.report);
+
+  } catch (error) {
+    console.error("Final report error:", error);
+
+    interviewFinished = false;
+    interviewSession.classList.add("show");
+
+    feedbackCard.classList.add("show");
+    feedbackText.textContent =
+      "Your answers were recorded, but the final report could not be generated. " +
+      error.message;
+
+    submitAnswer.disabled = false;
+    skipQuestion.disabled = false;
+    submitAnswer.textContent = "Retry final report";
+  }
+}
+
+// Display final report
+function displayFinalReport(report) {
+  interviewSession.classList.remove("show");
+  finalResult.classList.add("show");
+
+  finalScore.textContent = report.overallScore;
+
+  finalResult.querySelector("h2").textContent =
+    report.performance + " interview performance";
+
+  finalResult.querySelector("p").textContent = report.summary;
+
+  // Remove previous report details
+  const oldDetails = document.getElementById("finalReportDetails");
+
+  if (oldDetails) oldDetails.remove();
+
+  const details = document.createElement("div");
+  details.id = "finalReportDetails";
+  details.style.cssText = `
+    margin: 24px auto 0;
+    max-width: 600px;
+    text-align: left;
+  `;
+
+  addFeedbackList(details, "Your strengths", report.strengths);
+  addFeedbackList(details, "Areas to improve", report.improvements);
+  addFeedbackList(details, "Recommendations", report.recommendations);
+
+  finalResult.insertBefore(
+    details,
+    restartInterview
+  );
+
+  finalResult.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
+// Restart interview
+restartInterview.addEventListener("click", () => {
+  clearInterval(timerInterval);
+
+  questions = [];
+  answers = [];
+  currentQuestion = 0;
+  awaitingNext = false;
+  interviewFinished = false;
+  isEvaluating = false;
+
+  secondsRemaining = 300;
+  updateTimerDisplay();
+
+  finalResult.classList.remove("show");
+  interviewSession.classList.remove("show");
+  interviewEmpty.style.display = "flex";
+
+  feedbackCard.classList.remove("show");
+  questionProgress.style.width = "0%";
+
+  submitAnswer.disabled = false;
+  skipQuestion.disabled = false;
+  submitAnswer.textContent = "Submit answer";
+
+  startInterview.textContent = "Start mock interview";
+  startInterview.disabled = false;
+
+  answerBox.value = "";
+  showStatus("Ready for a new interview. Choose your settings and start again.");
+});
+</script>
 
 </body>
 </html>

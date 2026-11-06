@@ -5,6 +5,11 @@ const cors = require("cors");
 const { prisma } = require("./config/db");
 
 // Route imports
+
+const resumeRoutes = require("./routes/resumeRoutes");
+const coverLetterRoutes = require("./routes/coverLetterRoutes");
+const mockInterviewRoutes = require("./routes/mockInterviewRoutes");
+const careerRoadmapRoutes = require("./routes/careerRoadmapRoutes");
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const jobRoutes = require("./routes/jobRoutes");
@@ -102,6 +107,10 @@ app.use("/api/v1/applications", applicationRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/contact", contactRoutes);
 app.use("/api/v1/digest", digestRoutes);
+app.use("/api/v1/resumes", resumeRoutes);
+app.use("/api/v1/cover-letters", coverLetterRoutes);
+app.use("/api/v1/mock-interviews", mockInterviewRoutes);
+app.use("/api/v1/career-roadmaps", careerRoadmapRoutes);
 
 // API 404 handler
 app.use("/api", (req, res) => {
