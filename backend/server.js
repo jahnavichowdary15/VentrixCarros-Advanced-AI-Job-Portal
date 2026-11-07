@@ -32,7 +32,8 @@ const allowedOrigins = [
   "http://localhost:5500",
   "http://127.0.0.1:5500",
   "http://localhost:3000",
-  "http://127.0.0.1:3000"
+  "http://127.0.0.1:3000",
+  "https://ventrixcarrosai.vercel.app"
 ];
 
 // Make Prisma available to route handlers
@@ -159,9 +160,9 @@ async function startServer() {
     // Start automatic Daily Job Email Digest scheduler
     digestScheduler = startJobDigestScheduler();
 
-    const server = app.listen(PORT, () => {
+   const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(
-        `VentrixCarros API running at http://localhost:${PORT}`
+       `VentrixCarros API running on port ${PORT}`
       );
 
       console.log("\nAuthentication endpoints:");
