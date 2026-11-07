@@ -640,6 +640,37 @@
       margin-top: 7px;
     }
 
+
+    /* Interview history */
+    .history-section { margin-top: 25px; }
+    .history-list { display: grid; gap: 12px; }
+    .history-item {
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: grid;
+      gap: 14px;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      padding: 14px;
+    }
+    .history-item strong { color: var(--dark); }
+    .history-item p { color: var(--muted); font-size: .72rem; margin-top: 4px; }
+    .history-score { color: var(--primary); font-size: .78rem; font-weight: 800; white-space: nowrap; }
+    .history-open {
+      background: var(--light-blue);
+      border: 1px solid #dbeafe;
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: .73rem;
+      font-weight: 700;
+      padding: 9px 12px;
+    }
+    .history-open:disabled { cursor: not-allowed; opacity: .45; }
+    @media (max-width: 600px) {
+      .history-item { align-items: flex-start; grid-template-columns: 1fr auto; }
+      .history-item > div { grid-column: 1 / -1; }
+    }
+
     @media (max-width: 850px) {
       .interview-layout {
         grid-template-columns: 1fr;
@@ -987,6 +1018,14 @@
       </div>
 
       <!-- Tips -->
+      <section class="history-section panel" aria-labelledby="historyHeading">
+        <div class="panel-heading">
+          <h2 id="historyHeading">Your interview history</h2>
+          <p>Review reports from your previous practice sessions.</p>
+        </div>
+        <div id="interviewHistoryList" class="history-list" aria-live="polite">Loading interview history...</div>
+      </section>
+
       <section class="tips-section">
         <div class="panel-heading">
           <div>
@@ -1034,36 +1073,28 @@
 <script>
 const API_BASE = "http://localhost:5000/api/v1/mock-interviews";
 
-// DOM elements
 const roleSelect = document.getElementById("roleSelect");
 const jobDescription = document.getElementById("jobDescription");
 const startInterview = document.getElementById("startInterview");
 const interviewEmpty = document.getElementById("interviewEmpty");
 const interviewSession = document.getElementById("interviewSession");
 const finalResult = document.getElementById("finalResult");
-
 const sessionLabel = document.getElementById("sessionLabel");
 const questionNumber = document.getElementById("questionNumber");
 const questionText = document.getElementById("questionText");
 const answerBox = document.getElementById("answerBox");
-
 const submitAnswer = document.getElementById("submitAnswer");
 const skipQuestion = document.getElementById("skipQuestion");
 const questionProgress = document.getElementById("questionProgress");
-
 const feedbackCard = document.getElementById("feedbackCard");
 const feedbackText = document.getElementById("feedbackText");
 const timerElement = document.getElementById("timer");
 const restartInterview = document.getElementById("restartInterview");
-
 const finalScore = document.getElementById("finalScore");
+const interviewTypeButtons = document.querySelectorAll("[data-interview-type]");
 
-const interviewTypeButtons = document.querySelectorAll(
-  "[data-interview-type]"
-);
-
-// Interview state
 let selectedInterviewType = "Technical";
+let interviewId = null;
 let questions = [];
 let currentQuestion = 0;
 let answers = [];
@@ -1072,135 +1103,122 @@ let secondsRemaining = 300;
 let isEvaluating = false;
 let awaitingNext = false;
 let interviewFinished = false;
+let timerExpired = false;
 
-// Authentication
 function getToken() {
-  return localStorage.getItem("ventrixToken");
+  return localStorage.getItem("ventrixToken") || sessionStorage.getItem("ventrixToken");
 }
 
-// API helper
-async function apiRequest(endpoint, body) {
+async function apiRequest(endpoint, options = {}) {
   const token = getToken();
+  if (!token) throw new Error("Your login session is missing. Please log in again.");
 
-  if (!token) {
-    throw new Error("Your login session is missing. Please log in again.");
-  }
-
+  const { method = "GET", body } = options;
   const response = await fetch(`${API_BASE}/${endpoint}`, {
-    method: "POST",
+    method,
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+      ...(body !== undefined ? { "Content-Type": "application/json" } : {})
     },
-    body: JSON.stringify(body),
+    ...(body !== undefined ? { body: JSON.stringify(body) } : {})
   });
 
-  const data = await response.json();
-
-  if (!response.ok || !data.success) {
-    throw new Error(data.message || "Something went wrong.");
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error("The server returned an unreadable response.");
   }
 
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || `Request failed (${response.status}).`);
+  }
   return data;
 }
 
-// Interview type selection
+function showStatus(message, isError = false) {
+  let status = document.getElementById("interviewStatus");
+  if (!status) {
+    status = document.createElement("div");
+    status.id = "interviewStatus";
+    status.style.cssText = "border-radius:8px;font-size:13px;margin-top:12px;padding:12px;";
+    startInterview.insertAdjacentElement("afterend", status);
+  }
+  status.style.background = isError ? "#fef2f2" : "#eff6ff";
+  status.style.border = `1px solid ${isError ? "#fecaca" : "#bfdbfe"}`;
+  status.style.color = isError ? "#b91c1c" : "#1d4ed8";
+  status.textContent = message;
+}
+
+function setBusy(button, busy, text) {
+  button.disabled = busy;
+  if (text) button.textContent = text;
+}
+
 interviewTypeButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    if (questions.length > 0 && !interviewFinished) {
-      return;
-    }
-
-    interviewTypeButtons.forEach((item) => {
-      item.classList.remove("selected");
-    });
-
+    if (interviewId && !interviewFinished) return;
+    interviewTypeButtons.forEach((item) => item.classList.remove("selected"));
     button.classList.add("selected");
     selectedInterviewType = button.dataset.interviewType;
   });
 });
 
-// Display status messages
-function showStatus(message) {
-  let status = document.getElementById("interviewStatus");
-
-  if (!status) {
-    status = document.createElement("div");
-    status.id = "interviewStatus";
-    status.style.cssText = `
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      color: #1d4ed8;
-      font-size: 13px;
-      margin-top: 12px;
-      padding: 12px;
-    `;
-
-    startInterview.insertAdjacentElement("afterend", status);
-  }
-
-  status.textContent = message;
-}
-
-// Start AI interview
 startInterview.addEventListener("click", startNewInterview);
 
 async function startNewInterview() {
   if (isEvaluating) return;
-
-  startInterview.disabled = true;
-  startInterview.textContent = "Generating AI questions...";
-
+  setBusy(startInterview, true, "Generating AI questions...");
   try {
     const data = await apiRequest("start", {
-      role: roleSelect.value,
-      interviewType: selectedInterviewType,
-      jobDescription: jobDescription.value.trim(),
+      method: "POST",
+      body: {
+        role: roleSelect.value,
+        interviewType: selectedInterviewType,
+        jobDescription: jobDescription.value.trim()
+      }
     });
 
+    if (!data.interviewId || !Array.isArray(data.questions) || data.questions.length !== 5) {
+      throw new Error("The server returned an incomplete interview session.");
+    }
+
+    interviewId = data.interviewId;
     questions = data.questions;
-    answers = [];
+    answers = Array(questions.length).fill(null);
     currentQuestion = 0;
     awaitingNext = false;
     interviewFinished = false;
+    timerExpired = false;
 
     finalResult.classList.remove("show");
     interviewEmpty.style.display = "none";
     interviewSession.classList.add("show");
-
-    sessionLabel.textContent =
-      roleSelect.value + " · " + selectedInterviewType;
-
-    startTimer();
+    sessionLabel.textContent = `${data.role || roleSelect.value} · ${data.interviewType || selectedInterviewType}`;
     updateQuestion();
-
+    startTimer();
     showStatus("Your personalized AI interview has started!");
-
+    await loadInterviewHistory();
   } catch (error) {
     console.error("Interview start error:", error);
-    showStatus(error.message);
+    showStatus(error.message, true);
   } finally {
-    startInterview.disabled = false;
-    startInterview.textContent = "Start mock interview";
+    setBusy(startInterview, false, "Start mock interview");
   }
 }
 
-// Timer
 function startTimer() {
   clearInterval(timerInterval);
-
   secondsRemaining = 300;
+  timerExpired = false;
   updateTimerDisplay();
-
   timerInterval = setInterval(() => {
-    secondsRemaining--;
-
+    secondsRemaining = Math.max(0, secondsRemaining - 1);
     updateTimerDisplay();
-
-    if (secondsRemaining <= 0) {
+    if (secondsRemaining === 0) {
       clearInterval(timerInterval);
-      finishInterview();
+      timerExpired = true;
+      if (!isEvaluating) finishInterview();
     }
   }, 1000);
 }
@@ -1208,49 +1226,30 @@ function startTimer() {
 function updateTimerDisplay() {
   const minutes = Math.floor(secondsRemaining / 60);
   const seconds = secondsRemaining % 60;
-
-  timerElement.textContent =
-    String(minutes).padStart(2, "0") +
-    ":" +
-    String(seconds).padStart(2, "0");
+  timerElement.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
-// Display current question
 function updateQuestion() {
   if (currentQuestion >= questions.length) {
     finishInterview();
     return;
   }
-
-  questionNumber.textContent =
-    "Question " +
-    (currentQuestion + 1) +
-    " of " +
-    questions.length;
-
+  questionNumber.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
   questionText.textContent = questions[currentQuestion];
-
-  questionProgress.style.width =
-    ((currentQuestion + 1) / questions.length) * 100 + "%";
-
+  questionProgress.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
   answerBox.value = "";
   feedbackCard.classList.remove("show");
-  feedbackText.textContent = "";
-
+  feedbackCard.replaceChildren();
   awaitingNext = false;
-
   submitAnswer.disabled = false;
   skipQuestion.disabled = false;
   submitAnswer.textContent = "Submit answer";
 }
 
-// Submit answer for AI evaluation
 submitAnswer.addEventListener("click", handleSubmitAnswer);
 
 async function handleSubmitAnswer() {
-  if (isEvaluating) return;
-
-  // Second click moves to the next question
+  if (isEvaluating || interviewFinished) return;
   if (awaitingNext) {
     if (currentQuestion === questions.length - 1) {
       await finishInterview();
@@ -1262,9 +1261,8 @@ async function handleSubmitAnswer() {
   }
 
   const answer = answerBox.value.trim();
-
   if (!answer) {
-    alert("Please enter your answer before continuing.");
+    alert("Please enter your answer before continuing, or skip this question.");
     answerBox.focus();
     return;
   }
@@ -1276,46 +1274,45 @@ async function handleSubmitAnswer() {
 
   try {
     const data = await apiRequest("evaluate", {
-      role: roleSelect.value,
-      interviewType: selectedInterviewType,
-      question: questions[currentQuestion],
-      answer,
+      method: "POST",
+      body: {
+        interviewId,
+        questionIndex: currentQuestion,
+        role: roleSelect.value,
+        interviewType: selectedInterviewType,
+        question: questions[currentQuestion],
+        answer
+      }
     });
 
     const evaluation = data.evaluation;
-
     answers[currentQuestion] = {
       question: questions[currentQuestion],
       answer,
       score: evaluation.score,
+      evaluation,
+      skipped: false
     };
-
     displayFeedback(evaluation);
-
     awaitingNext = true;
-
-    submitAnswer.textContent =
-      currentQuestion === questions.length - 1
-        ? "View final report"
-        : "Next question";
-
+    submitAnswer.textContent = currentQuestion === questions.length - 1 ? "View final report" : "Next question";
   } catch (error) {
     console.error("Answer evaluation error:", error);
-    feedbackCard.classList.add("show");
+    feedbackCard.replaceChildren();
     feedbackText.textContent = error.message;
-
+    feedbackCard.appendChild(feedbackText);
+    feedbackCard.classList.add("show");
     submitAnswer.textContent = "Try again";
   } finally {
     isEvaluating = false;
     submitAnswer.disabled = false;
     skipQuestion.disabled = false;
+    if (timerExpired && !interviewFinished) await finishInterview();
   }
 }
 
-// Display detailed AI feedback
 function displayFeedback(evaluation) {
   feedbackCard.replaceChildren();
-
   const heading = document.createElement("strong");
   heading.textContent = `AI Feedback — Score: ${evaluation.score}/100`;
   feedbackCard.appendChild(heading);
@@ -1325,17 +1322,8 @@ function displayFeedback(evaluation) {
   feedback.style.marginTop = "9px";
   feedbackCard.appendChild(feedback);
 
-  addFeedbackList(
-    feedbackCard,
-    "Strengths",
-    evaluation.strengths
-  );
-
-  addFeedbackList(
-    feedbackCard,
-    "Areas to improve",
-    evaluation.improvements
-  );
+  addFeedbackList(feedbackCard, "Strengths", evaluation.strengths || []);
+  addFeedbackList(feedbackCard, "Areas to improve", evaluation.improvements || []);
 
   const sampleHeading = document.createElement("strong");
   sampleHeading.textContent = "Suggested improved answer";
@@ -1344,14 +1332,12 @@ function displayFeedback(evaluation) {
   feedbackCard.appendChild(sampleHeading);
 
   const sample = document.createElement("p");
-  sample.textContent = evaluation.sampleAnswer;
+  sample.textContent = evaluation.sampleAnswer || "No sample answer was provided.";
   sample.style.marginTop = "6px";
   feedbackCard.appendChild(sample);
-
   feedbackCard.classList.add("show");
 }
 
-// Safely create feedback lists
 function addFeedbackList(container, headingText, items) {
   const heading = document.createElement("strong");
   heading.textContent = headingText;
@@ -1362,51 +1348,43 @@ function addFeedbackList(container, headingText, items) {
   const list = document.createElement("ul");
   list.style.paddingLeft = "20px";
   list.style.marginTop = "6px";
-
-  items.forEach((item) => {
+  (Array.isArray(items) ? items : []).forEach((item) => {
     const li = document.createElement("li");
     li.textContent = item;
     list.appendChild(li);
   });
-
   container.appendChild(list);
 }
 
-// Skip question
 skipQuestion.addEventListener("click", handleSkipQuestion);
 
 function handleSkipQuestion() {
   if (isEvaluating || awaitingNext || interviewFinished) return;
-
   answers[currentQuestion] = {
     question: questions[currentQuestion],
     answer: "Skipped by candidate.",
     score: 0,
+    skipped: true
   };
-
   if (currentQuestion === questions.length - 1) {
     finishInterview();
-    return;
+  } else {
+    currentQuestion++;
+    updateQuestion();
   }
-
-  currentQuestion++;
-  updateQuestion();
 }
 
-// Generate final AI report
 async function finishInterview() {
-  if (interviewFinished || isEvaluating) return;
-
+  if (interviewFinished || isEvaluating || !interviewId) return;
   clearInterval(timerInterval);
 
-  const completedAnswers = answers.filter(Boolean);
-
-  if (completedAnswers.length === 0) {
-    interviewSession.classList.remove("show");
-    interviewEmpty.style.display = "flex";
-    showStatus("Please answer at least one question to generate your report.");
-    return;
-  }
+  // Ensure all unanswered questions are represented as skipped in the final report.
+  const completedAnswers = questions.map((question, index) => answers[index] || ({
+    question,
+    answer: "Skipped by candidate.",
+    score: 0,
+    skipped: true
+  }));
 
   interviewFinished = true;
   submitAnswer.disabled = true;
@@ -1415,101 +1393,134 @@ async function finishInterview() {
 
   try {
     const data = await apiRequest("final-report", {
-      role: roleSelect.value,
-      interviewType: selectedInterviewType,
-      answers: completedAnswers,
+      method: "POST",
+      body: {
+        interviewId,
+        role: roleSelect.value,
+        interviewType: selectedInterviewType,
+        answers: completedAnswers
+      }
     });
-
     displayFinalReport(data.report);
-
+    await loadInterviewHistory();
+    showStatus("Your interview report has been saved successfully.");
   } catch (error) {
     console.error("Final report error:", error);
-
     interviewFinished = false;
     interviewSession.classList.add("show");
-
+    feedbackCard.replaceChildren();
+    feedbackText.textContent = `Your answers were recorded, but the final report could not be generated. ${error.message}`;
+    feedbackCard.appendChild(feedbackText);
     feedbackCard.classList.add("show");
-    feedbackText.textContent =
-      "Your answers were recorded, but the final report could not be generated. " +
-      error.message;
-
     submitAnswer.disabled = false;
     skipQuestion.disabled = false;
     submitAnswer.textContent = "Retry final report";
   }
 }
 
-// Display final report
 function displayFinalReport(report) {
   interviewSession.classList.remove("show");
+  interviewEmpty.style.display = "none";
   finalResult.classList.add("show");
+  finalScore.textContent = report.overallScore ?? "—";
+  finalResult.querySelector("h2").textContent = `${report.performance || "Completed"} interview performance`;
+  finalResult.querySelector("p").textContent = report.summary || "Your interview report is ready.";
 
-  finalScore.textContent = report.overallScore;
-
-  finalResult.querySelector("h2").textContent =
-    report.performance + " interview performance";
-
-  finalResult.querySelector("p").textContent = report.summary;
-
-  // Remove previous report details
   const oldDetails = document.getElementById("finalReportDetails");
-
   if (oldDetails) oldDetails.remove();
-
   const details = document.createElement("div");
   details.id = "finalReportDetails";
-  details.style.cssText = `
-    margin: 24px auto 0;
-    max-width: 600px;
-    text-align: left;
-  `;
-
-  addFeedbackList(details, "Your strengths", report.strengths);
-  addFeedbackList(details, "Areas to improve", report.improvements);
-  addFeedbackList(details, "Recommendations", report.recommendations);
-
-  finalResult.insertBefore(
-    details,
-    restartInterview
-  );
-
-  finalResult.scrollIntoView({
-    behavior: "smooth",
-    block: "start",
-  });
+  details.style.cssText = "margin:24px auto 0;max-width:600px;text-align:left;";
+  addFeedbackList(details, "Your strengths", report.strengths || []);
+  addFeedbackList(details, "Areas to improve", report.improvements || []);
+  addFeedbackList(details, "Recommendations", report.recommendations || []);
+  finalResult.insertBefore(details, restartInterview);
+  finalResult.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-// Restart interview
+async function loadInterviewHistory() {
+  const list = document.getElementById("interviewHistoryList");
+  if (!list) return;
+  list.textContent = "Loading interview history...";
+  try {
+    const data = await apiRequest("history");
+    list.replaceChildren();
+    if (!Array.isArray(data.interviews) || data.interviews.length === 0) {
+      list.textContent = "No previous interviews yet. Your completed interviews will appear here.";
+      return;
+    }
+
+    data.interviews.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "history-item";
+      const info = document.createElement("div");
+      const title = document.createElement("strong");
+      title.textContent = item.role || "Mock interview";
+      const meta = document.createElement("p");
+      const date = item.createdAt ? new Date(item.createdAt).toLocaleString() : "Date unavailable";
+      meta.textContent = `${item.interviewType || "Interview"} · ${date} · ${item.status || "IN_PROGRESS"}`;
+      info.append(title, meta);
+      const score = document.createElement("span");
+      score.className = "history-score";
+      score.textContent = item.overallScore == null ? "In progress" : `${item.overallScore}/100`;
+      const open = document.createElement("button");
+      open.type = "button";
+      open.className = "history-open";
+      open.textContent = "View report";
+      open.disabled = item.status !== "COMPLETED";
+      open.addEventListener("click", () => openSavedInterview(item.id));
+      card.append(info, score, open);
+      list.appendChild(card);
+    });
+  } catch (error) {
+    console.error("Interview history error:", error);
+    list.textContent = error.message;
+  }
+}
+
+async function openSavedInterview(id) {
+  try {
+    const data = await apiRequest(encodeURIComponent(id));
+    const saved = data.interview;
+    if (!saved || !saved.report) throw new Error("A final report is not available for this interview yet.");
+    interviewId = saved.id;
+    displayFinalReport(saved.report);
+    showStatus(`Viewing saved interview: ${saved.role}`);
+  } catch (error) {
+    showStatus(error.message, true);
+  }
+}
+
 restartInterview.addEventListener("click", () => {
   clearInterval(timerInterval);
-
+  interviewId = null;
   questions = [];
   answers = [];
   currentQuestion = 0;
   awaitingNext = false;
   interviewFinished = false;
   isEvaluating = false;
-
+  timerExpired = false;
   secondsRemaining = 300;
   updateTimerDisplay();
-
   finalResult.classList.remove("show");
   interviewSession.classList.remove("show");
   interviewEmpty.style.display = "flex";
-
   feedbackCard.classList.remove("show");
+  feedbackCard.replaceChildren();
   questionProgress.style.width = "0%";
-
   submitAnswer.disabled = false;
   skipQuestion.disabled = false;
   submitAnswer.textContent = "Submit answer";
-
   startInterview.textContent = "Start mock interview";
   startInterview.disabled = false;
-
   answerBox.value = "";
   showStatus("Ready for a new interview. Choose your settings and start again.");
 });
+
+// Load saved interviews when the page opens.
+document.addEventListener("DOMContentLoaded", loadInterviewHistory);
+
 </script>
 
 </body>

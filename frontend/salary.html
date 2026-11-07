@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,157 +6,1403 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Explore salary estimates and career insights with VentrixCarros." />
   <title>Salary Insights | VentrixCarros</title>
+
   <style>
-    :root{--ink:#172033;--muted:#667085;--line:#e7eaf0;--surface:#f5f7fb;--card:#fff;--blue:#3157d5;--blue2:#2445b5;--pale:#edf2ff;--green:#16845b;--shadow:0 14px 38px rgba(20,35,75,.07);--radius:18px}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--surface);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}button,input,select,textarea{font:inherit}button{cursor:pointer}.container{width:min(1160px,calc(100% - 40px));margin:auto}
-    .topbar{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center}.nav{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none;font-weight:800;letter-spacing:-.4px}.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#4268ed,#203eaf);display:grid;place-items:center;color:white;font-weight:900;font-size:18px;box-shadow:0 6px 14px #3157d533}.nav-actions{display:flex;align-items:center;gap:12px}.nav-link{color:#475467;text-decoration:none;font-size:14px;font-weight:650;padding:10px 14px;border-radius:10px}.nav-link:hover{background:#f2f4f8}.hero{padding:48px 0 34px;background:radial-gradient(ellipse at 80% 0%,#e7edff 0,transparent 45%),linear-gradient(180deg,#fff,#f5f7fb)}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--blue);font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:#5275f1}.hero h1{font-size:clamp(30px,4vw,44px);line-height:1.12;letter-spacing:-1.5px;margin:13px 0 12px}.hero p{max-width:660px;color:var(--muted);margin:0;font-size:16px}.main{padding:30px 0 64px}.layout{display:grid;grid-template-columns:360px minmax(0,1fr);gap:22px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.form-card{padding:25px;position:sticky;top:18px}.card-title{margin:0;font-size:19px;letter-spacing:-.4px}.card-subtitle{margin:5px 0 22px;color:var(--muted);font-size:13px}.field{margin-bottom:18px}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:8px}.field input,.field select,.field textarea{width:100%;border:1px solid #d9deea;border-radius:11px;background:#fff;padding:12px 13px;color:var(--ink);outline:none;transition:.2s}.field textarea{resize:vertical;min-height:86px}.field input:focus,.field select:focus,.field textarea:focus{border-color:#7790ee;box-shadow:0 0 0 3px #3157d51a}.hint{font-size:11px;color:#8992a4;margin-top:6px}.experience-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.exp-btn{border:1px solid #dfe3ec;background:#fff;border-radius:10px;padding:10px 8px;font-size:12px;font-weight:700;color:#475467}.exp-btn.active{border-color:var(--blue);background:var(--pale);color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue)}.primary-btn{width:100%;border:0;border-radius:11px;padding:13px 16px;background:var(--blue);color:#fff;font-weight:750;box-shadow:0 7px 15px #3157d52c;transition:.2s}.primary-btn:hover{background:var(--blue2);transform:translateY(-1px)}.primary-btn:disabled{opacity:.65;cursor:wait;transform:none}.form-note{font-size:11px;color:#929aaa;margin:13px 0 0;text-align:center}.right-column{min-width:0}.results-card{min-height:380px;padding:25px}.results-head{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:17px}.results-head h2{font-size:18px;margin:0}.status{font-size:11px;font-weight:750;color:#667085;background:#f1f3f7;padding:6px 10px;border-radius:30px}.empty-state{min-height:290px;display:grid;place-items:center;text-align:center;padding:35px 15px}.empty-icon{width:60px;height:60px;border-radius:18px;background:var(--pale);color:var(--blue);display:grid;place-items:center;font-size:28px;font-weight:800;margin:0 auto 15px}.empty-state h3{margin:0 0 7px;font-size:17px}.empty-state p{max-width:390px;color:var(--muted);font-size:13px;margin:0}.loading{display:none;text-align:center;padding:80px 15px}.loading.show{display:block}.spinner{width:34px;height:34px;border:3px solid #e4e9fb;border-top-color:var(--blue);border-radius:50%;margin:0 auto 15px;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading p{color:var(--muted);font-size:13px}.results{display:none;padding-top:20px}.results.show{display:block}.salary-hero{background:linear-gradient(125deg,#182b69,#3157d5);border-radius:16px;color:white;padding:23px;position:relative;overflow:hidden}.salary-hero:after{content:"₹";position:absolute;right:25px;top:-25px;font-size:150px;font-weight:900;color:#ffffff0d}.salary-meta{font-size:12px;color:#d9e2ff}.salary-role{font-size:21px;font-weight:800;margin:4px 0 16px}.salary-label{font-size:11px;color:#d9e2ff;text-transform:uppercase;letter-spacing:1px;font-weight:750}.salary-number{font-size:clamp(28px,4vw,38px);font-weight:850;letter-spacing:-1px;margin:3px 0}.salary-foot{font-size:11px;color:#d9e2ff}.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}.insight{border:1px solid var(--line);border-radius:14px;padding:17px}.insight h3{font-size:14px;margin:0 0 9px}.insight p{font-size:12px;color:var(--muted);margin:0}.insight ul{padding-left:17px;margin:8px 0 0;color:#566176;font-size:12px}.insight li{margin:5px 0}.section-heading{font-size:15px;margin:22px 0 11px}.skill-list{display:grid;gap:10px}.skill-item{display:grid;grid-template-columns:100px 1fr 36px;gap:10px;align-items:center;font-size:12px}.meter{height:7px;border-radius:20px;background:#edf0f6;overflow:hidden}.meter span{display:block;height:100%;background:linear-gradient(90deg,#6582ed,#3157d5);border-radius:20px}.skill-value{text-align:right;color:#657087;font-weight:700}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}.secondary-btn{border:1px solid #dce1eb;background:#fff;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:750;color:#344054}.secondary-btn:hover{background:#f7f8fb}.comparison{margin-top:22px;padding:22px}.comparison h2{font-size:17px;margin:0 0 5px}.comparison>p{font-size:12px;color:var(--muted);margin:0 0 16px}.comparison-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.compare-card{border:1px solid var(--line);border-radius:13px;padding:15px}.compare-card h3{font-size:13px;margin:0 0 7px}.compare-card strong{font-size:16px;color:var(--blue)}.compare-card p{font-size:11px;color:var(--muted);margin:6px 0 0}.disclaimer{font-size:11px;color:#929aaa;margin:17px 0 0}.toast{position:fixed;bottom:22px;right:22px;background:#18233c;color:white;padding:12px 16px;border-radius:11px;font-size:13px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:5}.toast.show{opacity:1;transform:translateY(0)}
-    @media(max-width:900px){.layout{grid-template-columns:310px minmax(0,1fr)}.comparison-grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:700px){.container{width:min(100% - 28px,560px)}.topbar{height:66px}.nav-link{padding:8px;font-size:12px}.hero{padding:36px 0 27px}.main{padding-top:20px}.layout{grid-template-columns:1fr}.form-card{position:static}.results-card{padding:19px}.comparison{padding:19px}.insight-grid{grid-template-columns:1fr}.comparison-grid{grid-template-columns:1fr}.results-head{align-items:flex-start}.skill-item{grid-template-columns:86px 1fr 34px}}
-    @media print{body{background:#fff}.topbar,.hero,.form-card,.results-head .status,.actions,.comparison{display:none!important}.main{padding:0}.container{width:100%}.layout{display:block}.results-card{border:0;box-shadow:none;padding:0}.results{display:block!important}.salary-hero{print-color-adjust:exact;-webkit-print-color-adjust:exact}.insight{break-inside:avoid}.disclaimer{color:#555}}
+    :root {
+      --ink:#172033;
+      --muted:#667085;
+      --line:#e7eaf0;
+      --surface:#f5f7fb;
+      --card:#fff;
+      --blue:#3157d5;
+      --blue2:#2445b5;
+      --pale:#edf2ff;
+      --green:#16845b;
+      --shadow:0 14px 38px rgba(20,35,75,.07);
+      --radius:18px;
+    }
+
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      margin:0;
+      background:var(--surface);
+      color:var(--ink);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+      line-height:1.55;
+    }
+
+    button,input,select,textarea { font:inherit; }
+    button { cursor:pointer; }
+
+    .container {
+      width:min(1160px,calc(100% - 40px));
+      margin:auto;
+    }
+
+    .topbar {
+      height:76px;
+      background:#fff;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+    }
+
+    .nav {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:11px;
+      color:var(--ink);
+      text-decoration:none;
+      font-weight:800;
+      letter-spacing:-.4px;
+    }
+
+    .brand-mark {
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      background:linear-gradient(135deg,#4268ed,#203eaf);
+      display:grid;
+      place-items:center;
+      color:white;
+      font-weight:900;
+      font-size:18px;
+      box-shadow:0 6px 14px #3157d533;
+    }
+
+    .brand-logo {
+  width: 150px;
+  height: 70px;
+  object-fit: contain;
+  display: block;
+}
+
+    .nav-actions {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .nav-link {
+      color:#475467;
+      text-decoration:none;
+      font-size:14px;
+      font-weight:650;
+      padding:10px 14px;
+      border-radius:10px;
+    }
+
+    .nav-link:hover { background:#f2f4f8; }
+
+    .hero {
+      padding:48px 0 34px;
+      background:
+        radial-gradient(ellipse at 80% 0%,#e7edff 0,transparent 45%),
+        linear-gradient(180deg,#fff,#f5f7fb);
+    }
+
+    .eyebrow {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:var(--blue);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+    }
+
+    .eyebrow:before {
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:#5275f1;
+    }
+
+    .hero h1 {
+      font-size:clamp(30px,4vw,44px);
+      line-height:1.12;
+      letter-spacing:-1.5px;
+      margin:13px 0 12px;
+    }
+
+    .hero p {
+      max-width:660px;
+      color:var(--muted);
+      margin:0;
+      font-size:16px;
+    }
+
+    .main { padding:30px 0 64px; }
+
+    .layout {
+      display:grid;
+      grid-template-columns:360px minmax(0,1fr);
+      gap:22px;
+      align-items:start;
+    }
+
+    .card {
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .form-card {
+      padding:25px;
+      position:sticky;
+      top:18px;
+    }
+
+    .card-title {
+      margin:0;
+      font-size:19px;
+      letter-spacing:-.4px;
+    }
+
+    .card-subtitle {
+      margin:5px 0 22px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .field { margin-bottom:18px; }
+
+    .field label {
+      display:block;
+      font-size:13px;
+      font-weight:750;
+      margin-bottom:8px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width:100%;
+      border:1px solid #d9deea;
+      border-radius:11px;
+      background:#fff;
+      padding:12px 13px;
+      color:var(--ink);
+      outline:none;
+      transition:.2s;
+    }
+
+    .field textarea { resize:vertical; min-height:86px; }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color:#7790ee;
+      box-shadow:0 0 0 3px #3157d51a;
+    }
+
+    .hint {
+      font-size:11px;
+      color:#8992a4;
+      margin-top:6px;
+    }
+
+    .experience-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .exp-btn {
+      border:1px solid #dfe3ec;
+      background:#fff;
+      border-radius:10px;
+      padding:10px 8px;
+      font-size:12px;
+      font-weight:700;
+      color:#475467;
+    }
+
+    .exp-btn.active {
+      border-color:var(--blue);
+      background:var(--pale);
+      color:var(--blue);
+      box-shadow:inset 0 0 0 1px var(--blue);
+    }
+
+    .primary-btn {
+      width:100%;
+      border:0;
+      border-radius:11px;
+      padding:13px 16px;
+      background:var(--blue);
+      color:#fff;
+      font-weight:750;
+      box-shadow:0 7px 15px #3157d52c;
+      transition:.2s;
+    }
+
+    .primary-btn:hover {
+      background:var(--blue2);
+      transform:translateY(-1px);
+    }
+
+    .primary-btn:disabled {
+      opacity:.65;
+      cursor:wait;
+      transform:none;
+    }
+
+    .form-note {
+      font-size:11px;
+      color:#929aaa;
+      margin:13px 0 0;
+      text-align:center;
+    }
+
+    .right-column { min-width:0; }
+
+    .results-card {
+      min-height:380px;
+      padding:25px;
+    }
+
+    .results-head {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      border-bottom:1px solid var(--line);
+      padding-bottom:17px;
+    }
+
+    .results-head h2 { font-size:18px; margin:0; }
+
+    .status {
+      font-size:11px;
+      font-weight:750;
+      color:#667085;
+      background:#f1f3f7;
+      padding:6px 10px;
+      border-radius:30px;
+    }
+
+    .empty-state {
+      min-height:290px;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:35px 15px;
+    }
+
+    .empty-icon {
+      width:60px;
+      height:60px;
+      border-radius:18px;
+      background:var(--pale);
+      color:var(--blue);
+      display:grid;
+      place-items:center;
+      font-size:28px;
+      font-weight:800;
+      margin:0 auto 15px;
+    }
+
+    .empty-state h3 { margin:0 0 7px; font-size:17px; }
+
+    .empty-state p {
+      max-width:390px;
+      color:var(--muted);
+      font-size:13px;
+      margin:0;
+    }
+
+    .loading {
+      display:none;
+      text-align:center;
+      padding:80px 15px;
+    }
+
+    .loading.show { display:block; }
+
+    .spinner {
+      width:34px;
+      height:34px;
+      border:3px solid #e4e9fb;
+      border-top-color:var(--blue);
+      border-radius:50%;
+      margin:0 auto 15px;
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    .loading p { color:var(--muted); font-size:13px; }
+
+    .results { display:none; padding-top:20px; }
+    .results.show { display:block; }
+
+    .salary-hero {
+      background:linear-gradient(125deg,#182b69,#3157d5);
+      border-radius:16px;
+      color:white;
+      padding:23px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .salary-hero:after {
+      content:"₹";
+      position:absolute;
+      right:25px;
+      top:-25px;
+      font-size:150px;
+      font-weight:900;
+      color:#ffffff0d;
+    }
+
+    .salary-meta { font-size:12px; color:#d9e2ff; }
+
+    .salary-role {
+      font-size:21px;
+      font-weight:800;
+      margin:4px 0 16px;
+    }
+
+    .salary-label {
+      font-size:11px;
+      color:#d9e2ff;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-weight:750;
+    }
+
+    .salary-number {
+      font-size:clamp(28px,4vw,38px);
+      font-weight:850;
+      letter-spacing:-1px;
+      margin:3px 0;
+    }
+
+    .salary-foot { font-size:11px; color:#d9e2ff; }
+
+    .insight-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .insight {
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:17px;
+    }
+
+    .insight h3 { font-size:14px; margin:0 0 9px; }
+
+    .insight p {
+      font-size:12px;
+      color:var(--muted);
+      margin:0;
+    }
+
+    .insight ul {
+      padding-left:17px;
+      margin:8px 0 0;
+      color:#566176;
+      font-size:12px;
+    }
+
+    .insight li { margin:5px 0; }
+
+    .section-heading { font-size:15px; margin:22px 0 11px; }
+
+    .skill-list { display:grid; gap:10px; }
+
+    .skill-item {
+      display:grid;
+      grid-template-columns:100px 1fr 36px;
+      gap:10px;
+      align-items:center;
+      font-size:12px;
+    }
+
+    .meter {
+      height:7px;
+      border-radius:20px;
+      background:#edf0f6;
+      overflow:hidden;
+    }
+
+    .meter span {
+      display:block;
+      height:100%;
+      background:linear-gradient(90deg,#6582ed,#3157d5);
+      border-radius:20px;
+    }
+
+    .skill-value {
+      text-align:right;
+      color:#657087;
+      font-weight:700;
+    }
+
+    .actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-top:20px;
+    }
+
+    .secondary-btn {
+      border:1px solid #dce1eb;
+      background:#fff;
+      border-radius:10px;
+      padding:10px 14px;
+      font-size:12px;
+      font-weight:750;
+      color:#344054;
+    }
+
+    .secondary-btn:hover { background:#f7f8fb; }
+
+    .comparison {
+      margin-top:22px;
+      padding:22px;
+    }
+
+    .comparison h2 { font-size:17px; margin:0 0 5px; }
+
+    .comparison > p {
+      font-size:12px;
+      color:var(--muted);
+      margin:0 0 16px;
+    }
+
+    .comparison-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .compare-card {
+      border:1px solid var(--line);
+      border-radius:13px;
+      padding:15px;
+    }
+
+    .compare-card h3 { font-size:13px; margin:0 0 7px; }
+
+    .compare-card strong {
+      font-size:16px;
+      color:var(--blue);
+    }
+
+    .compare-card p {
+      font-size:11px;
+      color:var(--muted);
+      margin:6px 0 0;
+    }
+
+    .disclaimer {
+      font-size:11px;
+      color:#929aaa;
+      margin:17px 0 0;
+    }
+
+    .history-card {
+      margin-top:22px;
+      padding:22px;
+    }
+
+    .history-head {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:15px;
+    }
+
+    .history-head h2 { margin:0; font-size:17px; }
+
+    .history-list { display:grid; gap:10px; }
+
+    .history-item {
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:13px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .history-item strong { font-size:13px; display:block; }
+
+    .history-item small {
+      display:block;
+      color:var(--muted);
+      font-size:11px;
+      margin-top:3px;
+    }
+
+    .history-item button {
+      border:1px solid #dce1eb;
+      background:white;
+      border-radius:9px;
+      padding:8px 12px;
+      font-size:11px;
+      font-weight:750;
+      color:#344054;
+      flex-shrink:0;
+    }
+
+    .history-empty {
+      font-size:12px;
+      color:var(--muted);
+      padding:10px 0;
+    }
+
+    .toast {
+      position:fixed;
+      bottom:22px;
+      right:22px;
+      background:#18233c;
+      color:white;
+      padding:12px 16px;
+      border-radius:11px;
+      font-size:13px;
+      box-shadow:var(--shadow);
+      opacity:0;
+      transform:translateY(10px);
+      pointer-events:none;
+      transition:.2s;
+      z-index:5;
+      max-width:calc(100% - 44px);
+    }
+
+    .toast.show {
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    @media(max-width:900px) {
+      .layout { grid-template-columns:310px minmax(0,1fr); }
+      .comparison-grid { grid-template-columns:1fr 1fr; }
+    }
+
+    @media(max-width:700px) {
+      .container { width:min(100% - 28px,560px); }
+      .topbar { height:66px; }
+      .nav-link { padding:8px; font-size:12px; }
+      .hero { padding:36px 0 27px; }
+      .main { padding-top:20px; }
+      .layout { grid-template-columns:1fr; }
+      .form-card { position:static; }
+      .results-card,.comparison,.history-card { padding:19px; }
+      .insight-grid,.comparison-grid { grid-template-columns:1fr; }
+      .results-head { align-items:flex-start; }
+      .skill-item { grid-template-columns:86px 1fr 34px; }
+      .history-item { align-items:flex-start; }
+    }
+
+    @media print {
+      body { background:#fff; }
+      .topbar,.hero,.form-card,.results-head .status,
+      .actions,.comparison,.history-card { display:none!important; }
+      .main { padding:0; }
+      .container { width:100%; }
+      .layout { display:block; }
+      .results-card { border:0; box-shadow:none; padding:0; }
+      .results { display:block!important; }
+      .salary-hero {
+        print-color-adjust:exact;
+        -webkit-print-color-adjust:exact;
+      }
+      .insight { break-inside:avoid; }
+      .disclaimer { color:#555; }
+    }
   </style>
 </head>
+
 <body>
-  <header class="topbar"><div class="container nav">
-    <a class="brand" href="index.html"><span class="brand-mark">V</span><span>VentrixCarros</span></a>
-    <div class="nav-actions"><a class="nav-link" href="dashboard.html">Dashboard</a><a class="nav-link" href="jobs.html">Explore jobs</a></div>
-  </div></header>
-  <section class="hero"><div class="container"><span class="eyebrow">Career intelligence</span><h1>Know your worth.<br>Plan your next move.</h1><p>Explore an indicative salary range based on your target role, location and experience. Use the insights to plan your skills and prepare for salary conversations.</p></div></section>
-  <main class="main"><div class="container layout">
+
+
+<header class="topbar">
+  <div class="container nav">
+
+    <a class="brand" href="index.html">
+      <img
+        src="logo.jpeg"
+        alt="Ventrix CareerOS"
+        class="brand-logo"
+      />
+    </a>
+
+    <div class="nav-actions">
+
+      <a class="nav-link" href="index.html">
+        Home
+      </a>
+
+      <a class="nav-link dashboard-link" href="dashboard.html">
+        Dashboard
+      </a>
+
+      <a class="profile-link" href="profile.html" aria-label="My Profile">
+        <svg
+          width="21"
+          height="21"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+        </svg>
+      </a>
+
+    </div>
+  </div>
+</header>
+
+
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">Career intelligence</span>
+    <h1>Know your worth.<br>Plan your next move.</h1>
+    <p>
+      Explore an indicative salary range based on your target role,
+      location and experience. Use the insights to plan your skills
+      and prepare for salary conversations.
+    </p>
+  </div>
+</section>
+
+<main class="main">
+  <div class="container layout">
+
     <section class="card form-card" aria-labelledby="formTitle">
-      <h2 class="card-title" id="formTitle">Build your salary profile</h2><p class="card-subtitle">Add a few details to create your estimate.</p>
+      <h2 class="card-title" id="formTitle">Build your salary profile</h2>
+      <p class="card-subtitle">Add a few details to create your estimate.</p>
+
       <form id="salaryForm">
-        <div class="field"><label for="jobRole">Target job role</label><input id="jobRole" name="jobRole" type="text" placeholder="e.g. Frontend Developer" value="Frontend Developer" required /></div>
-        <div class="field"><label for="location">Preferred location</label><select id="location" name="location"><option value="India">India</option><option value="Bengaluru">Bengaluru</option><option value="Hyderabad">Hyderabad</option><option value="Pune">Pune</option><option value="Mumbai">Mumbai</option><option value="Delhi NCR">Delhi NCR</option><option value="Chennai">Chennai</option><option value="Remote (India)">Remote (India)</option></select></div>
-        <div class="field"><label>Experience level</label><div class="experience-grid" role="group" aria-label="Experience level"><button class="exp-btn active" type="button" data-experience="Entry level" aria-pressed="true">Entry level</button><button class="exp-btn" type="button" data-experience="1–2 years" aria-pressed="false">1–2 years</button><button class="exp-btn" type="button" data-experience="3–5 years" aria-pressed="false">3–5 years</button><button class="exp-btn" type="button" data-experience="5+ years" aria-pressed="false">5+ years</button></div></div>
-        <div class="field"><label for="skills">Your skills</label><textarea id="skills" name="skills" placeholder="e.g. JavaScript, React, HTML, CSS">JavaScript, React, HTML, CSS</textarea><div class="hint">Separate skills with commas.</div></div>
-        <button class="primary-btn" id="analyzeButton" type="submit">Generate salary insights <span aria-hidden="true">→</span></button>
-        <p class="form-note">Estimates are illustrative and should be validated against current job offers.</p>
+
+        <div class="field">
+          <label for="jobRole">Target job role</label>
+          <input
+            id="jobRole"
+            name="jobRole"
+            type="text"
+            placeholder="e.g. Frontend Developer"
+            value="Frontend Developer"
+            maxlength="150"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="location">Preferred location</label>
+          <select id="location" name="location">
+            <option value="India">India</option>
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Pune">Pune</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi NCR">Delhi NCR</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Remote (India)">Remote (India)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Experience level</label>
+
+          <div class="experience-grid" role="group" aria-label="Experience level">
+            <button class="exp-btn active" type="button"
+              data-experience="Entry level" aria-pressed="true">
+              Entry level
+            </button>
+
+            <button class="exp-btn" type="button"
+              data-experience="1–2 years" aria-pressed="false">
+              1–2 years
+            </button>
+
+            <button class="exp-btn" type="button"
+              data-experience="3–5 years" aria-pressed="false">
+              3–5 years
+            </button>
+
+            <button class="exp-btn" type="button"
+              data-experience="5+ years" aria-pressed="false">
+              5+ years
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="skills">Your skills</label>
+          <textarea
+            id="skills"
+            name="skills"
+            placeholder="e.g. JavaScript, React, HTML, CSS"
+          >JavaScript, React, HTML, CSS</textarea>
+          <div class="hint">Separate skills with commas.</div>
+        </div>
+
+        <button class="primary-btn" id="analyzeButton" type="submit">
+          Generate salary insights →
+        </button>
+
+        <p class="form-note">
+          Estimates are illustrative and should be validated against current job offers.
+        </p>
+
       </form>
     </section>
+
     <div class="right-column">
+
       <section class="card results-card" aria-live="polite">
-        <div class="results-head"><h2>Your salary report</h2><span class="status" id="reportStatus">Waiting for details</span></div>
-        <div class="empty-state" id="salaryEmpty"><div><div class="empty-icon">₹</div><h3>Your report starts here</h3><p>Complete your profile and select “Generate salary insights” to see an indicative salary range and practical career guidance.</p></div></div>
-        <div class="loading" id="salaryLoading"><div class="spinner"></div><strong>Preparing your estimate…</strong><p>Reviewing your selected role and experience level.</p></div>
-        <div class="results" id="salaryResults">
-          <div class="salary-hero"><div class="salary-meta" id="salaryLocation">India · Entry level</div><div class="salary-role" id="salaryRole">Frontend Developer</div><div class="salary-label">Indicative annual salary range</div><div class="salary-number" id="salaryRange">₹4–8 LPA</div><div class="salary-foot">LPA = lakh rupees per annum · Illustrative estimate</div></div>
-          <div class="insight-grid">
-            <article class="insight"><h3>Market perspective</h3><p id="marketPosition">Your estimate will appear here.</p></article>
-            <article class="insight"><h3>Suggested next steps</h3><ul id="nextSteps"><li>Strengthen role-specific skills.</li><li>Build a portfolio with measurable outcomes.</li><li>Compare current job descriptions.</li></ul></article>
+
+        <div class="results-head">
+          <h2>Your salary report</h2>
+          <span class="status" id="reportStatus">Waiting for details</span>
+        </div>
+
+        <div class="empty-state" id="salaryEmpty">
+          <div>
+            <div class="empty-icon">₹</div>
+            <h3>Your report starts here</h3>
+            <p>
+              Complete your profile and select “Generate salary insights”
+              to see an indicative salary range and practical career guidance.
+            </p>
           </div>
-          <h3 class="section-heading">Skills to strengthen</h3><div class="skill-list" id="skillList"></div>
-          <div class="actions"><button class="secondary-btn" id="saveInsights" type="button">Save report</button><button class="secondary-btn" id="downloadInsights" type="button">Download PDF</button><button class="secondary-btn" id="editProfile" type="button">Edit profile</button></div>
-          <p class="disclaimer">Important: this page currently provides indicative planning ranges, not live market data or a guaranteed salary. Actual compensation varies by company, industry, interview performance and market conditions.</p>
+        </div>
+
+        <div class="loading" id="salaryLoading">
+          <div class="spinner"></div>
+          <strong>Preparing your AI salary estimate…</strong>
+          <p>Analyzing your selected role, location and experience.</p>
+        </div>
+
+        <div class="results" id="salaryResults">
+
+          <div class="salary-hero">
+            <div class="salary-meta" id="salaryLocation">India · Entry level</div>
+            <div class="salary-role" id="salaryRole">Frontend Developer</div>
+            <div class="salary-label">Indicative annual salary range</div>
+            <div class="salary-number" id="salaryRange">₹4–8 LPA</div>
+            <div class="salary-foot">
+              LPA = lakh rupees per annum · Illustrative estimate
+            </div>
+          </div>
+
+          <div class="insight-grid">
+
+            <article class="insight">
+              <h3>Market perspective</h3>
+              <p id="marketPosition">Your estimate will appear here.</p>
+            </article>
+
+            <article class="insight">
+              <h3>Suggested next steps</h3>
+              <ul id="nextSteps"></ul>
+            </article>
+
+          </div>
+
+          <h3 class="section-heading">Skills to strengthen</h3>
+          <div class="skill-list" id="skillList"></div>
+
+          <div class="actions">
+            <button class="secondary-btn" id="saveInsights" type="button">
+              Save report
+            </button>
+
+            <button class="secondary-btn" id="downloadInsights" type="button">
+              Download PDF
+            </button>
+
+            <button class="secondary-btn" id="editProfile" type="button">
+              Edit profile
+            </button>
+          </div>
+
+          <p class="disclaimer">
+            Important: this page provides AI-generated indicative planning
+            ranges, not verified live market data or a guaranteed salary.
+            Actual compensation varies by company, industry, interview
+            performance and market conditions.
+          </p>
+
         </div>
       </section>
-      <section class="card comparison" id="comparisonSection" hidden><h2>Related role benchmarks</h2><p>Illustrative ranges for adjacent roles at the selected experience level.</p><div class="comparison-grid" id="comparisonGrid"></div></section>
+
+      <section class="card comparison" id="comparisonSection" hidden>
+        <h2>Related role benchmarks</h2>
+        <p>Illustrative ranges for adjacent roles at the selected experience level.</p>
+        <div class="comparison-grid" id="comparisonGrid"></div>
+      </section>
+
+      <section class="card history-card">
+        <div class="history-head">
+          <h2>Saved salary reports</h2>
+          <button class="secondary-btn" id="refreshHistory" type="button">
+            Refresh history
+          </button>
+        </div>
+
+        <div class="history-list" id="historyList">
+          <p class="history-empty">Loading saved reports...</p>
+        </div>
+      </section>
+
     </div>
-  </div></main>
-  <div class="toast" id="toast" role="status"></div>
-  <script>
-    (() => {
-      "use strict";
-      const $ = (id) => document.getElementById(id);
-      const form = $("salaryForm");
-      const roleInput = $("jobRole");
-      const locationInput = $("location");
-      const skillsInput = $("skills");
-      const analyzeButton = $("analyzeButton");
-      const experienceButtons = [...document.querySelectorAll("[data-experience]")];
-      let selectedExperience = "Entry level";
-      let lastReport = null;
-      const salaryRanges = {
-        "Entry level": [4, 8], "1–2 years": [6, 12], "3–5 years": [10, 18], "5+ years": [16, 28]
+  </div>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const API_BASE = "http://localhost:5000/api/v1/salary-insights";
+
+  const $ = (id) => document.getElementById(id);
+
+  const form = $("salaryForm");
+  const roleInput = $("jobRole");
+  const locationInput = $("location");
+  const skillsInput = $("skills");
+  const analyzeButton = $("analyzeButton");
+
+  const experienceButtons = [
+    ...document.querySelectorAll("[data-experience]")
+  ];
+
+  let selectedExperience = "Entry level";
+  let lastReport = null;
+  let currentReportId = null;
+  let isSaved = false;
+
+  // Read the authenticated student's token.
+  function getToken() {
+    return (
+      localStorage.getItem("ventrixToken") ||
+      sessionStorage.getItem("ventrixToken") ||
+      ""
+    );
+  }
+
+  // Common authenticated API request.
+  async function apiRequest(endpoint, options = {}) {
+    const token = getToken();
+
+    if (!token) {
+      throw new Error("Please log in to your VentrixCarros account first.");
+    }
+
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      }
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 401) {
+      throw new Error("Your session has expired. Please log in again.");
+    }
+
+    if (!response.ok || data.success === false) {
+      throw new Error(data.message || "Something went wrong. Please try again.");
+    }
+
+    return data;
+  }
+
+  function showToast(message) {
+    const toast = $("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    window.clearTimeout(showToast.timer);
+
+    showToast.timer = window.setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3000);
+  }
+
+  function formatRange(range) {
+    return `₹${range.minimum}–${range.maximum} LPA`;
+  }
+
+  function setLoading(isLoading) {
+    analyzeButton.disabled = isLoading;
+
+    analyzeButton.textContent = isLoading
+      ? "Generating with AI..."
+      : (lastReport ? "Update salary insights →" : "Generate salary insights →");
+
+    $("salaryLoading").classList.toggle("show", isLoading);
+
+    if (isLoading) {
+      $("salaryEmpty").hidden = true;
+      $("salaryResults").classList.remove("show");
+      $("comparisonSection").hidden = true;
+      $("reportStatus").textContent = "Generating";
+    }
+  }
+
+  function createElement(tag, className, text) {
+    const element = document.createElement(tag);
+
+    if (className) {
+      element.className = className;
+    }
+
+    if (text !== undefined) {
+      element.textContent = text;
+    }
+
+    return element;
+  }
+
+  function renderSkills(skills) {
+    const list = $("skillList");
+    list.replaceChildren();
+
+    if (!Array.isArray(skills) || !skills.length) {
+      list.append(
+        createElement("p", "history-empty", "No skill recommendations available.")
+      );
+      return;
+    }
+
+    skills.forEach(skill => {
+      const name = String(skill.name || "Relevant skill");
+      const importance = Math.max(
+        0,
+        Math.min(100, Number(skill.importance) || 50)
+      );
+
+      const item = createElement("div", "skill-item");
+
+      const label = createElement("strong", "", name);
+
+      const meter = createElement("div", "meter");
+      const fill = document.createElement("span");
+      fill.style.width = `${importance}%`;
+      meter.append(fill);
+
+      const score = createElement(
+        "span",
+        "skill-value",
+        `${importance}%`
+      );
+
+      item.append(label, meter, score);
+      list.append(item);
+    });
+  }
+
+  function renderNextSteps(steps) {
+    const ul = $("nextSteps");
+    ul.replaceChildren();
+
+    if (!Array.isArray(steps) || !steps.length) {
+      ul.append(createElement("li", "", "Build relevant practical projects."));
+      return;
+    }
+
+    steps.forEach(step => {
+      ul.append(createElement("li", "", String(step)));
+    });
+  }
+
+  function renderComparisons(relatedRoles) {
+    const section = $("comparisonSection");
+    const grid = $("comparisonGrid");
+
+    grid.replaceChildren();
+
+    if (!Array.isArray(relatedRoles) || !relatedRoles.length) {
+      section.hidden = true;
+      return;
+    }
+
+    relatedRoles.forEach(role => {
+      const low = Number(role.minimum);
+      const high = Number(role.maximum);
+
+      if (
+        !role.name ||
+        !Number.isFinite(low) ||
+        !Number.isFinite(high) ||
+        low <= 0 ||
+        high <= low
+      ) {
+        return;
+      }
+
+      const card = createElement("article", "compare-card");
+
+      card.append(
+        createElement("h3", "", String(role.name)),
+        createElement("strong", "", `₹${low}–${high} LPA`),
+        createElement(
+          "p",
+          "",
+          String(role.description || "Related career opportunity")
+        )
+      );
+
+      grid.append(card);
+    });
+
+    section.hidden = grid.children.length === 0;
+  }
+
+  function renderReport(input, report) {
+    if (!report || !report.salaryRange) {
+      throw new Error("The salary report data is incomplete.");
+    }
+
+    const minimum = Number(report.salaryRange.minimum);
+    const maximum = Number(report.salaryRange.maximum);
+
+    if (
+      !Number.isFinite(minimum) ||
+      !Number.isFinite(maximum) ||
+      minimum <= 0 ||
+      maximum <= minimum
+    ) {
+      throw new Error("The salary range in this report is invalid.");
+    }
+
+    $("salaryRole").textContent = input.jobRole || "Target role";
+
+    $("salaryLocation").textContent =
+      `${input.location || "India"} · ${input.experience || ""}`;
+
+    $("salaryRange").textContent = formatRange({
+      minimum,
+      maximum
+    });
+
+    $("marketPosition").textContent =
+      report.marketPerspective || "No market perspective available.";
+
+    renderNextSteps(report.nextSteps);
+    renderSkills(report.skillsToStrengthen);
+    renderComparisons(report.relatedRoles);
+
+    $("salaryEmpty").hidden = true;
+    $("salaryLoading").classList.remove("show");
+    $("salaryResults").classList.add("show");
+
+    $("reportStatus").textContent =
+      isSaved ? "Saved report" : "Estimate ready";
+  }
+
+  function getCurrentInput() {
+    const jobRole = roleInput.value.trim();
+
+    if (!jobRole) {
+      roleInput.focus();
+      throw new Error("Please enter a target job role.");
+    }
+
+    return {
+      jobRole,
+      location: locationInput.value,
+      experience: selectedExperience,
+      skills: skillsInput.value
+    };
+  }
+
+  // Generate an AI salary report using the backend.
+  async function generateReport() {
+    try {
+      const input = getCurrentInput();
+
+      setLoading(true);
+
+      currentReportId = null;
+      isSaved = false;
+
+      const data = await apiRequest("/generate", {
+        method: "POST",
+        body: JSON.stringify(input)
+      });
+
+      lastReport = {
+        input: data.input,
+        report: data.report
       };
-      const skillSuggestions = [
-        {name:"JavaScript",score:92},{name:"Problem solving",score:86},{name:"Communication",score:78},{name:"System design",score:68}
-      ];
-      function showToast(message) {
-        const toast = $("toast"); toast.textContent = message; toast.classList.add("show");
-        window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+
+      renderReport(lastReport.input, lastReport.report);
+
+      showToast("AI salary report generated successfully.");
+
+    } catch (error) {
+      showToast(error.message);
+      $("salaryLoading").classList.remove("show");
+
+      if (!lastReport) {
+        $("salaryEmpty").hidden = false;
+      } else {
+        $("salaryResults").classList.add("show");
       }
-      function formatRange(range) { return `₹${range[0]}–${range[1]} LPA`; }
-      function getRoleMultiplier(role) {
-        const value = role.toLowerCase();
-        if (/senior|lead|manager|architect/.test(value)) return 1.2;
-        if (/data scientist|machine learning|ai engineer|cloud/.test(value)) return 1.15;
-        return 1;
+
+      $("reportStatus").textContent = "Generation failed";
+
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Save the generated report to MySQL.
+  async function saveReport() {
+    if (!lastReport) {
+      showToast("Generate a report before saving.");
+      return;
+    }
+
+    if (isSaved) {
+      showToast("This report has already been saved.");
+      return;
+    }
+
+    const button = $("saveInsights");
+    button.disabled = true;
+    button.textContent = "Saving...";
+
+    try {
+      const data = await apiRequest("/save", {
+        method: "POST",
+        body: JSON.stringify({
+          input: lastReport.input,
+          report: lastReport.report
+        })
+      });
+
+      currentReportId = data.salaryInsight.id;
+      isSaved = true;
+
+      $("reportStatus").textContent = "Saved report";
+
+      showToast("Salary report saved successfully to MySQL.");
+
+      await loadHistory();
+
+    } catch (error) {
+      showToast(error.message);
+
+    } finally {
+      button.disabled = false;
+      button.textContent = "Save report";
+    }
+  }
+
+  // Retrieve saved reports from MySQL.
+  async function loadHistory() {
+    const historyList = $("historyList");
+
+    historyList.replaceChildren(
+      createElement("p", "history-empty", "Loading saved reports...")
+    );
+
+    try {
+      const data = await apiRequest("/history", {
+        method: "GET"
+      });
+
+      historyList.replaceChildren();
+
+      if (!Array.isArray(data.salaryInsights) || !data.salaryInsights.length) {
+        historyList.append(
+          createElement("p", "history-empty", "No saved salary reports yet.")
+        );
+        return;
       }
-      function makeEstimate(experience, role) {
-        const base = salaryRanges[experience] || salaryRanges["Entry level"];
-        const multiplier = getRoleMultiplier(role);
-        return base.map(value => Math.round(value * multiplier));
+
+      data.salaryInsights.forEach(item => {
+        const wrapper = createElement("div", "history-item");
+
+        const details = document.createElement("div");
+
+        const role = item.input?.jobRole || "Salary report";
+        const location = item.input?.location || "India";
+        const experience = item.input?.experience || "";
+
+        const minimum = Number(item.report?.salaryRange?.minimum);
+        const maximum = Number(item.report?.salaryRange?.maximum);
+
+        const range =
+          Number.isFinite(minimum) && Number.isFinite(maximum)
+            ? `₹${minimum}–${maximum} LPA`
+            : "Salary range unavailable";
+
+        details.append(
+          createElement("strong", "", role),
+          createElement(
+            "small",
+            "",
+            `${location} · ${experience} · ${range}`
+          ),
+          createElement(
+            "small",
+            "",
+            item.createdAt
+              ? new Date(item.createdAt).toLocaleString()
+              : "Saved report"
+          )
+        );
+
+        const openButton = createElement("button", "", "Open report");
+
+        openButton.type = "button";
+
+        openButton.addEventListener("click", () => {
+          openSavedReport(item.id);
+        });
+
+        wrapper.append(details, openButton);
+        historyList.append(wrapper);
+      });
+
+    } catch (error) {
+      historyList.replaceChildren(
+        createElement("p", "history-empty", error.message)
+      );
+    }
+  }
+
+  // Retrieve one specific report belonging to the logged-in student.
+  async function openSavedReport(id) {
+    try {
+      const data = await apiRequest(`/${encodeURIComponent(id)}`, {
+        method: "GET"
+      });
+
+      const saved = data.salaryInsight;
+
+      if (!saved) {
+        throw new Error("Saved salary report not found.");
       }
-      function renderSkills(skills) {
-        const list = $("skillList"); list.replaceChildren();
-        const names = skills.length ? skills.slice(0,4) : skillSuggestions.map(item => item.name);
-        names.forEach((name,index) => {
-          const item = document.createElement("div"); item.className = "skill-item";
-          const label = document.createElement("strong"); label.textContent = name;
-          const meter = document.createElement("div"); meter.className = "meter";
-          const fill = document.createElement("span"); fill.style.width = `${skillSuggestions[index % skillSuggestions.length].score}%`; meter.append(fill);
-          const score = document.createElement("span"); score.className = "skill-value"; score.textContent = `${skillSuggestions[index % skillSuggestions.length].score}%`;
-          item.append(label,meter,score); list.append(item);
+
+      lastReport = {
+        input: saved.input,
+        report: saved.report
+      };
+
+      currentReportId = saved.id;
+      isSaved = true;
+
+      if (saved.input) {
+        roleInput.value = saved.input.jobRole || "";
+        locationInput.value = saved.input.location || "India";
+        skillsInput.value = Array.isArray(saved.input.skills)
+          ? saved.input.skills.join(", ")
+          : "";
+
+        selectedExperience = saved.input.experience || "Entry level";
+
+        experienceButtons.forEach(button => {
+          const active = button.dataset.experience === selectedExperience;
+
+          button.classList.toggle("active", active);
+          button.setAttribute("aria-pressed", String(active));
         });
       }
-      function renderComparisons(role, range) {
-        const section = $("comparisonSection"), grid = $("comparisonGrid"); grid.replaceChildren();
-        const related = [
-          {name:"Junior Developer",low:Math.max(3,range[0]-1),high:Math.max(5,range[1]-2),desc:"Entry-level software development"},
-          {name:"Full Stack Developer",low:range[0]+1,high:range[1]+3,desc:"Frontend and backend development"},
-          {name:"Software Engineer",low:range[0],high:range[1]+2,desc:"Broader engineering responsibilities"}
-        ];
-        related.forEach(item => {
-          const card = document.createElement("article"); card.className = "compare-card";
-          const title = document.createElement("h3"); title.textContent = item.name;
-          const amount = document.createElement("strong"); amount.textContent = `₹${item.low}–${item.high} LPA`;
-          const desc = document.createElement("p"); desc.textContent = item.desc;
-          card.append(title,amount,desc); grid.append(card);
-        });
-        section.hidden = false;
-      }
-      function generateReport() {
-        const role = roleInput.value.trim();
-        if (!role) { roleInput.focus(); showToast("Please enter a target job role."); return; }
-        const location = locationInput.value;
-        const skills = skillsInput.value.split(",").map(value => value.trim()).filter(Boolean);
-        const range = makeEstimate(selectedExperience,role);
-        lastReport = {role,location,experience:selectedExperience,skills,range,createdAt:new Date().toISOString()};
-        $("salaryEmpty").hidden = true; $("salaryResults").classList.remove("show"); $("comparisonSection").hidden = true;
-        $("salaryLoading").classList.add("show"); $("reportStatus").textContent = "Generating";
-        analyzeButton.disabled = true; analyzeButton.textContent = "Generating…";
-        window.setTimeout(() => {
-          $("salaryRole").textContent = role;
-          $("salaryLocation").textContent = `${location} · ${selectedExperience}`;
-          $("salaryRange").textContent = formatRange(range);
-          $("marketPosition").textContent = `For a ${selectedExperience.toLowerCase()} ${role} profile in ${location}, this is a broad planning range. Relevant experience, demonstrable projects and interview performance can move an offer within or beyond this band.`;
-          const steps = [
-            skills.length ? `Show evidence of ${skills.slice(0,2).join(" and ")} in practical projects.` : "Add role-specific skills to your profile.",
-            "Compare at least five current job descriptions for this role and location.",
-            "Prepare examples that demonstrate measurable impact and ownership."
-          ];
-          const ul = $("nextSteps"); ul.replaceChildren(); steps.forEach(step => {const li=document.createElement("li");li.textContent=step;ul.append(li);});
-          renderSkills(skills); renderComparisons(role,range);
-          $("salaryLoading").classList.remove("show"); $("salaryResults").classList.add("show"); $("reportStatus").textContent = "Estimate ready";
-          analyzeButton.disabled = false; analyzeButton.textContent = "Update salary insights →";
-        },450);
-      }
-      experienceButtons.forEach(button => button.addEventListener("click", () => {
-        selectedExperience = button.dataset.experience;
-        experienceButtons.forEach(item => {const active=item===button;item.classList.toggle("active",active);item.setAttribute("aria-pressed",String(active));});
-      }));
-      form.addEventListener("submit", event => {event.preventDefault();generateReport();});
-      $("saveInsights").addEventListener("click", () => {
-        if (!lastReport) return showToast("Generate a report before saving.");
-        try {localStorage.setItem("ventrixSalaryInsights",JSON.stringify(lastReport));showToast("Salary report saved on this device.");}
-        catch(error){console.error("Save report failed:",error);showToast("Could not save the report in this browser.");}
+
+      renderReport(lastReport.input, lastReport.report);
+
+      $("reportStatus").textContent = "Saved report";
+
+      window.scrollTo({
+        top: $("salaryResults").getBoundingClientRect().top + window.scrollY - 100,
+        behavior: "smooth"
       });
-      $("downloadInsights").addEventListener("click", () => {
-        if (!lastReport) return showToast("Generate a report before downloading.");
-        window.print();
+
+      showToast("Saved salary report opened.");
+
+    } catch (error) {
+      showToast(error.message);
+    }
+  }
+
+  // Experience selector.
+  experienceButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      selectedExperience = button.dataset.experience;
+
+      experienceButtons.forEach(item => {
+        const active = item === button;
+
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", String(active));
       });
-      $("editProfile").addEventListener("click", () => {roleInput.focus();window.scrollTo({top:0,behavior:"smooth"});});
-    })();
-  </script>
+    });
+  });
+
+  // Form submission.
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    generateReport();
+  });
+
+  // Save button.
+  $("saveInsights").addEventListener("click", saveReport);
+
+  // PDF download.
+  $("downloadInsights").addEventListener("click", () => {
+    if (!lastReport) {
+      showToast("Generate a report before downloading.");
+      return;
+    }
+
+    window.print();
+  });
+
+  // Edit profile.
+  $("editProfile").addEventListener("click", () => {
+    roleInput.focus();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  // Refresh history.
+  $("refreshHistory").addEventListener("click", loadHistory);
+
+  // Load saved reports when the page opens.
+  loadHistory();
+
+})();
+</script>
+
 </body>
 </html>

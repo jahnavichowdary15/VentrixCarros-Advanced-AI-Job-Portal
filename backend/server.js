@@ -17,6 +17,7 @@ const applicationRoutes = require("./routes/applicationRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const digestRoutes = require("./routes/digestRoutes");
+const salaryInsightsRoutes = require("./routes/salaryInsightsRoutes");
 const path = require("path");
 // Daily Job Digest Scheduler
 const {
@@ -111,6 +112,7 @@ app.use("/api/v1/resumes", resumeRoutes);
 app.use("/api/v1/cover-letters", coverLetterRoutes);
 app.use("/api/v1/mock-interviews", mockInterviewRoutes);
 app.use("/api/v1/career-roadmaps", careerRoadmapRoutes);
+app.use("/api/v1/salary-insights", salaryInsightsRoutes);
 
 // API 404 handler
 app.use("/api", (req, res) => {

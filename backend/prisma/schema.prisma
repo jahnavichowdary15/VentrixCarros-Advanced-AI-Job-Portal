@@ -50,7 +50,9 @@ model User {
   digestPreference JobDigestPreference?
   digestDeliveries JobDigestDelivery[]
   resumes          Resume[]
-
+  mockInterviews   MockInterview[]
+  careerRoadmaps   CareerRoadmap[]
+  salaryInsights   SalaryInsight[]
   @@index([role])
   @@index([createdAt])
 }
@@ -211,17 +213,80 @@ model JobDigestDelivery {
 }
 
 model Resume {
-  id           String   @id @default(cuid())
-  userId       String
-  title        String   @default("My Resume")
-  targetRole   String?
+  id             String   @id @default(cuid())
+  userId         String
+  title          String   @default("My Resume")
+  targetRole     String?
   targetIndustry String?
-  template     String   @default("professional")
-  content      Json
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  template       String   @default("professional")
+  content        Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, updatedAt])
+}
+
+model MockInterview {
+  id     String @id @default(cuid())
+  userId String
+
+  role           String
+  interviewType  String
+  jobDescription String? @db.Text
+
+  questions Json
+  answers   Json?
+  report    Json?
+
+  overallScore Int?
+  status       String @default("IN_PROGRESS")
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, status])
+}
+
+model CareerRoadmap {
+  id     String @id @default(cuid())
+  userId String
+
+  currentRole String
+  targetRole  String
+  timeline    String
+  skills      Json
+  careerGoal  String? @db.Text
+
+  roadmap  Json
+  progress Json?
+  status   String @default("IN_PROGRESS")
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, status])
+}
+
+model SalaryInsight {
+  id        String   @id @default(cuid())
+  userId    String
+
+  input     Json
+  report    Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }

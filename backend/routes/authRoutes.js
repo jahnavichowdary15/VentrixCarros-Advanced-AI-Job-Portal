@@ -8,6 +8,9 @@ const {
   sendOtpEmail,
   sendLoginAlertEmail
 } = require("../services/emailService");
+const {
+  authenticateToken
+} = require("../middleware/authMiddleware");
 const router = express.Router();
 const prisma = new PrismaClient();
 
@@ -464,7 +467,7 @@ router.get("/me", async (req, res) => {
     }
 
     const user = await prisma.user.findUnique({
-      where: { id: Number(decoded.sub) },
+      where: { id: decoded.sub },
     });
 
     if (!user || !user.isActive) {
@@ -562,6 +565,90 @@ router.post("/verify-login-otp", async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Unable to verify the login OTP right now."
+    });
+  }
+});
+
+
+// CHANGE PASSWORD: update the authenticated user's password in MySQL
+router.put("/change-password", authenticateToken, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body || {};
+
+    if (
+      typeof currentPassword !== "string" ||
+      typeof newPassword !== "string" ||
+      !currentPassword ||
+      !newPassword
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Current password and new password are required."
+      });
+    }
+
+    if (newPassword.length < 8 || newPassword.length > 72) {
+      return res.status(400).json({
+        success: false,
+        message: "New password must contain between 8 and 72 characters."
+      });
+    }
+
+    if (currentPassword === newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Choose a new password different from your current password."
+      });
+    }
+
+    // JWT user IDs are CUID strings, not numbers.
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.auth.userId
+      }
+    });
+
+    if (!user || !user.isActive) {
+      return res.status(404).json({
+        success: false,
+        message: "User account not found or disabled."
+      });
+    }
+
+    const passwordMatches = await bcrypt.compare(
+      currentPassword,
+      user.passwordHash
+    );
+
+    if (!passwordMatches) {
+      return res.status(401).json({
+        success: false,
+        message: "Your current password is incorrect."
+      });
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+
+    await prisma.user.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        passwordHash
+      }
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Password changed successfully."
+    });
+
+  } catch (error) {
+    console.error("Change password failed:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to change your password right now."
     });
   }
 });
