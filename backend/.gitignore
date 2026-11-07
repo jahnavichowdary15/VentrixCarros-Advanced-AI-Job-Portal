@@ -5,3 +5,10 @@ node_modules/
 !.env.example
 coverage/
 dist/
+# Private database backups
+*.sql
+*.sql.gz
+
+# SSL certificates and private keys
+*.pem
+*.key
