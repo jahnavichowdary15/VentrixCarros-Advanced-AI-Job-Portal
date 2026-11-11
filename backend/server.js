@@ -33,7 +33,8 @@ const allowedOrigins = [
   "http://127.0.0.1:5500",
   "http://localhost:3000",
   "http://127.0.0.1:3000",
-  "https://ventrixcarrosai.vercel.app"
+  "https://ventrixcarrosai.vercel.app",
+  "https://ventrixcarros-student.vercel.app"
 ];
 
 // Make Prisma available to route handlers
@@ -42,13 +43,10 @@ app.locals.prisma = prisma;
 // CORS configuration
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Origin not allowed by CORS"));
-    }
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 204
   })
 );
 
