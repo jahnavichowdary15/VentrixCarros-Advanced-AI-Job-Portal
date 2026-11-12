@@ -378,7 +378,13 @@ router.post("/login", async (req, res) => {
       message: "A login OTP has been sent to your email.",
     });
   } catch (error) {
-    console.error("Login failed:", error);
+    console.error("LOGIN ERROR DETAILS:", {
+    message: error.message,
+    code: error.code,
+    name: error.name,
+    meta: error.meta,
+    stack: error.stack
+});
 
     return res.status(error.status || 500).json({
       success: false,
