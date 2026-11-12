@@ -1814,7 +1814,7 @@
   </div>
 
   <script>
-    const API = "https://ventrixcarros-api.onrender.com/api/v1";
+    const API = "https://ventrixcarros-backend.onrender.com/api/v1";
 
     // Authentication
     const token =
@@ -1895,7 +1895,7 @@ if (!response.ok || result.success === false) {
 
         image.src = /^https?:\/\//i.test(photoPath)
           ? photoPath
-          : "https://ventrixcarros-api.onrender.com" +
+          : "https://ventrixcarros-backend.onrender.com" +
             (photoPath.startsWith("/") ? photoPath : "/" + photoPath);
 
         image.alt = "Profile photo";

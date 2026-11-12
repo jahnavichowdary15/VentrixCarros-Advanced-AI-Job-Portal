@@ -765,7 +765,7 @@
 (() => {
   "use strict";
 
-  const API = "https://ventrixcarros-api.onrender.com/api/v1";
+  const API = "https://ventrixcarros-backend.onrender.com/api/v1";
 
   const profileAvatar = document.getElementById("profileAvatar");
   const avatarEdit = document.getElementById("avatarEdit");
@@ -846,7 +846,7 @@
     return path;
   }
 
-  return "https://ventrixcarros-api.onrender.com" +
+  return "https://ventrixcarros-backend.onrender.com" +
     (path.startsWith("/") ? path : "/" + path);
 }
 
