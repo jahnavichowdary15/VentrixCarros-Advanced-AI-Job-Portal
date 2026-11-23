@@ -126,4 +126,212 @@ IMPORTANT INSTRUCTIONS:
   }
 });
 
+
+// POST /api/v1/cover-letters
+// Save a generated or user-edited cover letter for the authenticated student.
+router.post("/", async (req, res) => {
+  try {
+    const prisma = req.app.locals.prisma;
+    const {
+      candidateName,
+      jobTitle,
+      companyName,
+      experience,
+      skills,
+      jobDescription,
+      tone,
+      content,
+    } = req.body || {};
+
+    if (
+      typeof candidateName !== "string" || !candidateName.trim() ||
+      typeof jobTitle !== "string" || !jobTitle.trim() ||
+      typeof companyName !== "string" || !companyName.trim() ||
+      typeof experience !== "string" || !experience.trim() ||
+      typeof jobDescription !== "string" || !jobDescription.trim() ||
+      typeof content !== "string" || !content.trim()
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Candidate name, job title, company, experience, job description, and cover-letter content are required.",
+      });
+    }
+
+    const allowedTones = ["Professional", "Confident", "Friendly", "Concise"];
+    const selectedTone = allowedTones.includes(tone) ? tone : "Professional";
+
+    const coverLetter = await prisma.coverLetter.create({
+      data: {
+        userId: req.auth.userId,
+        candidateName: candidateName.trim(),
+        jobTitle: jobTitle.trim(),
+        companyName: companyName.trim(),
+        experience: experience.trim(),
+        skills: typeof skills === "string" ? skills.trim() : null,
+        jobDescription: jobDescription.trim(),
+        tone: selectedTone,
+        content: content.trim(),
+      },
+      select: {
+        id: true,
+        candidateName: true,
+        jobTitle: true,
+        companyName: true,
+        tone: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Cover letter saved successfully.",
+      coverLetter,
+    });
+  } catch (error) {
+    console.error("Save cover letter error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Unable to save the cover letter. Please try again later.",
+    });
+  }
+});
+
+// GET /api/v1/cover-letters
+// Return only the authenticated student's saved cover letters.
+router.get("/", async (req, res) => {
+  try {
+    const prisma = req.app.locals.prisma;
+    const coverLetters = await prisma.coverLetter.findMany({
+      where: { userId: req.auth.userId },
+      orderBy: { updatedAt: "desc" },
+      select: {
+        id: true,
+        candidateName: true,
+        jobTitle: true,
+        companyName: true,
+        tone: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return res.json({ success: true, coverLetters });
+  } catch (error) {
+    console.error("List cover letters error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Unable to retrieve saved cover letters.",
+    });
+  }
+});
+
+// GET /api/v1/cover-letters/:id
+router.get("/:id", async (req, res) => {
+  try {
+    const prisma = req.app.locals.prisma;
+    const coverLetter = await prisma.coverLetter.findFirst({
+      where: { id: req.params.id, userId: req.auth.userId },
+    });
+
+    if (!coverLetter) {
+      return res.status(404).json({
+        success: false,
+        message: "Cover letter not found.",
+      });
+    }
+
+    return res.json({ success: true, coverLetter });
+  } catch (error) {
+    console.error("Get cover letter error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Unable to retrieve the cover letter.",
+    });
+  }
+});
+
+// PUT /api/v1/cover-letters/:id
+// Save edits made in the browser preview.
+router.put("/:id", async (req, res) => {
+  try {
+    const prisma = req.app.locals.prisma;
+    const { content } = req.body || {};
+
+    if (typeof content !== "string" || !content.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Cover-letter content is required.",
+      });
+    }
+
+    const existing = await prisma.coverLetter.findFirst({
+      where: { id: req.params.id, userId: req.auth.userId },
+      select: { id: true },
+    });
+
+    if (!existing) {
+      return res.status(404).json({
+        success: false,
+        message: "Cover letter not found.",
+      });
+    }
+
+    const coverLetter = await prisma.coverLetter.update({
+      where: { id: existing.id },
+      data: { content: content.trim() },
+      select: {
+        id: true,
+        candidateName: true,
+        jobTitle: true,
+        companyName: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return res.json({
+      success: true,
+      message: "Cover letter updated successfully.",
+      coverLetter,
+    });
+  } catch (error) {
+    console.error("Update cover letter error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Unable to update the cover letter.",
+    });
+  }
+});
+
+// DELETE /api/v1/cover-letters/:id
+router.delete("/:id", async (req, res) => {
+  try {
+    const prisma = req.app.locals.prisma;
+    const result = await prisma.coverLetter.deleteMany({
+      where: { id: req.params.id, userId: req.auth.userId },
+    });
+
+    if (result.count === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Cover letter not found.",
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Cover letter deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Delete cover letter error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Unable to delete the cover letter.",
+    });
+  }
+});
+
 module.exports = router;

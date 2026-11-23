@@ -52,6 +52,7 @@ model User {
   resumes          Resume[]
   mockInterviews   MockInterview[]
   careerRoadmaps   CareerRoadmap[]
+  coverLetters     CoverLetter[]
   salaryInsights   SalaryInsight[]
   @@index([role])
   @@index([createdAt])
@@ -289,4 +290,23 @@ model SalaryInsight {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, createdAt])
+}
+
+model CoverLetter {
+  id             String   @id @default(cuid())
+  userId         String
+  candidateName  String
+  jobTitle       String
+  companyName    String
+  experience     String   @db.Text
+  skills         String?  @db.Text
+  jobDescription String   @db.Text
+  tone           String   @default("Professional")
+  content        String   @db.LongText
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
 }
