@@ -1720,6 +1720,20 @@
 
         </div>
 
+        <!-- Saved cover letters -->
+        <section class="content-card" id="savedCoverLettersSection" style="margin-top: 28px;">
+          <div class="section-header">
+            <div>
+              <h2>My saved cover letters</h2>
+              <p class="muted-text">View, edit, and reuse your saved cover letters.</p>
+            </div>
+            <a href="cover-letter.html" class="view-link">Create new</a>
+          </div>
+          <div id="savedCoverLettersList">
+            <p class="muted-text">Loading your saved cover letters...</p>
+          </div>
+        </section>
+
         <!-- Saved jobs and applications -->
         <div class="content-grid">
 
@@ -2168,7 +2182,52 @@ if (!response.ok || result.success === false) {
     header.insertAdjacentElement("afterend", row);
   });
 }
-        // Load dashboard information from the backend
+        // Render cover letters saved by the authenticated student.
+    async function renderSavedCoverLetters() {
+      const list = document.getElementById("savedCoverLettersList");
+      if (!list) return;
+      try {
+        const result = await apiRequest("/cover-letters");
+        const letters = Array.isArray(result.coverLetters)
+          ? result.coverLetters
+          : Array.isArray(result.letters) ? result.letters : [];
+        list.innerHTML = "";
+        if (!letters.length) {
+          const empty = document.createElement("p");
+          empty.className = "muted-text";
+          empty.textContent = "You haven't saved any cover letters yet. Generate one to see it here.";
+          list.appendChild(empty);
+          return;
+        }
+        letters.slice(0, 5).forEach((letter) => {
+          const row = document.createElement("div");
+          row.className = "activity-row";
+          const icon = document.createElement("span");
+          icon.className = "activity-icon";
+          icon.textContent = "✉";
+          const info = document.createElement("div");
+          info.className = "activity-info";
+          const title = document.createElement("strong");
+          title.textContent = letter.jobTitle || "Cover letter";
+          const detail = document.createElement("small");
+          detail.textContent = (letter.companyName || "Company not specified") +
+            (letter.updatedAt ? " · Updated " + new Date(letter.updatedAt).toLocaleDateString() : "");
+          info.append(title, detail);
+          const open = document.createElement("a");
+          open.className = "view-link";
+          open.href = "cover-letter.html?letterId=" + encodeURIComponent(letter.id);
+          open.textContent = "Open";
+          open.style.marginLeft = "12px";
+          row.append(icon, info, open);
+          list.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Saved cover letters could not be loaded:", error);
+        list.textContent = "Unable to load saved cover letters. Please refresh the page.";
+      }
+    }
+
+    // Load dashboard information from the backend
     async function loadDashboard() {
       createRecommendationSection();
 
@@ -2228,6 +2287,7 @@ if (!response.ok || result.success === false) {
         : [];
 
         renderApplicationsPreview(applications);
+        await renderSavedCoverLetters();
         
         // Update real dashboard statistics
 document.getElementById("savedJobsCount").textContent =
